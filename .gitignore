@@ -30,3 +30,9 @@ neo4j_data/
 # CodeGraph index + harness-local (сервер MCP в .mcp.json версионируем)
 .codegraph/
 .claude/
+
+# Планировочные документы (ce-brainstorm/ce-plan) — локальные, не публикуем
+docs/
+
+# Логи прогонов eval (шумные, результаты — в *.json/*.md)
+eval/trial/*.log
