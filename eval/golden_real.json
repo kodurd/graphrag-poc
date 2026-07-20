@@ -1,0 +1,643 @@
+[
+  {
+    "question": "JaasBasicAuthFilter should use jakarta.annotation",
+    "expected_ids": [
+      "task:KAFKA-20557"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "JaasBasicAuthFilter should use jakarta.annotation",
+    "expected_ids": [
+      "task:KAFKA-20556"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "JaasBasicAuthFilter should use jakarta.annotation",
+    "expected_ids": [
+      "task:KAFKA-20555"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "JaasBasicAuthFilter should use jakarta.annotation",
+    "expected_ids": [
+      "task:KAFKA-20555"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "Upgrade log4j2 from 2.25.3 to 2.25.4",
+    "expected_ids": [
+      "task:KAFKA-20510"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "Upgrade log4j2 from 2.25.3 to 2.25.4",
+    "expected_ids": [
+      "task:KAFKA-20509"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "[CVE-2026-34479] [log4j-1.2-api] [2.25.3]",
+    "expected_ids": [
+      "task:KAFKA-20369"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "[CVE-2026-34480] [log4j-core] [2.25.3] ",
+    "expected_ids": [
+      "task:KAFKA-20369"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "Move AuthHelper.scala to server module",
+    "expected_ids": [
+      "task:KAFKA-18998"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "StreamsPartitioner should pass in headers",
+    "expected_ids": [
+      "task:KAFKA-20197"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "Allow KTable/KStream and GlobalKTable on same topic",
+    "expected_ids": [
+      "task:KAFKA-6686"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "какие тикеты касаются модуля clients",
+    "expected_ids": [
+      "task:KAFKA-20528",
+      "task:KAFKA-20577",
+      "task:KAFKA-20449",
+      "task:KAFKA-20576",
+      "task:KAFKA-20424",
+      "task:KAFKA-20681",
+      "task:KAFKA-20321",
+      "task:KAFKA-20628",
+      "task:KAFKA-20296",
+      "task:KAFKA-20511",
+      "task:KAFKA-20669",
+      "task:KAFKA-20534",
+      "task:KAFKA-20341",
+      "task:KAFKA-20312",
+      "task:KAFKA-20525",
+      "task:KAFKA-20526",
+      "task:KAFKA-20781",
+      "task:KAFKA-20580",
+      "task:KAFKA-20426",
+      "task:KAFKA-20778",
+      "task:KAFKA-20540",
+      "task:KAFKA-20578",
+      "task:KAFKA-20315",
+      "task:KAFKA-20660",
+      "task:KAFKA-20455",
+      "task:KAFKA-20575",
+      "task:KAFKA-20535",
+      "task:KAFKA-20763",
+      "task:KAFKA-20387",
+      "task:KAFKA-20673",
+      "task:KAFKA-20713",
+      "task:KAFKA-20382",
+      "task:KAFKA-20282",
+      "task:KAFKA-20386",
+      "task:KAFKA-20579",
+      "task:KAFKA-20766",
+      "task:KAFKA-20761",
+      "task:KAFKA-20332",
+      "task:KAFKA-20769",
+      "task:KAFKA-20385",
+      "task:KAFKA-20333",
+      "task:KAFKA-20460",
+      "task:KAFKA-20728",
+      "task:KAFKA-20529",
+      "task:KAFKA-20384",
+      "task:KAFKA-20765",
+      "task:KAFKA-20428",
+      "task:KAFKA-20372",
+      "task:KAFKA-20429",
+      "task:KAFKA-20342",
+      "task:KAFKA-20397",
+      "task:KAFKA-20423",
+      "task:KAFKA-20632",
+      "task:KAFKA-20631",
+      "task:KAFKA-20733",
+      "task:KAFKA-20788",
+      "task:KAFKA-20365",
+      "task:KAFKA-20785",
+      "task:KAFKA-20698",
+      "task:KAFKA-20516"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля connect",
+    "expected_ids": [
+      "task:KAFKA-20391",
+      "task:KAFKA-20389",
+      "task:KAFKA-20751",
+      "task:KAFKA-20797",
+      "task:KAFKA-20545",
+      "task:KAFKA-20602",
+      "task:KAFKA-20572",
+      "task:KAFKA-20666",
+      "task:KAFKA-20644",
+      "task:KAFKA-20709",
+      "task:KAFKA-20631",
+      "task:KAFKA-20392",
+      "task:KAFKA-20599",
+      "task:KAFKA-20628",
+      "task:KAFKA-20367",
+      "task:KAFKA-20555",
+      "task:KAFKA-20557",
+      "task:KAFKA-20656",
+      "task:KAFKA-20430",
+      "task:KAFKA-20658",
+      "task:KAFKA-20643",
+      "task:KAFKA-20693",
+      "task:KAFKA-20659",
+      "task:KAFKA-20657",
+      "task:KAFKA-20373",
+      "task:KAFKA-20556"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля streams",
+    "expected_ids": [
+      "task:KAFKA-20706",
+      "task:KAFKA-20494",
+      "task:KAFKA-20398",
+      "task:KAFKA-20741",
+      "task:KAFKA-20618",
+      "task:KAFKA-20593",
+      "task:KAFKA-20597",
+      "task:KAFKA-20454",
+      "task:KAFKA-20287",
+      "task:KAFKA-20571",
+      "task:KAFKA-20358",
+      "task:KAFKA-20785",
+      "task:KAFKA-20702",
+      "task:KAFKA-20749",
+      "task:KAFKA-20301",
+      "task:KAFKA-20496",
+      "task:KAFKA-20525",
+      "task:KAFKA-20512",
+      "task:KAFKA-20413",
+      "task:KAFKA-20786",
+      "task:KAFKA-20705",
+      "task:KAFKA-20336",
+      "task:KAFKA-20417",
+      "task:KAFKA-20306",
+      "task:KAFKA-20495",
+      "task:KAFKA-20591",
+      "task:KAFKA-20568",
+      "task:KAFKA-20787",
+      "task:KAFKA-20562",
+      "task:KAFKA-20465",
+      "task:KAFKA-20538",
+      "task:KAFKA-20744",
+      "task:KAFKA-20420",
+      "task:KAFKA-20792",
+      "task:KAFKA-20796",
+      "task:KAFKA-20731",
+      "task:KAFKA-20756",
+      "task:KAFKA-20695",
+      "task:KAFKA-20416",
+      "task:KAFKA-20707",
+      "task:KAFKA-20782",
+      "task:KAFKA-20462",
+      "task:KAFKA-20412",
+      "task:KAFKA-20753",
+      "task:KAFKA-20422",
+      "task:KAFKA-20457",
+      "task:KAFKA-20502",
+      "task:KAFKA-20372",
+      "task:KAFKA-20414",
+      "task:KAFKA-20629",
+      "task:KAFKA-20543",
+      "task:KAFKA-20711",
+      "task:KAFKA-20688",
+      "task:KAFKA-20329",
+      "task:KAFKA-20627",
+      "task:KAFKA-20504",
+      "task:KAFKA-20727",
+      "task:KAFKA-20491",
+      "task:KAFKA-20547",
+      "task:KAFKA-20701",
+      "task:KAFKA-20335",
+      "task:KAFKA-20757",
+      "task:KAFKA-20735",
+      "task:KAFKA-20719",
+      "task:KAFKA-20589",
+      "task:KAFKA-20438",
+      "task:KAFKA-20308",
+      "task:KAFKA-20280",
+      "task:KAFKA-20670",
+      "task:KAFKA-20685",
+      "task:KAFKA-20492",
+      "task:KAFKA-20697",
+      "task:KAFKA-20760",
+      "task:KAFKA-20304",
+      "task:KAFKA-20303",
+      "task:KAFKA-20587",
+      "task:KAFKA-20590",
+      "task:KAFKA-20307",
+      "task:KAFKA-20326",
+      "task:KAFKA-20626",
+      "task:KAFKA-20489",
+      "task:KAFKA-20631",
+      "task:KAFKA-20327",
+      "task:KAFKA-20730",
+      "task:KAFKA-20616",
+      "task:KAFKA-20683",
+      "task:KAFKA-20456",
+      "task:KAFKA-20630",
+      "task:KAFKA-20523",
+      "task:KAFKA-20654",
+      "task:KAFKA-20652",
+      "task:KAFKA-20665",
+      "task:KAFKA-20682",
+      "task:KAFKA-20399",
+      "task:KAFKA-20621",
+      "task:KAFKA-20663",
+      "task:KAFKA-20623",
+      "task:KAFKA-20439",
+      "task:KAFKA-20604",
+      "task:KAFKA-20396",
+      "task:KAFKA-20603",
+      "task:KAFKA-20671",
+      "task:KAFKA-20499",
+      "task:KAFKA-20653",
+      "task:KAFKA-20490",
+      "task:KAFKA-20317",
+      "task:KAFKA-20764",
+      "task:KAFKA-20724",
+      "task:KAFKA-20636",
+      "task:KAFKA-20404",
+      "task:KAFKA-20334",
+      "task:KAFKA-20313",
+      "task:KAFKA-20624",
+      "task:KAFKA-20503",
+      "task:KAFKA-20493",
+      "task:KAFKA-20328",
+      "task:KAFKA-20703",
+      "task:KAFKA-20540",
+      "task:KAFKA-20421",
+      "task:KAFKA-20680",
+      "task:KAFKA-20620",
+      "task:KAFKA-20649",
+      "task:KAFKA-20755",
+      "task:KAFKA-20704",
+      "task:KAFKA-20758",
+      "task:KAFKA-20497",
+      "task:KAFKA-20777",
+      "task:KAFKA-20518",
+      "task:KAFKA-20615",
+      "task:KAFKA-20675",
+      "task:KAFKA-20721",
+      "task:KAFKA-20278",
+      "task:KAFKA-20625",
+      "task:KAFKA-20622",
+      "task:KAFKA-20498",
+      "task:KAFKA-20464",
+      "task:KAFKA-20403",
+      "task:KAFKA-20655",
+      "task:KAFKA-20500",
+      "task:KAFKA-20776",
+      "task:KAFKA-20501",
+      "task:KAFKA-20318",
+      "task:KAFKA-20508"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20797",
+      "task:KAFKA-20367"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20786",
+      "task:KAFKA-20619",
+      "task:KAFKA-20453",
+      "task:KAFKA-20417",
+      "task:KAFKA-20587",
+      "task:KAFKA-20454"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20579",
+      "task:KAFKA-20381",
+      "task:KAFKA-20455",
+      "task:KAFKA-20631",
+      "task:KAFKA-20785",
+      "task:KAFKA-20580",
+      "task:KAFKA-20577",
+      "task:KAFKA-20393",
+      "task:KAFKA-20576",
+      "task:KAFKA-20632",
+      "task:KAFKA-20394",
+      "task:KAFKA-20386",
+      "task:KAFKA-20578"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20295",
+      "task:KAFKA-20532",
+      "task:KAFKA-20784",
+      "task:KAFKA-20370"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20292",
+      "task:KAFKA-20719",
+      "task:KAFKA-20345",
+      "task:KAFKA-20683",
+      "task:KAFKA-20665",
+      "task:KAFKA-20679",
+      "task:KAFKA-20291",
+      "task:KAFKA-20337",
+      "task:KAFKA-20782",
+      "task:KAFKA-20381",
+      "task:KAFKA-20300",
+      "task:KAFKA-20680",
+      "task:KAFKA-20367",
+      "task:KAFKA-20754",
+      "task:KAFKA-20747"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20384",
+      "task:KAFKA-20282",
+      "task:KAFKA-20698",
+      "task:KAFKA-20534",
+      "task:KAFKA-20535",
+      "task:KAFKA-20511",
+      "task:KAFKA-20429",
+      "task:KAFKA-20394",
+      "task:KAFKA-20333",
+      "task:KAFKA-20631",
+      "task:KAFKA-20382",
+      "task:KAFKA-20713",
+      "task:KAFKA-20424",
+      "task:KAFKA-20393",
+      "task:KAFKA-20778",
+      "task:KAFKA-20423",
+      "task:KAFKA-20733",
+      "task:KAFKA-20332",
+      "task:KAFKA-20402",
+      "task:KAFKA-20780",
+      "task:KAFKA-20296",
+      "task:KAFKA-20397",
+      "task:KAFKA-20341",
+      "task:KAFKA-20575",
+      "task:KAFKA-20315",
+      "task:KAFKA-20449",
+      "task:KAFKA-20367",
+      "task:KAFKA-20385",
+      "task:KAFKA-20428",
+      "task:KAFKA-20540",
+      "task:KAFKA-20321",
+      "task:KAFKA-20386"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20774",
+      "task:KAFKA-20740",
+      "task:KAFKA-20582",
+      "task:KAFKA-20459",
+      "task:KAFKA-20514",
+      "task:KAFKA-20661",
+      "task:KAFKA-20726",
+      "task:KAFKA-20583",
+      "task:KAFKA-20488"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20505",
+      "task:KAFKA-20631",
+      "task:KAFKA-20651",
+      "task:KAFKA-20770",
+      "task:KAFKA-20554",
+      "task:KAFKA-20521",
+      "task:KAFKA-20610",
+      "task:KAFKA-20581",
+      "task:KAFKA-20650",
+      "task:KAFKA-20728",
+      "task:KAFKA-20694",
+      "task:KAFKA-20310",
+      "task:KAFKA-20460",
+      "task:KAFKA-20710",
+      "task:KAFKA-20676",
+      "task:KAFKA-20739",
+      "task:KAFKA-20691",
+      "task:KAFKA-20667",
+      "task:KAFKA-20738",
+      "task:KAFKA-20526",
+      "task:KAFKA-20552"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20732"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20730",
+      "task:KAFKA-20722",
+      "task:KAFKA-20436",
+      "task:KAFKA-20373"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20676",
+      "task:KAFKA-20728",
+      "task:KAFKA-20459"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20558",
+      "task:KAFKA-20455",
+      "task:KAFKA-20697",
+      "task:KAFKA-20727"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20453",
+      "task:KAFKA-20725",
+      "task:KAFKA-20679"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20586",
+      "task:KAFKA-20692",
+      "task:KAFKA-20320",
+      "task:KAFKA-20712",
+      "task:KAFKA-20532",
+      "task:KAFKA-20646",
+      "task:KAFKA-20524",
+      "task:KAFKA-20642"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20709",
+      "task:KAFKA-20643"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20699"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20341",
+      "task:KAFKA-20695"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20542",
+      "task:KAFKA-20592",
+      "task:KAFKA-20664"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20419",
+      "task:KAFKA-20554",
+      "task:KAFKA-20336",
+      "task:KAFKA-20517",
+      "task:KAFKA-20335",
+      "task:KAFKA-20519"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20554"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20355",
+      "task:KAFKA-20541",
+      "task:KAFKA-20463",
+      "task:KAFKA-20366"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20528"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20488"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20461"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20419",
+      "task:KAFKA-20448",
+      "task:KAFKA-20314",
+      "task:KAFKA-20325"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20394",
+      "task:KAFKA-20393",
+      "task:KAFKA-20302"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля None",
+    "expected_ids": [
+      "task:KAFKA-20381"
+    ],
+    "kind": "module"
+  }
+]

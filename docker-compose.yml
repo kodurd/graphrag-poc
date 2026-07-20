@@ -1,0 +1,21 @@
+services:
+  neo4j:
+    image: neo4j:5.23
+    container_name: graphrag-neo4j
+    ports:
+      # Только loopback: локальный PoC-пароль слабый, наружу светить нельзя.
+      - "127.0.0.1:7474:7474"   # HTTP / Browser
+      - "127.0.0.1:7687:7687"   # Bolt
+    environment:
+      # Пароль берётся из .env (NEO4J_PASSWORD); дефолт для локального PoC.
+      NEO4J_AUTH: "neo4j/${NEO4J_PASSWORD:-graphrag-local}"
+      NEO4J_PLUGINS: '["apoc"]'
+      NEO4J_dbms_security_procedures_unrestricted: "apoc.*"
+      # Vector index — встроенный в 5.x, дополнительных плагинов не требует.
+    volumes:
+      - ./neo4j_data:/data
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost:7474 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10

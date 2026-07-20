@@ -1,0 +1,5 @@
+2024-03-05 12:00:01,321 ERROR [worker-1] task execution failed (org.apache.kafka.connect.runtime.WorkerSourceTask)
+java.lang.IllegalStateException: broker unavailable after 3 retries
+	at org.apache.kafka.clients.NetworkClient.poll(NetworkClient.java:200)
+	at org.apache.kafka.clients.producer.KafkaProducer.send(KafkaProducer.java:1000)
+	at org.apache.kafka.connect.runtime.WorkerSourceTask.execute(WorkerSourceTask.java:230)

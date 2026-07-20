@@ -1,0 +1,91 @@
+[
+  {
+    "question": "Producer retries exhausted on broker restart",
+    "expected_ids": [
+      "task:KAFKA-101"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "Connector emits duplicate records after retry",
+    "expected_ids": [
+      "task:KAFKA-110"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "Streams state store restore is slow after rebalance",
+    "expected_ids": [
+      "task:KAFKA-120"
+    ],
+    "kind": "duplicate"
+  },
+  {
+    "question": "какие тикеты касаются модуля coordinator",
+    "expected_ids": [
+      "task:KAFKA-131"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля raft",
+    "expected_ids": [
+      "task:KAFKA-140"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля storage",
+    "expected_ids": [
+      "task:KAFKA-150"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля tools",
+    "expected_ids": [
+      "task:KAFKA-160"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля metadata",
+    "expected_ids": [
+      "task:KAFKA-130"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля clients",
+    "expected_ids": [
+      "task:KAFKA-110",
+      "task:KAFKA-102",
+      "task:KAFKA-101"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля connect",
+    "expected_ids": [
+      "task:KAFKA-112",
+      "task:KAFKA-111",
+      "task:KAFKA-110"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля streams",
+    "expected_ids": [
+      "task:KAFKA-121",
+      "task:KAFKA-120"
+    ],
+    "kind": "module"
+  },
+  {
+    "question": "какие тикеты касаются модуля core",
+    "expected_ids": [
+      "task:KAFKA-130"
+    ],
+    "kind": "module"
+  }
+]

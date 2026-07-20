@@ -1,0 +1,49 @@
+[project]
+name = "graphrag-poc"
+version = "0.1.0"
+description = "Гибридный GraphRAG PoC над корпусом код+тикеты+вики (Apache Kafka)"
+requires-python = ">=3.11"
+dependencies = [
+    "neo4j>=5.20",
+    "pydantic>=2.6",
+    "pyyaml>=6.0",
+    "typer>=0.12",
+    "httpx>=0.27",
+    "numpy>=1.26",
+    "rank-bm25>=0.2.2",
+    "python-dotenv>=1.0",
+    "tree-sitter>=0.22",
+    "tree-sitter-java>=0.21",
+]
+
+[project.optional-dependencies]
+# Тяжёлые ML-зависимости — ставятся, когда реально нужен bge-m3 / reranker.
+# Тесты и оффлайн-режим работают на HashingEmbedder без этой группы.
+ml = [
+    "sentence-transformers>=3.0",
+]
+# Gradio-интерфейс для ручной проверки (`graphrag serve-ui`).
+ui = [
+    "gradio>=4.44",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[project.scripts]
+graphrag = "graphrag.cli:app"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/graphrag", "eval"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "integration: требует поднятый Neo4j (docker compose up)",
+]

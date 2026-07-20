@@ -1,0 +1,264 @@
+{
+  "records": [
+    {
+      "question": "Как диагностировать, какой именно SMT в цепочке трансформеров Kafka Connect теряет записи, и как при этом избежать бесконечного цикла переобработки для sink-коннекторов, переопределяющих preCommit(), когда все записи в партиции отфильтрованы?",
+      "source_id": "task:KAFKA-20797",
+      "route": "factual",
+      "answer": "На основе предоставленного контекста невозможно дать полный ответ на ваш вопрос, так как в нём отсутствуют конкретные методы диагностики потери записей конкретным SMT в цепочке и способы предотвращения бесконечного цикла переобработки для sink-коннекторов, переопределяющих `preCommit()`, при фильтрации всех записей в партиции.\n\n**Что можно сказать из контекста:**\n\n1. **Диагностика потери записей SMT** — в контексте упоминается, что текущий слой трансформаций не имеет операционной наблюдаемости (observability) и механизма для sink-коннекторов узнавать о записях, которые они никогда не получили [источник: https://issues.apache.org/jira/browse/KAFKA-20797]. Также указано, что без пер-трансформ счётчиков записей операторы не могут оценить эффективность трансформации (например, отфильтровывает ли она 90% записей или 1%) [источник: https://issues.apache.org/jira/browse/KAFKA-20797]. Однако конкретных шагов по диагностике, какой именно SMT в цепочке теряет записи, в контексте нет.\n\n2. **Проблема с `preCommit()` и отфильтрованными записями** — контекст упоминает, что `SinkTask.preCommit()` позволяет sink-коннекторам контролировать, какие смещения фиксируются в Kafka, и многие коннекторы переопределяют этот метод для гарантий доставки [источник: https://issues.apache.org/jira/browse/KAFKA-20797]. Однако описание бесконечного цикла переобработки при фильтрации всех записей в партиции в контексте отсутствует.\n\n3. **Фильтрация записей SMT** — известно, что если результат любого `Transformation.apply()` в цепочке равен `null`, запись отбрасывается (не передаётся sink-коннектору) [источник: https://cwiki.apache.org/confluence/spaces/KAFKA/pages/65145676/KIP-66+Single+Message+Transforms+for+Kafka+Connect].\n\n**Вывод:** Для диагностики конкретного SMT, теряющего записи, и решения проблемы с `preCommit()` при полной фильтрации партиции, необходима дополнительная информация, не содержащаяся в предоставленном контексте. Рекомендуется обратиться к документации Kafka Connect по мониторингу SMT и обработке смещений в sink-коннекторах.",
+      "citations": [
+        "https://issues.apache.org/jira/browse/KAFKA-20797",
+        "https://cwiki.apache.org/confluence/spaces/KAFKA/pages/65145676/KIP-66+Single+Message+Transforms+for+Kafka+Connect"
+      ],
+      "grounded": true,
+      "context_ids": [
+        "chunk:task:KAFKA-20797#0",
+        "chunk:task:KAFKA-20433#0",
+        "chunk:task:KAFKA-20709#0",
+        "chunk:page:65145676#6",
+        "chunk:task:KAFKA-20797#3"
+      ],
+      "metrics": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.3,
+        "context_precision": 0.6
+      }
+    },
+    {
+      "question": "Как исправить расхождение между метриками num-open-iterators и oldest-iterator-open-since-ms при использовании MeteredTimestampedKeyValueStore, чтобы итераторы корректно учитывались в обоих датчиках, и не сломает ли добавление вызовов increment/decrement в конструктор и метод close другие модули, работающие с этим хранилищем?",
+      "source_id": "task:KAFKA-20796",
+      "route": "multihop",
+      "answer": "Недостаточно данных в базе, чтобы ответить на этот вопрос.",
+      "citations": [],
+      "grounded": false,
+      "context_ids": [],
+      "metrics": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.0,
+        "context_precision": 0.0
+      }
+    },
+    {
+      "question": "Как переложить реализацию методов RequestConvertToJson#request и RequestConvertToJson#response на генератор, чтобы избежать хардкода, и какие модули или тикеты будут затронуты при таком рефакторинге?",
+      "source_id": "task:KAFKA-20795",
+      "route": "multihop",
+      "answer": "Недостаточно данных в базе, чтобы ответить на этот вопрос.",
+      "citations": [],
+      "grounded": false,
+      "context_ids": [],
+      "metrics": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.0,
+        "context_precision": 0.0
+      }
+    },
+    {
+      "question": "Как корректно протестировать и задокументировать поле deprecatedVersions в RPC, чтобы избежать конфликтов с существующими модулями версионирования?",
+      "source_id": "task:KAFKA-20794",
+      "route": "mixed",
+      "answer": "На основе предоставленного контекста невозможно дать корректные рекомендации по тестированию и документированию поля `deprecatedVersions` в RPC, а также по предотвращению конфликтов с существующими модулями версионирования. В контексте упоминается, что это поле было введено (ссылка на страницу в Confluence), но отсутствуют тесты и документация [источник: https://issues.apache.org/jira/browse/KAFKA-20794]. Другие источники не содержат информации, относящейся к данному вопросу.\n\nДля получения ответа необходимо обратиться к документации или исходному коду, связанному с указанным полем, либо к странице Confluence, на которую дана ссылка.",
+      "citations": [
+        "https://issues.apache.org/jira/browse/KAFKA-20794"
+      ],
+      "grounded": true,
+      "context_ids": [
+        "chunk:task:KAFKA-20794#0",
+        "chunk:task:KAFKA-20338#0",
+        "chunk:task:KAFKA-20533#4",
+        "chunk:page:30749496#2",
+        "chunk:task:KAFKA-20381#1"
+      ],
+      "metrics": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.2,
+        "context_precision": 0.1
+      }
+    },
+    {
+      "question": "Как корректно обновить share.version с 1 на 2 в стабильной сборке, чтобы не сломать обратную совместимость с клиентами, которые ещё не поддерживают новую версию?",
+      "source_id": "task:KAFKA-20793",
+      "route": "mixed",
+      "answer": "На основе предоставленного контекста невозможно определить корректный способ обновления `share.version` с 1 на 2 с сохранением обратной совместимости. Контекст содержит:\n\n- Задачу по маркировке `share.version=2` как стабильной [источник: https://issues.apache.org/jira/browse/KAFKA-20793], но без описания процедуры обновления.\n- Изменения, связанные с обновлением версии Mockito и рефакторингом тестов [источник: https://issues.apache.org/jira/browse/KAFKA-20323], что не относится к `share.version`.\n- Информацию о версиях KRaft и фенсинге лидера [источник: https://issues.apache.org/jira/browse/KAFKA-20694], также не связанную с обновлением `share.version`.\n\nДля ответа на ваш вопрос необходима дополнительная информация о механизме обновления `share.version` и поддержке обратной совместимости, которая отсутствует в предоставленных источниках.",
+      "citations": [
+        "https://issues.apache.org/jira/browse/KAFKA-20793",
+        "https://issues.apache.org/jira/browse/KAFKA-20323",
+        "https://issues.apache.org/jira/browse/KAFKA-20694"
+      ],
+      "grounded": true,
+      "context_ids": [
+        "chunk:task:KAFKA-20793#0",
+        "chunk:task:KAFKA-20323#3",
+        "chunk:task:KAFKA-20427#7",
+        "chunk:task:KAFKA-20323#0",
+        "chunk:task:KAFKA-20694#0"
+      ],
+      "metrics": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.0,
+        "context_precision": 0.0
+      }
+    },
+    {
+      "question": "Как обойти IllegalArgumentException с 'Invalid partition: -1' в Kafka Streams FK LeftJoin, когда Punctuator удаляет записи из state store, а CACHE_MAX_BYTES_BUFFERING_CONFIG не равен 0, и какие модули или настройки топологии будут затронуты этим багом?",
+      "source_id": "task:KAFKA-20792",
+      "route": "multihop",
+      "answer": "На основе предоставленного контекста невозможно ответить на ваш вопрос, так как в нём отсутствует информация о баге с `IllegalArgumentException: Invalid partition: -1` в Kafka Streams FK LeftJoin, о настройке `CACHE_MAX_BYTES_BUFFERING_CONFIG` или о том, как обойти эту ошибку. Контекст содержит только сведения о зависимостях модулей `clients` и `connect` от модуля `streams` [источник: graph://module:clients] [источник: graph://module:connect], что не относится к технической детализации проблемы.\n\nДля получения ответа необходимы дополнительные данные, например, из документации Kafka Streams, исходного кода или описания известных багов.",
+      "citations": [
+        "graph://module:clients",
+        "graph://module:connect"
+      ],
+      "grounded": true,
+      "context_ids": [
+        "module:clients",
+        "module:connect"
+      ],
+      "metrics": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.0,
+        "context_precision": 0.0
+      }
+    },
+    {
+      "question": "Как обновление log4j до версии 2.25.5 повлияет на совместимость с существующими модулями, использующими старые версии, и какие шаги нужно предпринять для предотвращения конфликтов зависимостей?",
+      "source_id": "task:KAFKA-20791",
+      "route": "multihop",
+      "answer": "Недостаточно данных в базе, чтобы ответить на этот вопрос.",
+      "citations": [],
+      "grounded": false,
+      "context_ids": [],
+      "metrics": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.0,
+        "context_precision": 0.0
+      }
+    },
+    {
+      "question": "Как перейти на публичный API стримового assignor, не сломав обратную совместимость с существующими приватными интеграциями, и какие модули будут затронуты при изменении сигнатуры методов?",
+      "source_id": "task:KAFKA-20790",
+      "route": "multihop",
+      "answer": "Недостаточно данных в базе, чтобы ответить на этот вопрос.",
+      "citations": [],
+      "grounded": false,
+      "context_ids": [],
+      "metrics": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.0,
+        "context_precision": 0.0
+      }
+    },
+    {
+      "question": "Как перестроить публичный API стримингового ассайнора в Kafka, чтобы он стал общедоступным модулем, и какие существующие тикеты или модули будут затронуты этим изменением?",
+      "source_id": "task:KAFKA-20789",
+      "route": "multihop",
+      "answer": "Недостаточно данных в базе, чтобы ответить на этот вопрос.",
+      "citations": [],
+      "grounded": false,
+      "context_ids": [],
+      "metrics": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.0,
+        "context_precision": 0.0
+      }
+    },
+    {
+      "question": "Как определить причину внезапного роста rebalance-rate-per-hour в Kafka consumer без просмотра логов, и какие метрики или API нужно добавить, чтобы различать rebalance из-за превышения max.poll.interval.ms, session timeout и вызовов enforceRebalance?",
+      "source_id": "task:KAFKA-20788",
+      "route": "mixed",
+      "answer": "На основе предоставленного контекста, определить причину внезапного роста `rebalance-rate-per-hour` без просмотра логов **невозможно**. В контексте прямо указано: «A spike in `rebalance-rate-per-hour` cannot be narrowed without consumer logs» [источник: https://issues.apache.org/jira/browse/KAFKA-20788].\n\nЧтобы различать причины ребаланса (превышение `max.poll.interval.ms`, session timeout, вызовы `enforceRebalance`), необходимо добавить метрику или API, которая экспонирует **причину ребаланса (rebalance cause)**. В контексте предлагается решение через KIP-1364: «Expose Rebalance Cause to RebalanceConsumer and Metrics» [источник: https://issues.apache.org/jira/browse/KAFKA-20788]. Это позволит различать:\n\n- `max.poll.interval.ms` exceeded — «implies misconfig or delayed poll loop» [источник: https://issues.apache.org/jira/browse/KAFKA-20788];\n- Member fencing (session timeout) — «points at session timeout» [источник: https://issues.apache.org/jira/browse/KAFKA-20788];\n- Coordinator-initiated rebalances — «regular occurrences due to join and leave requests» [источник: https://issues.apache.org/jira/browse/KAFKA-20788];\n- Application calls to `Consumer.enforceRebalance()` — «are expected and the application owns the context» [источник: https://issues.apache.org/jira/browse/KAFKA-20788].\n\nСуществующие метрики (`rebalance-rate-per-hour`, `rebalance-latency-{avg,max}`, `rebalance-total`, `last-rebalance-seconds-ago`, `last-poll-seconds-ago») не содержат размерности причины: «Existing rebalance metrics describe frequency and latency but carry no cause dimension» [источник: https://issues.apache.org/jira/browse/KAFKA-20788]. Поэтому для диагностики без логов необходимо внедрить новую метрику или API, экспонирующую причину ребаланса, как предложено в KIP-1364.",
+      "citations": [
+        "https://issues.apache.org/jira/browse/KAFKA-20788"
+      ],
+      "grounded": true,
+      "context_ids": [
+        "chunk:task:KAFKA-20788#0",
+        "chunk:task:KAFKA-20788#1",
+        "chunk:page:38570548#29",
+        "chunk:task:KAFKA-20765#2",
+        "chunk:page:63406974#9"
+      ],
+      "metrics": {
+        "faithfulness": 0.0,
+        "answer_relevance": 1.0,
+        "context_precision": 0.75
+      }
+    },
+    {
+      "question": "How can sink connectors track offsets for records dropped by transforms before put()?",
+      "source_id": "task:KAFKA-20797",
+      "route": "mixed",
+      "answer": "На основе предоставленного контекста, sink-коннекторы могут отслеживать смещения (offsets) для записей, отброшенных трансформами до вызова `put()`, с помощью механизма, описанного в KIP-1365. Ключевое решение — это **уведомление о пропущенных записях (Skipped Record Notification)**, которое позволяет коннектору узнавать о записях, которые он никогда не получил.\n\nВот как это работает:\n\n1.  **Проблема**: Когда трансформы или обработка ошибок отбрасывают записи до `put()`, коннекторы, переопределяющие `preCommit()`, не видят эти записи. Это приводит к \"разрыву смещений\" (offset gap) и потенциальному бесконечному циклу повторной обработки после ребалансировки [источник: 1].\n2.  **Решение (Часть B KIP-1365)**: Предлагается механизм, при котором коннектор может переопределить метод `onRecordSkipped()`. Это позволяет коннектору \"включить пропущенные смещения в возвращаемое значение `preCommit()`\" [источник: 5].\n3.  **Критерий успеха**: Одним из критериев успеха KIP-1365 является: \"Sink-коннекторы, которые переопределяют `preCommit()`, могут отслеживать смещения для всех потребленных записей, включая те, что были отброшены до `put()`\" [источник: 2].\n4.  **Безопасность**: При этом гарантируется \"нулевой риск потери данных — фреймворк никогда не переопределяет решения коннектора о смещениях\" [источник: 2].\n\nТаким образом, коннектор получает обратный вызов (`onRecordSkipped`) для каждой отброшенной записи и может самостоятельно решить, как учесть ее смещение в `preCommit()`, чтобы избежать повторной обработки.",
+      "citations": [],
+      "grounded": false,
+      "context_ids": [
+        "chunk:task:KAFKA-20797#4",
+        "chunk:task:KAFKA-20797#8",
+        "chunk:task:KAFKA-20797#0",
+        "chunk:page:65145676#5",
+        "chunk:task:KAFKA-20797#6"
+      ],
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
+        "context_precision": 0.9,
+        "answer_correctness": 1.0,
+        "context_recall": 0.0
+      },
+      "reference": "Sink connectors can override onRecordSkipped() to incorporate skipped offsets into their preCommit() return value."
+    },
+    {
+      "question": "Why does the num-open-iterators metric under-count iterators from MeteredTimestampedKeyValueStore?",
+      "source_id": "task:KAFKA-20796",
+      "route": "mixed",
+      "answer": "Согласно предоставленному контексту, метрика `num-open-iterators` занижает количество итераторов от `MeteredTimestampedKeyValueStore`, потому что итератор `MeteredTimestampedKeyValueStoreIterator` регистрируется в `openIterators`, но никогда не вызывает `numOpenIterators.increment()` или `numOpenIterators.decrement()` [источник: https://issues.apache.org/jira/browse/KAFKA-20796]. В результате итераторы, открытые для обычного (без заголовков) timestamped key-value store, невидимы для метрики `num-open-iterators`, хотя остаются видимыми для метрики `oldest-iterator-open-since-ms`, что приводит к расхождению показаний двух датчиков [источник: https://issues.apache.org/jira/browse/KAFKA-20796]. Исправление заключается в добавлении вызова `numOpenIterators.increment()` в конструктор и `numOpenIterators.decrement()` в метод `close()` [источник: https://issues.apache.org/jira/browse/KAFKA-20796].",
+      "citations": [
+        "https://issues.apache.org/jira/browse/KAFKA-20796"
+      ],
+      "grounded": true,
+      "context_ids": [
+        "chunk:task:KAFKA-20796#0",
+        "chunk:task:KAFKA-20571#0",
+        "chunk:task:KAFKA-20777#0",
+        "chunk:page:33293069#8",
+        "chunk:page:34839465#8"
+      ],
+      "metrics": {
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
+        "context_precision": 0.2,
+        "answer_correctness": 1.0,
+        "context_recall": 0.9
+      },
+      "reference": "MeteredTimestampedKeyValueStoreIterator registers itself in openIterators but never calls numOpenIterators.increment() / decrement(). As a result, iterators opened against a plain timestamped key-value store are invisible to the num-open-iterators metric while still visible to oldest-iterator-open-since-ms. Fix: call numOpenIterators.increment() in the constructor and numOpenIterators.decrement() in close()."
+    },
+    {
+      "question": "Как реализовать методы RequestConvertToJson#request и RequestConvertToJson#response?",
+      "source_id": "task:KAFKA-20795",
+      "route": "mixed",
+      "answer": "На основе предоставленного контекста невозможно описать конкретную реализацию методов `RequestConvertToJson#request` и `RequestConvertToJson#response`. В контексте указано, что эти методы должны быть реализованы через генератор (generator module), а не хардкодом, но детали реализации не раскрыты.\n\nИз контекста [1] известно: \"RequestConvertToJson#request and RequestConvertToJson#response could be implemented by generator. These methods are currently hardcoded to convert requests/responses to JSON. This is a perfect use case for the generator module, so we should delegate the implementation to it.\" [источник: https://issues.apache.org/jira/browse/KAFKA-20795]\n\nТакже в контексте [2] упоминается, что `RequestConvertToJson` добавляет записи для `StreamsGroupTopologyDescriptionUpdate Request/Response` и для новых полей описания топологии в ответе describe, чтобы инструменты логирования запросов/ответов могли их отображать [источник: https://issues.apache.org/jira/browse/KAFKA-20624].\n\nОднако конкретные шаги по реализации (например, как именно делегировать генератору, какие классы или методы использовать) в предоставленных фрагментах отсутствуют. Для получения точных инструкций по реализации необходимо обратиться к исходному коду генератора или дополнительной документации.",
+      "citations": [
+        "https://issues.apache.org/jira/browse/KAFKA-20795",
+        "https://issues.apache.org/jira/browse/KAFKA-20624"
+      ],
+      "grounded": true,
+      "context_ids": [
+        "chunk:task:KAFKA-20795#0",
+        "chunk:task:KAFKA-20624#4",
+        "chunk:page:30759957#12",
+        "chunk:page:27831395#1",
+        "chunk:task:KAFKA-20624#0"
+      ],
+      "metrics": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.3,
+        "context_precision": 0.4,
+        "answer_correctness": 1.0,
+        "context_recall": 0.5
+      },
+      "reference": "Эти методы могут быть реализованы генератором, так как сейчас они жестко закодированы для преобразования запросов/ответов в JSON."
+    }
+  ],
+  "counts": {
+    "questions": 10,
+    "labeled": 3,
+    "total": 13
+  }
+}

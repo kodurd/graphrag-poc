@@ -1,0 +1,51 @@
+# Единый конфиг PoC. Секреты — в .env (см. .env.example), не здесь.
+
+llm:
+  # provider: api | ollama  (взаимозаменяемы)
+  provider: api
+  generation_model: gpt-4o-mini
+  extraction_model: gpt-4o-mini
+  api_base: https://api.openai.com/v1
+  ollama_base: http://localhost:11434
+  max_retries: 2
+  temperature: 0.0
+
+embeddings:
+  # provider: sentence_transformers | hashing (оффлайн/тесты)
+  provider: sentence_transformers
+  model: BAAI/bge-m3
+  dimension: 1024
+  device: cpu
+
+reranker:
+  # provider: cross_encoder | lexical (оффлайн/тесты)
+  provider: cross_encoder
+  model: BAAI/bge-reranker-v2-m3
+
+neo4j:
+  uri: bolt://localhost:7687
+  user: neo4j
+  database: neo4j
+
+corpus:
+  # Ограниченный срез Kafka
+  repo_path: ./data/repos/kafka
+  components: [clients, connect, streams]
+  since: "2024-01-01"
+
+sources:
+  jira_base: https://issues.apache.org/jira
+  jira_project: KAFKA
+  confluence_base: https://cwiki.apache.org/confluence
+  confluence_space: KAFKA
+  max_issues: 500
+  max_pages: 200
+
+chunk:
+  size: 800
+  overlap: 120
+
+retrieval:
+  top_k: 8
+  rerank_top_k: 5
+  max_hops: 3

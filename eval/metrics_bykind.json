@@ -1,0 +1,15 @@
+{
+  "stack": "bge-m3 + lexical rerank, top_k=8 rerank_top_k=5",
+  "duplicate": {
+    "n": 11,
+    "precision": 0.095,
+    "recall": 0.455,
+    "hit_rate": 0.455
+  },
+  "module": {
+    "n": 30,
+    "precision": 0.03,
+    "recall": 0.002,
+    "hit_rate": 0.1
+  }
+}

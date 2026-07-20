@@ -1,0 +1,17 @@
+[
+  {
+    "question": "How can sink connectors track offsets for records dropped by transforms before put()?",
+    "reference": "Sink connectors can override onRecordSkipped() to incorporate skipped offsets into their preCommit() return value.",
+    "source_id": "task:KAFKA-20797"
+  },
+  {
+    "question": "Why does the num-open-iterators metric under-count iterators from MeteredTimestampedKeyValueStore?",
+    "reference": "MeteredTimestampedKeyValueStoreIterator registers itself in openIterators but never calls numOpenIterators.increment() / decrement(). As a result, iterators opened against a plain timestamped key-value store are invisible to the num-open-iterators metric while still visible to oldest-iterator-open-since-ms. Fix: call numOpenIterators.increment() in the constructor and numOpenIterators.decrement() in close().",
+    "source_id": "task:KAFKA-20796"
+  },
+  {
+    "question": "Как реализовать методы RequestConvertToJson#request и RequestConvertToJson#response?",
+    "reference": "Эти методы могут быть реализованы генератором, так как сейчас они жестко закодированы для преобразования запросов/ответов в JSON.",
+    "source_id": "task:KAFKA-20795"
+  }
+]

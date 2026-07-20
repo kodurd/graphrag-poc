@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+build/
+dist/
+
+# Env / secrets
+.env
+
+# Data & models (large, not versioned)
+data/repos/
+data/intermediate/
+data/logs/
+data/golden/
+data/ru_synthetic/
+models/
+
+# Neo4j volume
+neo4j_data/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# CodeGraph index + harness-local (сервер MCP в .mcp.json версионируем)
+.codegraph/
+.claude/
