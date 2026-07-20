@@ -178,12 +178,18 @@ def run_ab_eval(
     ]
     pairs: list[dict] = []
     for item, ref in items:
-        rec_lex = evaluate_fn(
-            retr_lex, llm, item["question"], reference=ref, source_id=item.get("source_id")
-        )
-        rec_ce = evaluate_fn(
-            retr_ce, llm, item["question"], reference=ref, source_id=item.get("source_id")
-        )
+        # Устойчивость: сбой LLM на одном вопросе (таймаут и т.п.) не роняет весь
+        # дорогой прогон — вопрос пропускается с предупреждением, остальные считаются.
+        try:
+            rec_lex = evaluate_fn(
+                retr_lex, llm, item["question"], reference=ref, source_id=item.get("source_id")
+            )
+            rec_ce = evaluate_fn(
+                retr_ce, llm, item["question"], reference=ref, source_id=item.get("source_id")
+            )
+        except Exception as e:  # noqa: BLE001 — намеренно широко: любой сбой = пропуск вопроса
+            print(f"[skip] {item['question'][:50]}...: {e}", flush=True)
+            continue
         pairs.append({
             "question": item["question"],
             "lexical": rec_lex,
@@ -240,8 +246,9 @@ def main() -> None:
     json.dump({"pairs": pairs, "min_joint": AB_MIN_JOINT},
               open(f"{T}/ab_results.json", "w", encoding="utf-8"),
               ensure_ascii=False, indent=2)
-    print(report)
-    print("DONE -> eval/trial/ab_report.md, ab_changed_ranking.md, ab_results.json")
+    # NB: не print(report) — отчёт содержит не-ASCII (эмодзи/кириллица), а Windows-
+    # консоль в cp1251 падает на них. Отчёт уже записан в utf-8-файл.
+    print(f"DONE {len(pairs)} pairs -> eval/trial/ab_report.md, ab_changed_ranking.md, ab_results.json")
 
 
 if __name__ == "__main__":

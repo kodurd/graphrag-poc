@@ -18,7 +18,7 @@ class APILLMClient(LLMClient):
         api_key: str | None,
         max_retries: int = 2,
         temperature: float = 0.0,
-        timeout: float = 60.0,
+        timeout: float = 120.0,
     ):
         super().__init__(model, max_retries=max_retries, temperature=temperature)
         self.api_base = api_base.rstrip("/")

@@ -127,7 +127,9 @@ def main() -> None:
            "n_scores": len(scores)}
     json.dump(out, open(f"{T}/threshold_calib.json", "w", encoding="utf-8"),
               ensure_ascii=False, indent=2)
-    print(json.dumps(out, ensure_ascii=False, indent=2))
+    # ASCII-краткая сводка (полное — в utf-8-файле; Windows-консоль cp1251 падает на не-ASCII)
+    print(f"baseline precision={baseline['precision']:.2f} abstention={baseline['abstention']:.2f}")
+    print(f"candidates={len(evals)} scores={len(scores)} -> on={rec['on']} threshold={rec['threshold']}")
     print("DONE -> eval/trial/threshold_calib.json")
 
 
