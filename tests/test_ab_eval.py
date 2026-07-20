@@ -6,13 +6,15 @@ import pytest
 
 from eval.ab_eval import (
     changed_ranking,
-    falsification_verdict,
     is_answered,
+    n_needed,
     paired_deltas,
     per_version_summary,
+    permutation_pvalue,
     render_ab_report,
     render_changed_ranking,
     run_ab_eval,
+    triage_verdict,
     version_abstention,
 )
 
@@ -75,26 +77,51 @@ def test_version_abstention_rate():
     assert version_abstention(pairs, "cross_encoder")["rate"] == pytest.approx(1 / 3)
 
 
-# --- фальсификационный вердикт ---
+# --- перестановочный тест + триаж-вердикт (U1) ---
 
-def test_verdict_supported_when_positive_on_at_least_K():
-    deltas = [{"delta": 0.2}, {"delta": 0.1}, {"delta": -0.05}]
-    assert falsification_verdict(deltas, K=2, abst_lex=0.5, abst_ce=0.4) == "supported"
-
-
-def test_verdict_not_supported_on_zero_delta():
-    deltas = [{"delta": 0.0}, {"delta": 0.0}]
-    assert falsification_verdict(deltas, K=1, abst_lex=0.5, abst_ce=0.5) == "not_supported"
+def test_permutation_all_positive_significant():
+    # все дельты одного знака -> знаковые развороты почти не воспроизводят наблюдённый эффект
+    assert permutation_pvalue([0.2] * 8) < 0.05
 
 
-def test_verdict_directional_when_joint_below_K():
-    deltas = [{"delta": 0.9}]
-    assert falsification_verdict(deltas, K=3, abst_lex=0.5, abst_ce=0.5) == "directional_only"
+def test_permutation_symmetric_not_significant():
+    assert permutation_pvalue([0.2, -0.2, 0.2, -0.2, 0.2, -0.2]) > 0.05
 
 
-def test_verdict_guardrail_ce_abstention_higher():
-    deltas = [{"delta": 0.9}, {"delta": 0.9}]  # дельта отличная, но...
-    assert falsification_verdict(deltas, K=1, abst_lex=0.4, abst_ce=0.6) == "not_supported"
+def test_triage_verdict_b_better_on_positive():
+    # соглашение: delta = B - A; delta>0 значимо -> B лучше
+    v = triage_verdict([{"delta": 0.2}] * 8)
+    assert v["verdict"] == "B_better" and v["p"] < 0.05 and v["n_needed"] is None
+
+
+def test_triage_verdict_a_better_on_negative():
+    v = triage_verdict([{"delta": -0.2}] * 8)
+    assert v["verdict"] == "A_better"
+
+
+def test_triage_verdict_inconclusive_sets_n_needed():
+    # малый ненулевой эффект при n=4 -> не значим, но n_needed оценивается
+    v = triage_verdict([{"delta": 0.1}, {"delta": -0.05}, {"delta": 0.08}, {"delta": -0.02}])
+    assert v["verdict"] == "inconclusive" and v["n_needed"] is not None
+
+
+def test_triage_verdict_outlier_robust_at_small_n():
+    # один выброс не делает результат значимым (знаковый тест устойчив к величине)
+    v = triage_verdict([{"delta": 0.0}] * 6 + [{"delta": 0.9}])
+    assert v["verdict"] == "inconclusive"
+
+
+def test_n_needed_grows_as_effect_shrinks():
+    assert n_needed(0.1, sd=0.2) > n_needed(0.3, sd=0.2)
+
+
+def test_permutation_exact_and_sample_paths_reproducible():
+    small = [0.1, -0.05, 0.2, 0.0]                      # n=4 -> точный перебор
+    big = [0.1] * 25                                     # n=25 -> сэмпл
+    for vals in (small, big):
+        assert 0.0 <= permutation_pvalue(vals) <= 1.0
+    # сэмпл-путь воспроизводим при том же сиде
+    assert permutation_pvalue(big, seed=1) == permutation_pvalue(big, seed=1)
 
 
 # --- раннер: две записи на вопрос через инъекцию evaluate_fn ---
@@ -124,10 +151,10 @@ def test_render_ab_report_shows_versions_abstention_verdict():
         _pair("q1", _rec(context_precision=0.4), _rec(context_precision=0.7)),
         _pair("q2", _rec(abstained=True), _rec(context_precision=0.6)),
     ]
-    md = render_ab_report(pairs, ["context_precision"], K=1)
+    md = render_ab_report(pairs, ["context_precision"])
     assert "Воздержания: lexical 1/2" in md and "cross-encoder 0/2" in md
     assert "lexical: n=1" in md and "cross-encoder: n=2" in md  # пер-версийные множества
-    assert "вердикт: **supported**" in md  # дельта +0.3 на 1 совместном, K=1
+    assert "неразрешимо" in md  # 1 совместный вопрос -> перестановочный тест неразрешим
     assert "+0.30" in md  # таблица дельт
 
 

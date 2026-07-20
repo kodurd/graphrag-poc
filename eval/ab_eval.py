@@ -55,26 +55,74 @@ def version_abstention(pairs: list[dict], version: str) -> dict:
     return {"total": total, "abstained": ab, "rate": ab / total if total else 0.0}
 
 
-def falsification_verdict(
-    deltas: list[dict], K: int, abst_lex: float, abst_ce: float
-) -> str:
-    """Вердикт по предрегистрации (R7).
+def permutation_pvalue(
+    values: list[float], *, max_exact: int = 16, samples: int = 10000, seed: int = 0
+) -> float:
+    """Двусторонний p парного sign-flip перестановочного теста над средним.
 
-    - воздержания CE выше lexical -> `not_supported` (guardrail на воздержания);
-    - совместно-отвечённых меньше `K` -> `directional_only` (дельта нечитаема);
-    - строго положительная дельта на >= `K` вопросах -> `supported`; иначе `not_supported`.
+    Под нулём знак каждой дельты случаен. При n <= max_exact — точный перебор всех
+    `2^n` знаковых разворотов; иначе — Монте-Карло `samples` разворотов (numpy, сид).
+    Точен при любом n, не опирается на хвосты бутстрапа.
     """
-    if abst_ce > abst_lex:
-        return "not_supported"
-    joint = len(deltas)
-    if joint < K:
-        return "directional_only"
-    positive = sum(1 for d in deltas if d["delta"] > 0)
-    return "supported" if positive >= K else "not_supported"
+    import numpy as np
+
+    v = np.asarray(list(values), dtype=float)
+    n = len(v)
+    if n == 0:
+        return 1.0
+    observed = abs(v.mean())
+    if n <= max_exact:
+        bits = (np.arange(2 ** n, dtype=np.int64)[:, None] >> np.arange(n)) & 1
+        signs = (1 - 2 * bits).astype(np.int8)
+    else:
+        rng = np.random.default_rng(seed)
+        signs = rng.choice(np.array([-1.0, 1.0]), size=(samples, n))
+    means = np.abs((signs * v).mean(axis=1))
+    return float((means >= observed - 1e-12).mean())
 
 
-def render_ab_report(pairs: list[dict], metrics: list[str], K: int) -> str:
-    """Markdown-отчёт A/B: пер-версийные средние, дельты, воздержания, вердикт (R6)."""
+def n_needed(effect: float, sd: float, *, alpha: float = 0.05, power: float = 0.8) -> int | None:
+    """Грубая двусторонняя оценка размера выборки для эффекта (ориентир, не гарантия)."""
+    import math
+
+    if effect == 0 or sd == 0:
+        return None
+    z = 1.96 + 0.84  # z_{alpha/2} (alpha=0.05) + z_{beta} (мощность 0.8)
+    return int(math.ceil((z * sd / abs(effect)) ** 2))
+
+
+def triage_verdict(deltas: list[dict], *, alpha: float = 0.05) -> dict:
+    """Трёхисходный вердикт из по-вопросных дельт (соглашение: `delta = B − A`).
+
+    Возвращает `{p, effect, verdict, n_needed}`: значимо и effect>0 -> `B_better`;
+    значимо и effect<0 -> `A_better`; иначе -> `inconclusive` с оценкой `n_needed`.
+    Помечается «на N курируемых вопросах» на уровне отчёта, не обобщается.
+    """
+    import numpy as np
+
+    vals = [d["delta"] for d in deltas]
+    if not vals:
+        return {"p": 1.0, "effect": 0.0, "verdict": "inconclusive", "n_needed": None}
+    arr = np.asarray(vals, dtype=float)
+    effect = float(arr.mean())
+    p = permutation_pvalue(vals)
+    if p < alpha and effect != 0:
+        return {"p": p, "effect": effect,
+                "verdict": "B_better" if effect > 0 else "A_better", "n_needed": None}
+    sd = float(arr.std(ddof=1)) if len(arr) > 1 else 0.0
+    return {"p": p, "effect": effect, "verdict": "inconclusive",
+            "n_needed": n_needed(effect, sd)}
+
+
+_VERDICT_RU = {
+    "A_better": "A (lexical) лучше",
+    "B_better": "B (cross-encoder) лучше",
+    "inconclusive": "неразрешимо",
+}
+
+
+def render_ab_report(pairs: list[dict], metrics: list[str]) -> str:
+    """Markdown-отчёт A/B: пер-версийные средние, дельты, воздержания, триаж-вердикт."""
     lex_ab = version_abstention(pairs, "lexical")
     ce_ab = version_abstention(pairs, "cross_encoder")
 
@@ -92,13 +140,16 @@ def render_ab_report(pairs: list[dict], metrics: list[str], K: int) -> str:
         deltas = paired_deltas(pairs, m)
         lex = per_version_summary(pairs, "lexical", m)
         ce = per_version_summary(pairs, "cross_encoder", m)
-        verdict = falsification_verdict(deltas, K, lex_ab["rate"], ce_ab["rate"])
+        tv = triage_verdict(deltas)
+        nn = f", нужно ~{tv['n_needed']} вопросов" if tv["n_needed"] else ""
         lines += [
             f"## {m}",
             "",
             f"- lexical: n={lex['n']} mean={_fmt(lex['mean'])} · "
             f"cross-encoder: n={ce['n']} mean={_fmt(ce['mean'])}",
-            f"- совместно-отвечённых: {len(deltas)} (K={K}) · вердикт: **{verdict}**",
+            f"- совместно-отвечённых: {len(deltas)} · эффект {tv['effect']:+.3f}, "
+            f"p={tv['p']:.3f} · вердикт: **{_VERDICT_RU[tv['verdict']]}**{nn} "
+            "(на этих N вопросах, не обобщается)",
             "",
         ]
         if deltas:
@@ -198,8 +249,6 @@ def run_ab_eval(
     return pairs
 
 
-# Предрегистрация (R7): пол совместно-отвечённых, ниже которого дельта нечитаема.
-AB_MIN_JOINT = 5
 AB_METRICS = ("answer_relevance", "context_precision", "faithfulness")
 
 T = "eval/trial"
@@ -238,12 +287,12 @@ def main() -> None:
 
         pairs = run_ab_eval(retr_lex, retr_ce, llm, questions, labeled)
 
-    report = render_ab_report(list(pairs), list(AB_METRICS), AB_MIN_JOINT)
+    report = render_ab_report(list(pairs), list(AB_METRICS))
     open(f"{T}/ab_report.md", "w", encoding="utf-8").write(report)
     open(f"{T}/ab_changed_ranking.md", "w", encoding="utf-8").write(
         render_changed_ranking(list(pairs))
     )
-    json.dump({"pairs": pairs, "min_joint": AB_MIN_JOINT},
+    json.dump({"pairs": pairs},
               open(f"{T}/ab_results.json", "w", encoding="utf-8"),
               ensure_ascii=False, indent=2)
     # NB: не print(report) — отчёт содержит не-ASCII (эмодзи/кириллица), а Windows-
