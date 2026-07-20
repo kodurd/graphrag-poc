@@ -118,6 +118,48 @@ def _fmt(v: float | None) -> str:
     return "—" if v is None else f"{v:.2f}"
 
 
+def changed_ranking(pairs: list[dict]) -> list[dict]:
+    """Пары, где top-k (`context_ids`) различается между версиями."""
+    return [
+        p for p in pairs
+        if p["lexical"].get("context_ids") != p["cross_encoder"].get("context_ids")
+    ]
+
+
+def render_changed_ranking(pairs: list[dict]) -> str:
+    """Лист ручной судья-независимой сверки (R8) для изменившегося ранжирования.
+
+    Автометрики нет — выход это человекочитаемый лист: по каждому изменившемуся
+    вопросу оба контекста и оба ответа бок о бок для глазной адъюдикации.
+    """
+    changed = changed_ranking(pairs)
+    lines = [
+        "# Судья-независимая сверка: изменившееся ранжирование",
+        "",
+        "⚠️ Парный A/B НЕ контролирует смещение судьи под лечение (cross-encoder может "
+        "поднимать фрагменты, которые судья любит независимо от истинной релевантности). "
+        "Ниже — вопросы, где ранжирование изменилось; оцените релевантность контекста глазами.",
+        "",
+    ]
+    if not changed:
+        lines.append("Изменений ранжирования нет.")
+        return "\n".join(lines)
+    for p in changed:
+        lines += [
+            f"## {p['question']}",
+            "",
+            "**lexical**",
+            f"- context_ids: {p['lexical'].get('context_ids')}",
+            f"- ответ: {p['lexical'].get('answer', '')}",
+            "",
+            "**cross-encoder**",
+            f"- context_ids: {p['cross_encoder'].get('context_ids')}",
+            f"- ответ: {p['cross_encoder'].get('answer', '')}",
+            "",
+        ]
+    return "\n".join(lines)
+
+
 def run_ab_eval(
     retr_lex,
     retr_ce,
@@ -192,11 +234,14 @@ def main() -> None:
 
     report = render_ab_report(list(pairs), list(AB_METRICS), AB_MIN_JOINT)
     open(f"{T}/ab_report.md", "w", encoding="utf-8").write(report)
+    open(f"{T}/ab_changed_ranking.md", "w", encoding="utf-8").write(
+        render_changed_ranking(list(pairs))
+    )
     json.dump({"pairs": pairs, "min_joint": AB_MIN_JOINT},
               open(f"{T}/ab_results.json", "w", encoding="utf-8"),
               ensure_ascii=False, indent=2)
     print(report)
-    print("DONE -> eval/trial/ab_report.md, ab_results.json")
+    print("DONE -> eval/trial/ab_report.md, ab_changed_ranking.md, ab_results.json")
 
 
 if __name__ == "__main__":

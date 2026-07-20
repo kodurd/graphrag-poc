@@ -5,14 +5,21 @@ from __future__ import annotations
 import pytest
 
 from eval.ab_eval import (
+    changed_ranking,
     falsification_verdict,
     is_answered,
     paired_deltas,
     per_version_summary,
     render_ab_report,
+    render_changed_ranking,
     run_ab_eval,
     version_abstention,
 )
+
+
+def _rrec(context_ids, answer="ответ"):
+    return {"context_ids": context_ids, "answer": answer,
+            "abstained": {"faithfulness": False}, "metrics": {}}
 
 
 def _rec(*, abstained=False, **metrics):
@@ -122,3 +129,26 @@ def test_render_ab_report_shows_versions_abstention_verdict():
     assert "lexical: n=1" in md and "cross-encoder: n=2" in md  # пер-версийные множества
     assert "вердикт: **supported**" in md  # дельта +0.3 на 1 совместном, K=1
     assert "+0.30" in md  # таблица дельт
+
+
+# --- U3: сверка изменившегося ранжирования ---
+
+def test_changed_ranking_selects_only_differing():
+    pairs = [
+        _pair("same", _rrec(["a", "b"]), _rrec(["a", "b"])),   # идентичны -> исключён
+        _pair("diff", _rrec(["a", "b"]), _rrec(["b", "a"])),   # порядок иной -> включён
+    ]
+    assert [p["question"] for p in changed_ranking(pairs)] == ["diff"]
+
+
+def test_render_changed_ranking_contains_both_sides():
+    pairs = [_pair("q", _rrec(["a"], "лекс-ответ"), _rrec(["b"], "це-ответ"))]
+    md = render_changed_ranking(pairs)
+    assert "лекс-ответ" in md and "це-ответ" in md
+    assert "['a']" in md and "['b']" in md
+    assert "смещение судьи" in md  # caveat на месте
+
+
+def test_render_changed_ranking_empty_case():
+    pairs = [_pair("same", _rrec(["a"]), _rrec(["a"]))]
+    assert "Изменений ранжирования нет." in render_changed_ranking(pairs)
