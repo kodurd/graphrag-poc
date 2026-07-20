@@ -105,7 +105,13 @@ class HybridRetriever:
             self._bm25 = BM25Index(docs)
         return self._bm25
 
-    def retrieve(self, query: str) -> dict:
+    def _candidate_pool(self, query: str) -> tuple[str, list[dict]]:
+        """Пул кандидатов ДО реранка: `(маршрут, объединённые элементы)`.
+
+        Выделено из `retrieve`, чтобы recall-оценка могла смотреть пул до
+        ранжирования (у элементов ещё нет `rerank_score`). MULTIHOP объединяет
+        только граф-кандидаты, FACTUAL/MIXED — вектор + BM25 (+ граф на MIXED).
+        """
         # Модули, упомянутые в запросе — из того же графового источника, что и обход
         # (переиспользуем `_module_names_in_query`, покрывающий все узлы Module, а не
         # только corpus.components). Пусто => impact-вопрос без модуля => MIXED.
@@ -123,7 +129,10 @@ class HybridRetriever:
         if route in (MULTIHOP, MIXED):
             add(self.graph.related(query), "graph")
 
-        items = list(merged.values())
+        return route, list(merged.values())
+
+    def retrieve(self, query: str) -> dict:
+        route, items = self._candidate_pool(query)
         if items:
             ranked = self.reranker.rerank(query, [it["text"] for it in items])
             items = [{**items[i], "rerank_score": score} for i, score in ranked]

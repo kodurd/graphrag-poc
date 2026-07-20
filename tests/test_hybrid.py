@@ -127,3 +127,23 @@ def test_factual_uses_vector_and_bm25(neo4j_conn):
     assert result["route"] == FACTUAL
     assert result["candidates"], "факт-запрос должен вернуть чанки"
     assert any("networkclient" in c["text"].lower() for c in result["candidates"])
+
+
+@pytest.mark.integration
+def test_candidate_pool_is_pre_rerank(neo4j_conn):
+    """_candidate_pool отдаёт пул ДО реранка: без rerank_score, >= числа кандидатов."""
+    _seed(neo4j_conn)
+    emb = HashingEmbedder(dimension=64)
+    idx = VectorIndexer(neo4j_conn, emb)
+    idx.ensure_index()
+    idx.index_nodes(collect_text_nodes(neo4j_conn))
+    neo4j_conn.run("CALL db.awaitIndexes(60)")
+
+    retr = HybridRetriever(neo4j_conn, emb, LexicalReranker())
+    q = "что такое NetworkClient"
+    route, pool = retr._candidate_pool(q)
+    result = retr.retrieve(q)
+
+    assert route == result["route"]
+    assert pool and all("rerank_score" not in it for it in pool)  # ещё не ранжирован
+    assert len(pool) >= len(result["candidates"])  # top-k — подмножество пула
