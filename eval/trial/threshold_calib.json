@@ -1,0 +1,29 @@
+{
+  "baseline": {
+    "precision": 0.42307692307692313,
+    "abstention": 0.46153846153846156
+  },
+  "candidates": [
+    {
+      "threshold": 0.013341150246560574,
+      "precision": 0.4753846153846154,
+      "abstention": 0.38461538461538464
+    },
+    {
+      "threshold": 0.11016549170017242,
+      "precision": 0.6269230769230769,
+      "abstention": 0.5384615384615384
+    },
+    {
+      "threshold": 0.5882430076599121,
+      "precision": 0.6269230769230769,
+      "abstention": 0.6153846153846154
+    }
+  ],
+  "recommendation": {
+    "threshold": 0.013341150246560574,
+    "on": true,
+    "reason": "precision 0.42->0.48, воздержания 0.46->0.38"
+  },
+  "n_scores": 60
+}

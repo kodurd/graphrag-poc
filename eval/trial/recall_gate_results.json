@@ -1,0 +1,113 @@
+{
+  "records": [
+    {
+      "question": "Как диагностировать, какой именно SMT в цепочке трансформеров Kafka Connect теряет записи, и как при этом избежать бесконечного цикла переобработки для sink-коннекторов, переопределяющих preCommit(), когда все записи в партиции отфильтрованы?",
+      "source_id": "task:KAFKA-20797",
+      "route": "factual",
+      "pool_size": 11,
+      "hit": 1.0,
+      "abstained": true
+    },
+    {
+      "question": "Как исправить расхождение между метриками num-open-iterators и oldest-iterator-open-since-ms при использовании MeteredTimestampedKeyValueStore, чтобы итераторы корректно учитывались в обоих датчиках, и не сломает ли добавление вызовов increment/decrement в конструктор и метод close другие модули, работающие с этим хранилищем?",
+      "source_id": "task:KAFKA-20796",
+      "route": "mixed",
+      "pool_size": 14,
+      "hit": 1.0,
+      "abstained": false
+    },
+    {
+      "question": "Как переложить реализацию методов RequestConvertToJson#request и RequestConvertToJson#response на генератор, чтобы избежать хардкода, и какие модули или тикеты будут затронуты при таком рефакторинге?",
+      "source_id": "task:KAFKA-20795",
+      "route": "mixed",
+      "pool_size": 15,
+      "hit": 1.0,
+      "abstained": false
+    },
+    {
+      "question": "Как корректно протестировать и задокументировать поле deprecatedVersions в RPC, чтобы избежать конфликтов с существующими модулями версионирования?",
+      "source_id": "task:KAFKA-20794",
+      "route": "mixed",
+      "pool_size": 16,
+      "hit": 1.0,
+      "abstained": true
+    },
+    {
+      "question": "Как корректно обновить share.version с 1 на 2 в стабильной сборке, чтобы не сломать обратную совместимость с клиентами, которые ещё не поддерживают новую версию?",
+      "source_id": "task:KAFKA-20793",
+      "route": "mixed",
+      "pool_size": 16,
+      "hit": 1.0,
+      "abstained": true
+    },
+    {
+      "question": "Как обойти IllegalArgumentException с 'Invalid partition: -1' в Kafka Streams FK LeftJoin, когда Punctuator удаляет записи из state store, а CACHE_MAX_BYTES_BUFFERING_CONFIG не равен 0, и какие модули или настройки топологии будут затронуты этим багом?",
+      "source_id": "task:KAFKA-20792",
+      "route": "multihop",
+      "pool_size": 2,
+      "hit": 0.0,
+      "abstained": true
+    },
+    {
+      "question": "Как обновление log4j до версии 2.25.5 повлияет на совместимость с существующими модулями, использующими старые версии, и какие шаги нужно предпринять для предотвращения конфликтов зависимостей?",
+      "source_id": "task:KAFKA-20791",
+      "route": "mixed",
+      "pool_size": 12,
+      "hit": 1.0,
+      "abstained": true
+    },
+    {
+      "question": "Как перейти на публичный API стримового assignor, не сломав обратную совместимость с существующими приватными интеграциями, и какие модули будут затронуты при изменении сигнатуры методов?",
+      "source_id": "task:KAFKA-20790",
+      "route": "mixed",
+      "pool_size": 14,
+      "hit": 1.0,
+      "abstained": true
+    },
+    {
+      "question": "Как перестроить публичный API стримингового ассайнора в Kafka, чтобы он стал общедоступным модулем, и какие существующие тикеты или модули будут затронуты этим изменением?",
+      "source_id": "task:KAFKA-20789",
+      "route": "mixed",
+      "pool_size": 16,
+      "hit": 1.0,
+      "abstained": true
+    },
+    {
+      "question": "Как определить причину внезапного роста rebalance-rate-per-hour в Kafka consumer без просмотра логов, и какие метрики или API нужно добавить, чтобы различать rebalance из-за превышения max.poll.interval.ms, session timeout и вызовов enforceRebalance?",
+      "source_id": "task:KAFKA-20788",
+      "route": "mixed",
+      "pool_size": 13,
+      "hit": 1.0,
+      "abstained": false
+    },
+    {
+      "question": "How can sink connectors track offsets for records dropped by transforms before put()?",
+      "source_id": "task:KAFKA-20797",
+      "route": "mixed",
+      "pool_size": 11,
+      "hit": 1.0,
+      "abstained": false
+    },
+    {
+      "question": "Why does the num-open-iterators metric under-count iterators from MeteredTimestampedKeyValueStore?",
+      "source_id": "task:KAFKA-20796",
+      "route": "mixed",
+      "pool_size": 13,
+      "hit": 1.0,
+      "abstained": false
+    },
+    {
+      "question": "Как реализовать методы RequestConvertToJson#request и RequestConvertToJson#response?",
+      "source_id": "task:KAFKA-20795",
+      "route": "mixed",
+      "pool_size": 15,
+      "hit": 1.0,
+      "abstained": true
+    }
+  ],
+  "hit_rate_all": 0.9230769230769231,
+  "hit_rate_abstained": 0.875,
+  "hit_rate_answered": 1.0,
+  "n_abstained": 8,
+  "n_answered": 5
+}
