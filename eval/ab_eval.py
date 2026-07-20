@@ -191,21 +191,28 @@ def render_changed_ranking(pairs: list[dict]) -> str:
         "поднимать фрагменты, которые судья любит независимо от истинной релевантности). "
         "Ниже — вопросы, где ранжирование изменилось; оцените релевантность контекста глазами.",
         "",
+        "**Чек-лист аудита формы:** для каждого вопроса проверьте — не коррелирует ли "
+        "предпочтение судьи с длиной/форматом ответа, а не с его релевантностью? Отметьте "
+        "подозрительные (там смещение не симметрично, сравнение под вопросом).",
+        "",
     ]
     if not changed:
         lines.append("Изменений ранжирования нет.")
         return "\n".join(lines)
     for p in changed:
+        lex, ce = p["lexical"], p["cross_encoder"]
         lines += [
             f"## {p['question']}",
             "",
             "**lexical**",
-            f"- context_ids: {p['lexical'].get('context_ids')}",
-            f"- ответ: {p['lexical'].get('answer', '')}",
+            f"- context_ids: {lex.get('context_ids')}",
+            f"- длина ответа: {len(lex.get('answer', ''))}",
+            f"- ответ: {lex.get('answer', '')}",
             "",
             "**cross-encoder**",
-            f"- context_ids: {p['cross_encoder'].get('context_ids')}",
-            f"- ответ: {p['cross_encoder'].get('answer', '')}",
+            f"- context_ids: {ce.get('context_ids')}",
+            f"- длина ответа: {len(ce.get('answer', ''))}",
+            f"- ответ: {ce.get('answer', '')}",
             "",
         ]
     return "\n".join(lines)

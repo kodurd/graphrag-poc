@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import pytest
 
+from graphrag.llm.base import LLMClient
+
 from eval.ab_eval import (
     changed_ranking,
     is_answered,
@@ -178,4 +180,59 @@ def test_render_changed_ranking_contains_both_sides():
 
 def test_render_changed_ranking_empty_case():
     pairs = [_pair("same", _rrec(["a"]), _rrec(["a"]))]
-    assert "Изменений ранжирования нет." in render_changed_ranking(pairs)
+    md = render_changed_ranking(pairs)
+    assert "Изменений ранжирования нет." in md
+    assert "Чек-лист аудита формы" in md  # аудит-шапка есть даже при отсутствии изменений
+
+
+# --- U2: инвариант «плечо не в judge-входе» + аудит формы ---
+
+class _RecordingLLM(LLMClient):
+    """Записывает все промпты; судьям отдаёт JSON, генерации — текст с цитатой."""
+
+    def __init__(self):
+        super().__init__("x")
+        self.prompts: list[str] = []
+
+    def _raw_complete(self, prompt, *, system=None, temperature=None, max_tokens=None):
+        self.prompts.append(prompt)
+        for key in ("faithfulness", "answer_relevance", "context_precision",
+                    "answer_correctness", "context_recall"):
+            if f'"{key}"' in prompt:
+                return f'{{"{key}": 0.5}}'
+        return "Ответ по существу [источник: https://issues/KAFKA-1]"
+
+
+class _FakeRetriever:
+    def __init__(self, candidates):
+        self._c = candidates
+
+    def retrieve(self, query):
+        return {"route": "mixed", "candidates": self._c}
+
+
+def test_judge_input_carries_no_arm_label():
+    from eval.quality_eval import evaluate_question
+
+    # два «плеча» с разными кандидатами; метка конфига (lexical/cross_encoder) не подаётся
+    arms = [
+        [{"id": "chunk:task:1#0", "text": "clients reconnect", "uri": "https://issues/KAFKA-1"}],
+        [{"id": "chunk:task:2#0", "text": "streams rebalance", "uri": "https://issues/KAFKA-2"}],
+    ]
+    for cands in arms:
+        llm = _RecordingLLM()
+        evaluate_question(_FakeRetriever(cands), llm, "почему падает?", source_id="task:1")
+        judge_prompts = [p for p in llm.prompts
+                         if "Верни JSON" in p or "abstained" in p or '"faithfulness"' in p]
+        assert judge_prompts, "судьи должны были вызваться"
+        for p in judge_prompts:
+            low = p.lower()
+            assert "lexical" not in low and "cross_encoder" not in low
+
+
+def test_changed_ranking_sheet_has_lengths_and_checklist():
+    pairs = [_pair("q", _rrec(["a"], "коротко"), _rrec(["b"], "гораздо длиннее ответ тут"))]
+    md = render_changed_ranking(pairs)
+    assert "Чек-лист аудита формы" in md
+    assert f"длина ответа: {len('коротко')}" in md
+    assert f"длина ответа: {len('гораздо длиннее ответ тут')}" in md
