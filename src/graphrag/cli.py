@@ -336,7 +336,11 @@ def eval_quality(
             max_hops=s.retrieval.max_hops,
             min_rerank_score=s.retrieval.min_rerank_score,
         )
-        results = run_quality_eval(retr, llm, questions, labeled)
+        results = run_quality_eval(
+            retr, llm, questions, labeled,
+            faithfulness_samples=s.eval.faithfulness_judge_samples,
+            faithfulness_temperature=s.eval.faithfulness_judge_temperature,
+        )
         retrieval = run_retrieval_eval(retr, build_from_graph(conn, limit=200))
 
     (out / "quality_results.json").write_text(
