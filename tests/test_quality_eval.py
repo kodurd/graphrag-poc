@@ -141,3 +141,40 @@ def test_run_quality_eval_without_labeled_slice():
     result = run_quality_eval(FakeRetriever(), ScriptedLLM("x"), [{"question": "в?"}])
     assert result["counts"]["labeled"] == 0
     assert "answer_correctness" not in result["records"][0]["metrics"]
+
+
+# --- прокидка faithfulness-сэмплов (config -> judge) ---
+
+class CountingFaithLLM(ScriptedLLM):
+    """Считает вызовы faithfulness-судьи и пишет судья-temperature."""
+
+    def __init__(self, tag="x"):
+        super().__init__(tag)
+        self.faith_calls = 0
+        self.faith_temps: list = []
+
+    def _raw_complete(self, prompt, *, system=None, temperature=None, max_tokens=None):
+        if '"faithfulness"' in prompt:
+            self.faith_calls += 1
+            self.faith_temps.append(temperature)
+        return super()._raw_complete(prompt, system=system, temperature=temperature, max_tokens=max_tokens)
+
+
+def test_faithfulness_samples_thread_to_judge():
+    llm = CountingFaithLLM()
+    evaluate_question(FakeRetriever(), llm, "почему?", faithfulness_samples=3, faithfulness_temperature=0.3)
+    assert llm.faith_calls == 3  # N сэмплов дошли до judge_faithfulness
+    assert llm.faith_temps == [0.3, 0.3, 0.3]  # judge-temp на каждый сэмпл
+
+
+def test_default_single_faithfulness_call():
+    llm = CountingFaithLLM()
+    evaluate_question(FakeRetriever(), llm, "почему?")
+    assert llm.faith_calls == 1  # дефолт N=1 (обратная совместимость)
+
+
+def test_run_quality_eval_threads_samples():
+    llm = CountingFaithLLM()
+    run_quality_eval(FakeRetriever(), llm, [{"question": "в1?"}, {"question": "в2?"}],
+                     faithfulness_samples=2)
+    assert llm.faith_calls == 4  # 2 вопроса × 2 сэмпла

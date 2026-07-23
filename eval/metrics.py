@@ -64,24 +64,33 @@ _FAITH_PROMPT = (
 )
 
 
-def judge_faithfulness(
-    llm: LLMClient, answer: str, context_texts: list[str]
+def aggregate_faithfulness(
+    samples: list[tuple[float | None, bool]]
 ) -> tuple[float | None, bool]:
-    """LLM-as-judge: (score, abstained).
+    """Сводит N сэмплов судьи в один результат `(score|None, abstained)`.
 
-    - score — доля подтверждённых контекстом утверждений (0..1), либо None.
-    - abstained — True, когда ответ не содержит проверяемых утверждений (чистое
-      воздержание): score тогда None, но это НЕ сбой судьи.
-    - Сбой судьи (сеть/невалидный JSON/нет ключа) → (None, False): None отличает
-      отказ оценки от честного нуля, а False — воздержание от сбоя.
-
-    Разбирает JSON сам (не через `_judge_score`), т.к. несёт флаг `abstained`;
-    остальные 4 судьи и `_judge_score` не затрагиваются.
+    Трёхходовая (сохраняет различие сбой/воздержание контракта judge_faithfulness):
+    есть хоть один числовой скор → `(СРЕДНЕЕ скоров, False)`; иначе хоть одно
+    воздержание → `(None, True)`; иначе (все сэмплы — сбой) → `(None, False)`.
+    СРЕДНЕЕ, а не медиана: медиана двухполюсных сэмплов схлопывает частичную
+    faithfulness (~0.5) в полюс; среднее сохраняет градацию.
     """
+    scores = [s for s, _ in samples if s is not None]
+    if scores:
+        return sum(scores) / len(scores), False
+    if any(abstained for _, abstained in samples):
+        return None, True
+    return None, False
+
+
+def _judge_faithfulness_once(
+    llm: LLMClient, answer: str, context_texts: list[str], *, temperature: float | None = None
+) -> tuple[float | None, bool]:
+    """Один вызов faithfulness-судьи → (score|None, abstained). См. judge_faithfulness."""
     ctx = "\n".join(f"- {t}" for t in context_texts)
     prompt = f"{_FAITH_PROMPT}КОНТЕКСТ:\n{ctx}\n\nОТВЕТ:\n{answer}"
     try:
-        data = llm.extract_json(prompt)
+        data = llm.extract_json(prompt, temperature=temperature)
         if not isinstance(data, dict):
             return None, False
         if data.get("abstained") is True:
@@ -94,6 +103,29 @@ def judge_faithfulness(
         return max(0.0, min(1.0, float(val))), False
     except Exception:
         return None, False
+
+
+def judge_faithfulness(
+    llm: LLMClient, answer: str, context_texts: list[str], *,
+    n_samples: int = 1, temperature: float | None = None,
+) -> tuple[float | None, bool]:
+    """LLM-as-judge: (score, abstained).
+
+    - score — доля подтверждённых контекстом утверждений (0..1), либо None.
+    - abstained — True, когда ответ не содержит проверяемых утверждений (чистое
+      воздержание): score тогда None, но это НЕ сбой судьи.
+    - Сбой судьи (сеть/невалидный JSON/нет ключа) → (None, False): None отличает
+      отказ оценки от честного нуля, а False — воздержание от сбоя.
+
+    При `n_samples > 1` судья сэмплится N раз при `temperature` и агрегируется
+    (`aggregate_faithfulness`, среднее) — для снижения дисперсии. `n_samples=1`
+    байт-в-байт воспроизводит одиночный вызов (обратная совместимость).
+    """
+    samples = [
+        _judge_faithfulness_once(llm, answer, context_texts, temperature=temperature)
+        for _ in range(max(1, n_samples))
+    ]
+    return aggregate_faithfulness(samples)
 
 
 def _judge_score(llm: LLMClient, prompt: str, key: str) -> float | None:

@@ -5,6 +5,7 @@ from __future__ import annotations
 import pytest
 
 from eval.metrics import (
+    aggregate_faithfulness,
     candidate_entity_id,
     edge_precision_recall,
     judge_answer_correctness,
@@ -115,6 +116,54 @@ def test_hallucination_still_scored_low():
     """Вымысел, противоречащий контексту, по-прежнему низкий (судья по скрипту 0.0)."""
     score, abstained = judge_faithfulness(_scripted('{"faithfulness": 0.0}'), "выдуманный факт", ["ctx"])
     assert score == pytest.approx(0.0) and abstained is False  # низкий, но НЕ воздержание
+
+
+# --- U3: агрегация сэмплов (среднее, трёхходовой контракт) ---
+
+def test_aggregate_mean_preserves_partial_not_median():
+    # среднее, НЕ медиана: [0,0,1] -> 0.33 (частичное сохранено, не схлопнуто в полюс)
+    assert aggregate_faithfulness([(0.0, False), (0.0, False), (1.0, False)])[0] == pytest.approx(1 / 3)
+
+
+def test_aggregate_all_abstained():
+    assert aggregate_faithfulness([(None, True), (None, True)]) == (None, True)
+
+
+def test_aggregate_all_failures_not_abstention():
+    assert aggregate_faithfulness([(None, False), (None, False)]) == (None, False)
+
+
+def test_aggregate_scores_win_over_abstention():
+    assert aggregate_faithfulness([(None, True), (0.8, False)]) == (pytest.approx(0.8), False)
+
+
+def test_aggregate_single_back_compat():
+    assert aggregate_faithfulness([(0.5, False)]) == (0.5, False)
+    assert aggregate_faithfulness([(None, False)]) == (None, False)
+
+
+class _StubLLM:
+    """Отдаёт заранее заготовленные JSON-дикты по одному на вызов; пишет temperature."""
+
+    def __init__(self, responses):
+        self.responses = list(responses)
+        self.temps: list = []
+
+    def extract_json(self, prompt, *, system=None, temperature=None):
+        self.temps.append(temperature)
+        return self.responses.pop(0)
+
+
+def test_judge_multisample_averages_and_passes_temperature():
+    llm = _StubLLM([{"faithfulness": 0.0}, {"faithfulness": 0.0}, {"faithfulness": 1.0}])
+    score, abstained = judge_faithfulness(llm, "ans", ["ctx"], n_samples=3, temperature=0.3)
+    assert score == pytest.approx(1 / 3) and abstained is False  # среднее, не медиана(=0)
+    assert llm.temps == [0.3, 0.3, 0.3]  # judge-temp на каждый сэмпл
+
+
+def test_judge_n1_default_single_sample():
+    llm = _StubLLM([{"faithfulness": 0.5}])
+    assert judge_faithfulness(llm, "ans", ["ctx"]) == (0.5, False)  # N=1 дефолт, одна выборка
 
 
 # --- судьи reference-free и reference-required ---

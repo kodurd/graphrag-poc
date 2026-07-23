@@ -37,11 +37,14 @@ def evaluate_question(
     *,
     reference: str | None = None,
     source_id: str | None = None,
+    faithfulness_samples: int = 1,
+    faithfulness_temperature: float | None = None,
 ) -> dict:
     """Прогоняет один вопрос и возвращает запись с метриками и метаданными.
 
     `reference` задаётся только для размеченного среза — тогда дополнительно
-    считаются correctness и context recall.
+    считаются correctness и context recall. `faithfulness_samples/temperature`
+    прокидываются в judge_faithfulness (дефолт samples=1 — поведение как раньше).
     """
     retrieved = retriever.retrieve(question)
     candidates = retrieved.get("candidates", [])
@@ -53,7 +56,10 @@ def evaluate_question(
     # faithfulness несёт флаг воздержания — распаковываем: число в metrics
     # (остаётся float|None), флаг — в sibling-поле ВНЕ metrics (инвариант metrics:
     # все значения число либо None). abstained=True => воздержание, False => сбой/оценка.
-    faith_score, faith_abstained = judge_faithfulness(llm, answer.text, context_texts)
+    faith_score, faith_abstained = judge_faithfulness(
+        llm, answer.text, context_texts,
+        n_samples=faithfulness_samples, temperature=faithfulness_temperature,
+    )
 
     record: dict = {
         "question": question,
@@ -88,14 +94,20 @@ def run_quality_eval(
     llm: LLMClient,
     questions: list[dict],
     labeled: list[dict] | None = None,
+    *,
+    faithfulness_samples: int = 1,
+    faithfulness_temperature: float | None = None,
 ) -> dict:
     """Последовательный прогон набора вопросов и размеченного среза.
 
     `questions` — записи {question, source_id}; `labeled` — записи
-    {question, reference, source_id}. Возвращает
+    {question, reference, source_id}. `faithfulness_samples/temperature`
+    прокидываются в оценку (дефолт samples=1 — как раньше). Возвращает
     {"records": [...], "counts": {...}}.
     """
     records: list[dict] = []
+    faith = dict(faithfulness_samples=faithfulness_samples,
+                 faithfulness_temperature=faithfulness_temperature)
 
     for item in questions:
         records.append(
@@ -104,6 +116,7 @@ def run_quality_eval(
                 llm,
                 item["question"],
                 source_id=item.get("source_id"),
+                **faith,
             )
         )
 
@@ -115,6 +128,7 @@ def run_quality_eval(
                 item["question"],
                 reference=item.get("reference"),
                 source_id=item.get("source_id"),
+                **faith,
             )
         )
 

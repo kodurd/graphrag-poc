@@ -75,6 +75,14 @@ class RetrievalConfig(BaseModel):
     min_rerank_score: float = 0.0
 
 
+class EvalConfig(BaseModel):
+    # Оценка faithfulness. samples>1 — снижение дисперсии судьи мульти-сэмплом (среднее),
+    # temperature — judge-специфичная (отдельно от генерации). Дефолт samples=1 → поведение
+    # и стоимость как раньше. Включать только по диагнозу «шум» (см. eval/faith_calib.py).
+    faithfulness_judge_samples: int = 1
+    faithfulness_judge_temperature: float = 0.3
+
+
 class Settings(BaseModel):
     llm: LLMConfig = Field(default_factory=LLMConfig)
     embeddings: EmbeddingsConfig = Field(default_factory=EmbeddingsConfig)
@@ -84,6 +92,7 @@ class Settings(BaseModel):
     sources: SourcesConfig = Field(default_factory=SourcesConfig)
     chunk: ChunkConfig = Field(default_factory=ChunkConfig)
     retrieval: RetrievalConfig = Field(default_factory=RetrievalConfig)
+    eval: EvalConfig = Field(default_factory=EvalConfig)
 
 
 def load_settings(path: str | Path = DEFAULT_SETTINGS_PATH) -> Settings:
