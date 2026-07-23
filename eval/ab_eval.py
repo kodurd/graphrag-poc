@@ -218,6 +218,72 @@ def render_changed_ranking(pairs: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def multihop_subset(pairs: list[dict], *, arm: str = "lexical", route: str = "multihop") -> list[dict]:
+    """Пары, чей маршрут == `route` (по умолчанию multihop). Маршрут детерминирован
+    от запроса, поэтому одинаков у обоих плеч — читаем из `arm`."""
+    return [p for p in pairs if p[arm].get("route") == route]
+
+
+def answered_flips(
+    pairs: list[dict], *, arm_off: str = "lexical", arm_on: str = "cross_encoder"
+) -> list[dict]:
+    """Пары, где плечо-off воздержалось, а плечо-on ответило (воздержание→ответ)."""
+    return [p for p in pairs if not is_answered(p[arm_off]) and is_answered(p[arm_on])]
+
+
+def flip_correctness(
+    pairs: list[dict], metric: str, *, arm_off: str = "lexical", arm_on: str = "cross_encoder"
+) -> dict:
+    """Корректность новоотвеченных: средняя `metric` after-ответов среди flip'ов.
+
+    Гейт против «воздержание→уверенно-неверный ответ»: если flip'ы дают низкий
+    faithfulness/context_precision, фикс поднял воздержания ценой галлюцинаций.
+    """
+    flips = answered_flips(pairs, arm_off=arm_off, arm_on=arm_on)
+    vals = [p[arm_on]["metrics"].get(metric) for p in flips
+            if p[arm_on]["metrics"].get(metric) is not None]
+    return {"n_flips": len(flips), "n_scored": len(vals),
+            "mean": sum(vals) / len(vals) if vals else None}
+
+
+def render_multihop_ab_report(
+    pairs: list[dict], metrics: list[str], *,
+    arm_off: str = "lexical", arm_on: str = "cross_encoder",
+) -> str:
+    """Markdown-отчёт A/B multihop: воздержания graph-only vs full (весь набор + multihop-
+    подмножество), flip'ы воздержание→ответ и их корректность.
+
+    Плечи именуются честно (`graph-only`/`full`), хотя позиционно переиспользуют
+    lexical/cross_encoder-слоты `run_ab_eval` — иначе отчёт мислейблил бы прогон.
+    """
+    off_all = version_abstention(pairs, arm_off)
+    on_all = version_abstention(pairs, arm_on)
+    mh = multihop_subset(pairs, arm=arm_off)
+    off_mh = version_abstention(mh, arm_off)
+    on_mh = version_abstention(mh, arm_on)
+    lines = [
+        "# A/B: multihop graph-only vs full retrieval",
+        "",
+        "⚠️ Само-оценка: одна модель и отвечает, и судит. Индикативно.",
+        "",
+        f"Воздержания (весь набор): graph-only {off_all['abstained']}/{off_all['total']} "
+        f"({off_all['rate']:.0%}) · full {on_all['abstained']}/{on_all['total']} "
+        f"({on_all['rate']:.0%})",
+        f"Воздержания (multihop-подмножество, n={len(mh)}): graph-only "
+        f"{off_mh['abstained']}/{off_mh['total']} · full {on_mh['abstained']}/{on_mh['total']}",
+        "",
+        f"Flip'ы воздержание→ответ (off→on): {len(answered_flips(pairs, arm_off=arm_off, arm_on=arm_on))}",
+        "",
+    ]
+    for m in metrics:
+        fc = flip_correctness(pairs, m, arm_off=arm_off, arm_on=arm_on)
+        lines.append(
+            f"- корректность flip'ов по {m}: n={fc['n_scored']}/{fc['n_flips']} "
+            f"mean={_fmt(fc['mean'])} (низкое = воздержание→ненадёжный ответ = регресс)"
+        )
+    return "\n".join(lines)
+
+
 def run_ab_eval(
     retr_lex,
     retr_ce,
@@ -307,5 +373,54 @@ def main() -> None:
     print(f"DONE {len(pairs)} pairs -> eval/trial/ab_report.md, ab_changed_ranking.md, ab_results.json")
 
 
+def main_multihop() -> None:
+    """Онлайн A/B: multihop graph-only vs full retrieval на выросшем наборе.
+
+    Оба плеча — один cross-encoder; различие только во флаге `multihop_full_retrieval`,
+    чтобы изолировать эффект. Позиционно: graph-only (before) → lexical-слот, full (after)
+    → cross_encoder-слот `run_ab_eval`; отчёт именует их честно. Пишет дельту воздержаний
+    (весь набор + multihop-подмножество) и корректность flip'ов.
+    """
+    import json
+
+    import torch
+
+    from graphrag.config import load_settings
+    from graphrag.embeddings import build_embedder
+    from graphrag.embeddings.reranker import CrossEncoderReranker
+    from graphrag.graph import Neo4jConnection
+    from graphrag.llm import build_llm
+
+    from graphrag.retrieval.hybrid import HybridRetriever
+
+    torch.set_num_threads(2)
+    s = load_settings()
+    questions = json.load(open(f"{T}/questions_grown.json", encoding="utf-8"))
+
+    with Neo4jConnection(s.neo4j) as conn:
+        emb = build_embedder(s.embeddings)
+        reranker = CrossEncoderReranker(s.reranker.model)  # общий для обоих плеч
+        common = dict(top_k=s.retrieval.top_k, rerank_top_k=s.retrieval.rerank_top_k,
+                      max_hops=s.retrieval.max_hops, min_rerank_score=s.retrieval.min_rerank_score)
+        retr_off = HybridRetriever(conn, emb, reranker, multihop_full_retrieval=False, **common)
+        retr_on = HybridRetriever(conn, emb, reranker, multihop_full_retrieval=True, **common)
+        llm = build_llm(s.llm, role="generation")
+
+        pairs = run_ab_eval(retr_off, retr_on, llm, questions)
+
+    report = render_multihop_ab_report(list(pairs), list(AB_METRICS))
+    open(f"{T}/multihop_ab_report.md", "w", encoding="utf-8").write(report)
+    json.dump({"pairs": pairs},
+              open(f"{T}/multihop_ab_results.json", "w", encoding="utf-8"),
+              ensure_ascii=False, indent=2)
+    # NB: не print(report) — не-ASCII падает в cp1251-консоли Windows; отчёт в utf-8-файле.
+    print(f"DONE multihop A/B {len(pairs)} pairs -> eval/trial/multihop_ab_report.md, multihop_ab_results.json")
+
+
 if __name__ == "__main__":
-    main()
+    import sys
+
+    if len(sys.argv) > 1 and sys.argv[1] == "multihop":
+        main_multihop()
+    else:
+        main()

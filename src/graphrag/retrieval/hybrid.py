@@ -57,6 +57,21 @@ class GraphRetriever:
         ]
 
 
+def cap_candidates_keep_graph(items: list[dict], k: int) -> list[dict]:
+    """Срез до top-k, НЕ вытесняющий граф-узлы.
+
+    `items` в порядке реранка. Оставляет все граф-кандидаты (`source == "graph"`) плюс
+    первые k не-граф; порядок реранка сохраняется. Верхняя граница — `len(граф) + k`.
+    Зеркалит исключение графа от порога в `filter_by_threshold`, но для среза, а не фильтра:
+    реранк ставит синтетический граф-текст низко, и без этого граф-узлы выпадали бы из top-k
+    при появлении фактических чанков (граф-демо на multihop).
+    """
+    non_graph_top = [it for it in items if it.get("source") != "graph"][:k]
+    keep_ids = {it["id"] for it in items if it.get("source") == "graph"}
+    keep_ids |= {it["id"] for it in non_graph_top}
+    return [it for it in items if it["id"] in keep_ids]
+
+
 def filter_by_threshold(items: list[dict], min_score: float) -> list[dict]:
     """Отбрасывает вектор/bm25-кандидатов ниже порога reranker-скора.
 
@@ -86,6 +101,7 @@ class HybridRetriever:
         rerank_top_k: int = 5,
         max_hops: int = 2,
         min_rerank_score: float = 0.0,
+        multihop_full_retrieval: bool = True,
     ):
         self.conn = conn
         self.reranker = reranker
@@ -93,6 +109,7 @@ class HybridRetriever:
         self.top_k = top_k
         self.rerank_top_k = rerank_top_k
         self.min_rerank_score = min_rerank_score
+        self.multihop_full_retrieval = multihop_full_retrieval
         self.vector = VectorIndexer(conn, embedder)
         self.graph = GraphRetriever(conn, max_hops)
         self._bm25: BM25Index | None = None
@@ -123,7 +140,9 @@ class HybridRetriever:
             for it in items:
                 merged.setdefault(it["id"], {**it, "source": source})
 
-        if route in (FACTUAL, MIXED):
+        # Вектор+BM25 на FACTUAL/MIXED всегда; на MULTIHOP — только при full-retrieval
+        # (иначе граф-only пул лишает impact-вопрос фактических чанков → воздержание).
+        if route in (FACTUAL, MIXED) or (route == MULTIHOP and self.multihop_full_retrieval):
             add(self.vector.search(query, self.top_k), "vector")
             add(self._bm25_index().search(query, self.top_k), "bm25")
         if route in (MULTIHOP, MIXED):
@@ -133,9 +152,16 @@ class HybridRetriever:
 
     def retrieve(self, query: str) -> dict:
         route, items = self._candidate_pool(query)
+        candidates = items
         if items:
             ranked = self.reranker.rerank(query, [it["text"] for it in items])
             items = [{**items[i], "rerank_score": score} for i, score in ranked]
             items = filter_by_threshold(items, self.min_rerank_score)
+            # На full-retrieval multihop граф-узлы не вытесняются срезом (граф-демо);
+            # иначе — обычный срез (mixed/factual и graph-only multihop не затронуты).
+            if route == MULTIHOP and self.multihop_full_retrieval:
+                candidates = cap_candidates_keep_graph(items, self.rerank_top_k)
+            else:
+                candidates = items[: self.rerank_top_k]
 
-        return {"route": route, "candidates": items[: self.rerank_top_k]}
+        return {"route": route, "candidates": candidates}

@@ -7,14 +7,18 @@ import pytest
 from graphrag.llm.base import LLMClient
 
 from eval.ab_eval import (
+    answered_flips,
     changed_ranking,
+    flip_correctness,
     is_answered,
+    multihop_subset,
     n_needed,
     paired_deltas,
     per_version_summary,
     permutation_pvalue,
     render_ab_report,
     render_changed_ranking,
+    render_multihop_ab_report,
     run_ab_eval,
     triage_verdict,
     version_abstention,
@@ -32,6 +36,53 @@ def _rec(*, abstained=False, **metrics):
 
 def _pair(question, lex, ce):
     return {"question": question, "lexical": lex, "cross_encoder": ce}
+
+
+def _mrec(route="multihop", *, abstained=False, **metrics):
+    return {"route": route, "abstained": {"faithfulness": abstained}, "metrics": metrics}
+
+
+# --- U-multihop: изоляция multihop-подмножества + flip'ы воздержание→ответ + корректность ---
+
+def test_multihop_subset_selects_only_multihop():
+    pairs = [_pair("q1", _mrec("multihop"), _mrec("multihop")),
+             _pair("q2", _mrec("mixed"), _mrec("mixed"))]
+    assert [p["question"] for p in multihop_subset(pairs)] == ["q1"]
+
+
+def test_answered_flips_before_abstained_after_answered():
+    # arm_off=lexical (graph-only/before), arm_on=cross_encoder (full/after)
+    pairs = [
+        _pair("flip", _mrec(abstained=True), _mrec(abstained=False)),    # off возд, on отв
+        _pair("both_ans", _mrec(abstained=False), _mrec(abstained=False)),
+        _pair("reverse", _mrec(abstained=False), _mrec(abstained=True)),  # обратный — не flip
+    ]
+    assert [p["question"] for p in answered_flips(pairs)] == ["flip"]
+
+
+def test_flip_correctness_mean_of_after_answers():
+    pairs = [
+        _pair("f1", _mrec(abstained=True), _mrec(abstained=False, faithfulness=0.8)),
+        _pair("f2", _mrec(abstained=True), _mrec(abstained=False, faithfulness=0.6)),
+        _pair("noflip", _mrec(abstained=False), _mrec(abstained=False, faithfulness=0.1)),
+    ]
+    c = flip_correctness(pairs, "faithfulness")
+    assert c["n_flips"] == 2 and c["mean"] == pytest.approx(0.7)  # только after-ответы flip'ов
+
+
+def test_flip_correctness_no_flips():
+    pairs = [_pair("q", _mrec(abstained=False), _mrec(abstained=False, faithfulness=0.9))]
+    c = flip_correctness(pairs, "faithfulness")
+    assert c["n_flips"] == 0 and c["mean"] is None
+
+
+def test_render_multihop_report_labels_arms_and_metrics():
+    pairs = [_pair("q1", _mrec("multihop", abstained=True),
+                   _mrec("multihop", abstained=False, faithfulness=0.7, context_precision=0.6))]
+    md = render_multihop_ab_report(pairs, ["faithfulness", "context_precision"])
+    assert "graph-only" in md and "full" in md  # честные метки плеч, не lexical/cross-encoder
+    assert "fusion" not in md.lower()  # не переиспользован fusion-словесный рендер
+    assert "faithfulness" in md
 
 
 # --- is_answered ---
