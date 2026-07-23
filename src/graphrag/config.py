@@ -73,6 +73,10 @@ class RetrievalConfig(BaseModel):
     # логиты). 0 = отключён. Ниже порога вектор/bm25-кандидаты отбрасываются, чтобы
     # система честно воздержалась, а не отвечала по мусору. Граф от порога свободен.
     min_rerank_score: float = 0.0
+    # На маршруте multihop домешивать вектор+BM25 к графу (иначе граф-only пул лишает
+    # impact-вопрос фактических чанков → воздержание). Дефолт True — это баг-фикс; флаг
+    # существует для A/B-замера (graph-only vs full). См. retrieval/hybrid.py.
+    multihop_full_retrieval: bool = True
 
 
 class Settings(BaseModel):
