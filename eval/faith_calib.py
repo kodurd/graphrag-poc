@@ -108,3 +108,71 @@ def diagnose_run(baseline_pairs: list[dict], sampled_scores: list[list[float | N
     per_item_var = [sample_variance(s) for s in sampled_scores]
     mean_var = sum(per_item_var) / len(per_item_var) if per_item_var else 0.0
     return {**diagnose(mean_var, residual), "baseline_agreement": agr}
+
+
+_GOLD = "eval/trial/faith_gold.json"
+_REPORT = "eval/trial/faith_calib_report.md"
+
+
+def main(n_samples: int = 5) -> None:
+    """Онлайн: диагностировать судью на gold и сравнить кандидат-фикс с temp=0-baseline.
+
+    Дёшево (gold мал, контекст инлайн — ни Neo4j, ни ретрива/генерации, только судья).
+    Нужен LLM. Пишет отчёт: baseline mae/residual, вердикт noise/bias/mixed, mae кандидата
+    (среднее N сэмплов) — коммитить фикс только если он бьёт baseline.
+    """
+    import json
+
+    from graphrag.config import load_settings
+    from graphrag.llm import build_llm
+
+    from eval.metrics import _judge_faithfulness_once, judge_faithfulness
+
+    s = load_settings()
+    gold = json.load(open(_GOLD, encoding="utf-8"))["items"]
+    llm = build_llm(s.llm, role="generation")
+    temp = s.eval.faithfulness_judge_temperature
+
+    # temp=0 baseline (noise-free): направленный остаток = смещение
+    baseline_pairs = run_gold_judge(
+        gold, lambda a, c: judge_faithfulness(llm, a, c, n_samples=1, temperature=0.0))
+    # N сэмплов при judge-temp: дисперсия = шум
+    sampled_scores = [
+        [_judge_faithfulness_once(llm, it["answer"], [it["context_text"]], temperature=temp)[0]
+         for _ in range(n_samples)]
+        for it in gold
+    ]
+    diag = diagnose_run(baseline_pairs, sampled_scores)
+    base = diag["baseline_agreement"]
+
+    # кандидат-фикс (noise-ветка): среднее N сэмплов
+    cand_pairs = run_gold_judge(
+        gold, lambda a, c: judge_faithfulness(llm, a, c, n_samples=n_samples, temperature=temp))
+    cand = judge_agreement(cand_pairs)
+
+    def _f(x):
+        return "—" if x is None else f"{x:.3f}"
+
+    lines = [
+        "# Калибровка faithfulness-судьи",
+        "",
+        f"Gold: {len(gold)} записей (сбалансирован, метки по per-claim entailment).",
+        "",
+        f"**Диагноз: {diag['verdict']}** (дисперсия={_f(diag['variance'])}, "
+        f"направленный остаток={_f(diag['residual'])}).",
+        f"- temp=0 baseline: mae={_f(base['mae'])}, bucket-согласие={_f(base['bucket_agreement'])}",
+        f"- кандидат (среднее {n_samples} сэмплов): mae={_f(cand['mae'])}, "
+        f"bucket-согласие={_f(cand['bucket_agreement'])}",
+        "",
+        ("Кандидат БЬЁТ baseline — фикс оправдан." if (cand["mae"] or 9) < (base["mae"] or 9)
+         else "Кандидат НЕ бьёт baseline — при 'bias' нужна рубрика/decompose-verify, не сэмплинг."),
+        "",
+        "⚠️ n мал, how-to-архетип — вывод направленный, не статзначимый; метки посеяны агентом.",
+    ]
+    open(_REPORT, "w", encoding="utf-8").write("\n".join(lines))
+    print(f"DONE diagnosis={diag['verdict']} baseline_mae={_f(base['mae'])} "
+          f"candidate_mae={_f(cand['mae'])} -> {_REPORT}")
+
+
+if __name__ == "__main__":
+    main()
