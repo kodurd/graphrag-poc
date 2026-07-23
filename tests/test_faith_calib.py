@@ -107,6 +107,21 @@ def test_seed_gold_is_balanced_with_inline_context():
         assert it["context_text"] and it["claims_note"]
 
 
+def test_gold_has_hard_cases():
+    import json
+    from pathlib import Path
+
+    gold = json.loads(Path("eval/trial/faith_gold.json").read_text(encoding="utf-8"))
+    hard = [it for it in gold["items"] if it.get("hard")]
+    assert len(hard) >= 4  # трудные случаи (длинные многоутверждённые how-to ответы) присутствуют
+    for it in hard:
+        assert len(it["answer"]) >= 200  # длинный ответ — не компактный ясный случай
+        assert it["claims_note"].count(";") + it["claims_note"].count("\n") >= 1  # ≥2 утверждения разобраны
+        assert it["context_text"] and it["claims_note"]
+    hard_labels = {it["human_faithfulness"] for it in hard}
+    assert len(hard_labels) >= 2  # трудные охватывают >1 направления (ловят ошибки в обе стороны)
+
+
 # --- U2: диагностика шум vs смещение ---
 
 def test_sample_variance_identical_is_zero():
