@@ -60,3 +60,51 @@ def run_gold_judge(gold_items: list[dict], judge_fn) -> list[dict]:
         score, abstained = judge_fn(it["answer"], [it["context_text"]])
         pairs.append({"human": it["human_faithfulness"], "judge": score, "abstained": abstained})
     return pairs
+
+
+def sample_variance(scores: list[float | None]) -> float:
+    """Популяционная дисперсия скоров судьи по одному элементу (величина ШУМА).
+
+    None-сэмплы (сбой/воздержание) игнорируются; < 2 скоров → 0 (дисперсии нет).
+    """
+    vals = [s for s in scores if s is not None]
+    if len(vals) < 2:
+        return 0.0
+    m = sum(vals) / len(vals)
+    return sum((v - m) ** 2 for v in vals) / len(vals)
+
+
+def diagnose(
+    variance: float, residual: float, *,
+    var_threshold: float = 0.05, residual_threshold: float = 0.2,
+) -> dict:
+    """Классифицирует ошибку судьи: `noise` / `bias` / `mixed` / `ok`.
+
+    `variance` — средняя per-item дисперсия сэмплов (шум); `residual` — направленный
+    остаток `mean(judge − human)` (смещение). Высокая дисперсия + малый |остаток| →
+    шум (лечится агрегацией); малая дисперсия + большой |остаток| → смещение (агрегация
+    НЕ поможет, нужна рубрика/decompose-verify); оба велики → mixed; оба малы → судья ok.
+    """
+    hi_var = variance >= var_threshold
+    hi_res = abs(residual) >= residual_threshold
+    if hi_var and hi_res:
+        verdict = "mixed"
+    elif hi_var:
+        verdict = "noise"
+    elif hi_res:
+        verdict = "bias"
+    else:
+        verdict = "ok"
+    return {"verdict": verdict, "variance": variance, "residual": residual}
+
+
+def diagnose_run(baseline_pairs: list[dict], sampled_scores: list[list[float | None]]) -> dict:
+    """Сводит замеры в диагноз. `baseline_pairs` — судья при temp=0 (для направленного
+    остатка = смещение при отсутствии шума); `sampled_scores` — списки N сэмплов на элемент
+    при judge-temp (для дисперсии = шум). Средняя per-item дисперсия + остаток → `diagnose`.
+    """
+    agr = judge_agreement(baseline_pairs)
+    residual = agr["directional_residual"] or 0.0
+    per_item_var = [sample_variance(s) for s in sampled_scores]
+    mean_var = sum(per_item_var) / len(per_item_var) if per_item_var else 0.0
+    return {**diagnose(mean_var, residual), "baseline_agreement": agr}

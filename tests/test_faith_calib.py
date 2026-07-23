@@ -4,7 +4,13 @@ from __future__ import annotations
 
 import pytest
 
-from eval.faith_calib import judge_agreement, run_gold_judge
+from eval.faith_calib import (
+    diagnose,
+    diagnose_run,
+    judge_agreement,
+    run_gold_judge,
+    sample_variance,
+)
 
 
 def _p(human, judge, abstained=False):
@@ -98,3 +104,49 @@ def test_seed_gold_is_balanced_with_inline_context():
     assert {0.0, 0.5, 1.0} <= labels  # сбалансирован: есть true-negatives, partial и faithful
     for it in items:  # контекст инлайн + per-claim обоснование
         assert it["context_text"] and it["claims_note"]
+
+
+# --- U2: диагностика шум vs смещение ---
+
+def test_sample_variance_identical_is_zero():
+    assert sample_variance([0.7, 0.7, 0.7]) == pytest.approx(0.0)
+
+
+def test_sample_variance_bimodal_is_high():
+    assert sample_variance([0.0, 1.0, 0.0, 1.0]) == pytest.approx(0.25)  # разброс = шум
+
+
+def test_sample_variance_ignores_none_and_short():
+    assert sample_variance([0.5, None]) == pytest.approx(0.0)  # один скор -> нет дисперсии
+    assert sample_variance([]) == pytest.approx(0.0)
+
+
+def test_diagnose_noise_high_var_low_residual():
+    assert diagnose(variance=0.2, residual=0.02)["verdict"] == "noise"
+
+
+def test_diagnose_bias_low_var_high_residual():
+    # судья стабилен (низкая дисперсия), но систематически занижает (большой |остаток|)
+    assert diagnose(variance=0.01, residual=-0.6)["verdict"] == "bias"
+
+
+def test_diagnose_mixed_both_high():
+    assert diagnose(variance=0.2, residual=-0.6)["verdict"] == "mixed"
+
+
+def test_diagnose_ok_both_low():
+    assert diagnose(variance=0.01, residual=0.02)["verdict"] == "ok"
+
+
+def test_diagnose_run_bias_signature():
+    # temp=0 судья стабильно занижает faithful (residual<0), сэмплы почти без разброса → bias
+    baseline = [_p(1.0, 0.0), _p(1.0, 0.0), _p(1.0, 0.0)]
+    sampled = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.1], [0.0, 0.0, 0.0]]
+    assert diagnose_run(baseline, sampled)["verdict"] == "bias"
+
+
+def test_diagnose_run_noise_signature():
+    # temp=0 в среднем согласуется (residual≈0), но сэмплы двухполюсны → noise
+    baseline = [_p(0.5, 1.0), _p(0.5, 0.0)]
+    sampled = [[0.0, 1.0, 0.0, 1.0], [1.0, 0.0, 1.0, 0.0]]
+    assert diagnose_run(baseline, sampled)["verdict"] == "noise"
