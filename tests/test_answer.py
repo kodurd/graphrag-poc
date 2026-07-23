@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from graphrag.generate.answer import (
+    ANSWER_SYSTEM,
+    ANSWER_SYSTEM_STRICT,
     ContextItem,
     build_context,
     extract_citations,
@@ -67,6 +69,37 @@ def test_empty_context_short_circuits_without_llm():
     assert not res.grounded
     assert res.citations == []
     assert "недостаточно" in res.text.lower()
+
+
+# --- claim-conservative промпт + system-override ---
+
+class RecordingSystemLLM(LLMClient):
+    def __init__(self):
+        super().__init__("rec")
+        self.systems: list = []
+
+    def _raw_complete(self, prompt, *, system=None, temperature=None, max_tokens=None):
+        self.systems.append(system)
+        return "ответ [источник: u-real]"
+
+
+def test_default_system_is_answer_system():
+    llm = RecordingSystemLLM()
+    generate_answer(llm, "q", [ContextItem(text="ctx", uri="u-real")])
+    assert llm.systems == [ANSWER_SYSTEM]  # дефолт — текущий промпт (прод не меняется)
+
+
+def test_system_override_passed_through():
+    llm = RecordingSystemLLM()
+    generate_answer(llm, "q", [ContextItem(text="ctx", uri="u-real")], system=ANSWER_SYSTEM_STRICT)
+    assert llm.systems == [ANSWER_SYSTEM_STRICT]  # A/B-плечо получает строгий промпт
+
+
+def test_strict_prompt_forbids_overreach():
+    low = ANSWER_SYSTEM_STRICT.lower()
+    assert "только" in low  # утверждать только влекомое
+    assert "не указано" in low or "не сказано" in low  # явно помечать отсутствующее
+    assert "источник" in low  # цитаты сохранены
 
 
 def test_hallucinated_citation_is_flagged_not_counted():
