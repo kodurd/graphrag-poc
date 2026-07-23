@@ -1,0 +1,73 @@
+{
+  "_meta": {
+    "purpose": "Калибровочный gold для faithfulness-судьи. СБАЛАНСИРОВАН по направлениям: faithful(~1.0) / unfaithful(0.0, true-negatives) / partial(~0.5). Метки — по per-claim entailment (каждое утверждение проверено против inline-контекста), НЕ по наличию цитаты. Контекст хранится ИНЛАЙН (граф-текст нереконструируем по id).",
+    "caveats": "SEED, посеян агентом из инспекции 12 flip'ов + сконструированных чётких примеров. Независимая (не-агентская) разметка и расширение за пределы how-to-архетипа — deferred (см. план). n мал → выводы направленные, не статзначимые.",
+    "human_faithfulness_scale": "доля утверждений ответа, реально влекомых контекстом: 1.0=все, 0.5=часть, 0.0=ни одного (или противоречат)"
+  },
+  "items": [
+    {
+      "id": "faithful-1",
+      "question": "Какой обходной путь у бага Invalid partition: -1?",
+      "context_text": "KAFKA-20792: The exception only happens if StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG is not 0.",
+      "answer": "Обход — установить CACHE_MAX_BYTES_BUFFERING_CONFIG в 0: в контексте прямо сказано, что исключение возникает только при ненулевом значении.",
+      "human_faithfulness": 1.0,
+      "claims_note": "1 утверждение (обход = выставить кэш в 0) прямо влечётся фразой 'happens only if ... is not 0'. Всё подкреплено."
+    },
+    {
+      "id": "faithful-2",
+      "question": "Как исправить недоучёт num-open-iterators?",
+      "context_text": "KAFKA-20796: Fix: call numOpenIterators.increment() in the constructor and numOpenIterators.decrement() in close() of MeteredTimestampedKeyValueStoreIterator.",
+      "answer": "Добавить numOpenIterators.increment() в конструктор и numOpenIterators.decrement() в close() класса MeteredTimestampedKeyValueStoreIterator.",
+      "human_faithfulness": 1.0,
+      "claims_note": "Все три детали (increment в конструкторе, decrement в close, класс) дословно в контексте."
+    },
+    {
+      "id": "faithful-3-honest-refusal",
+      "question": "Как обойти неатомарное перемещение задач в DefaultStateUpdater?",
+      "context_text": "KAFKA-20764: обновление коллекций задач происходит без блокировки, что может приводить к дублированию. Способ обхода в тикете не описан.",
+      "answer": "Контекст описывает причину (обновление коллекций без блокировки), но способа обхода не содержит — предложить обход на основе данных невозможно.",
+      "human_faithfulness": 1.0,
+      "claims_note": "Одно позитивное утверждение (причина = отсутствие блокировки) влечётся контекстом; оговорка 'обход невозможен' — не утверждение. Faithful."
+    },
+    {
+      "id": "unfaithful-1-hallucinated-version",
+      "question": "В какой версии Kafka исправлен этот баг?",
+      "context_text": "KAFKA-20792: The exception only happens if CACHE_MAX_BYTES_BUFFERING_CONFIG is not 0.",
+      "answer": "Баг исправлен в Kafka 3.9.0 и забэкпортирован в 3.8.1.",
+      "human_faithfulness": 0.0,
+      "claims_note": "Оба утверждения (3.9.0, 3.8.1) отсутствуют в контексте — чистая галлюцинация версий. True-negative."
+    },
+    {
+      "id": "unfaithful-2-wrong-cause",
+      "question": "Почему падает поток обновления состояния?",
+      "context_text": "KAFKA-20731: transitToUpdateStandby вызывается при уже установленном STANDBY_UPDATING и бросает IllegalStateException.",
+      "answer": "Поток падает из-за нехватки памяти (OutOfMemoryError) при слишком большом state store.",
+      "human_faithfulness": 0.0,
+      "claims_note": "Утверждение про OOM/размер store противоречит контексту (там IllegalStateException из-за состояния). Не влечётся. True-negative."
+    },
+    {
+      "id": "unfaithful-3-invented-fix",
+      "question": "Как чинить расхождение метрик итераторов?",
+      "context_text": "KAFKA-20796: num-open-iterators не учитывает итераторы из MeteredTimestampedKeyValueStore.",
+      "answer": "Нужно переписать метрику на использование AtomicLong и добавить фоновый поток, пересчитывающий счётчик каждые 5 секунд.",
+      "human_faithfulness": 0.0,
+      "claims_note": "AtomicLong и фоновый поток каждые 5с — в контексте нет; выдуманное решение. True-negative."
+    },
+    {
+      "id": "partial-1-half-supported",
+      "question": "Что за баг и в каком классе?",
+      "context_text": "KAFKA-20777: StagedMergeIterator бросает IllegalStateException вместо InvalidStateStoreException при использовании после закрытия store.",
+      "answer": "Баг в StagedMergeIterator: бросается IllegalStateException вместо InvalidStateStoreException. Проблема затрагивает также модуль kafka-clients и требует изменения сетевого слоя.",
+      "human_faithfulness": 0.5,
+      "claims_note": "Первое утверждение (класс + подмена исключения) влечётся; второе (kafka-clients + сетевой слой) — нет. Половина подкреплена."
+    },
+    {
+      "id": "partial-2-overreach",
+      "question": "Какой обход у бесконечного цикла OffsetFetch?",
+      "context_text": "KAFKA-20765: Suggested fix: exclude requests whose future is already done from the duplicate search.",
+      "answer": "Обход — исключать из поиска дубликатов запросы с уже завершённым future. Это также полностью устранит все проблемы ребалансировки в KIP-1071.",
+      "human_faithfulness": 0.5,
+      "claims_note": "Первое (исключать завершённые future) влечётся ('Suggested fix'). Второе (полностью устранит все проблемы KIP-1071) — переобобщение, не в контексте."
+    }
+  ]
+}
