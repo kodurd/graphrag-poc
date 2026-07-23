@@ -8,6 +8,7 @@ from eval.faith_calib import (
     beats_baseline,
     diagnose,
     diagnose_run,
+    holistic_verdict,
     judge_agreement,
     run_gold_judge,
     sample_variance,
@@ -152,6 +153,42 @@ def test_diagnose_mixed_both_high():
 
 def test_diagnose_ok_both_low():
     assert diagnose(variance=0.01, residual=0.02)["verdict"] == "ok"
+
+
+# --- holistic_verdict: абсолютный порог на согласии холистического судьи ---
+
+def _agr(mae, residual):
+    return {"mae": mae, "directional_residual": residual}
+
+
+def test_holistic_verdict_degenerate_on_none_mae():
+    # пустое/всё-воздержалось подмножество → degenerate, не TypeError
+    assert holistic_verdict(_agr(None, None), mae_bar=0.2, residual_bar=0.2)["verdict"] == "degenerate"
+
+
+def test_holistic_verdict_artifact_on_low_mae():
+    # судья согласен с метками на трудных → 0.33 был артефактом
+    assert holistic_verdict(_agr(0.05, -0.02), mae_bar=0.2, residual_bar=0.2)["verdict"] == "artifact"
+
+
+def test_holistic_verdict_bias_on_negative_residual():
+    # высокий mae + большой отрицательный остаток (судья занижает faithful) → смещение
+    assert holistic_verdict(_agr(0.5, -0.5), mae_bar=0.2, residual_bar=0.2)["verdict"] == "real_failure_bias"
+
+
+def test_holistic_verdict_bias_on_positive_residual():
+    # высокий mae + большой ПОЛОЖИТЕЛЬНЫЙ остаток → тоже смещение (|residual|)
+    assert holistic_verdict(_agr(0.5, 0.5), mae_bar=0.2, residual_bar=0.2)["verdict"] == "real_failure_bias"
+
+
+def test_holistic_verdict_noise_on_small_residual():
+    # высокий mae + остаток ≈ 0 → шум
+    assert holistic_verdict(_agr(0.5, 0.02), mae_bar=0.2, residual_bar=0.2)["verdict"] == "real_failure_noise"
+
+
+def test_holistic_verdict_boundary_mae_equals_bar_is_artifact():
+    # mae ровно на пороге → artifact (≤)
+    assert holistic_verdict(_agr(0.2, 0.0), mae_bar=0.2, residual_bar=0.2)["verdict"] == "artifact"
 
 
 def test_diagnose_run_bias_signature():

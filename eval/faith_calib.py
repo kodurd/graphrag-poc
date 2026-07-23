@@ -110,6 +110,33 @@ def diagnose_run(baseline_pairs: list[dict], sampled_scores: list[list[float | N
     return {**diagnose(mean_var, residual), "baseline_agreement": agr}
 
 
+def holistic_verdict(
+    agreement: dict, *, mae_bar: float, residual_bar: float
+) -> dict:
+    """Вердикт о существующем ХОЛИСТИЧЕСКОМ судье на трудном подмножестве по АБСОЛЮТНОМУ порогу.
+
+    Отвечает «0.33 реально или артефакт?» без нового механизма. Над single-run
+    `judge_agreement` (mae + направленный остаток) — НЕ дублирует `diagnose` (тот над
+    сэмпл-дисперсией). Исходы:
+    - `degenerate` — mae=None (пустое/всё-воздержалось подмножество), не падение;
+    - `artifact` — `mae ≤ mae_bar`: судья согласен с ручными метками → провал был артефактом;
+    - `real_failure_bias` — `mae > mae_bar` и `|остаток| ≥ residual_bar`: систематическое
+      отклонение (любого знака; архетип — судья занижает faithful) → рубрика/decompose-verify;
+    - `real_failure_noise` — `mae > mae_bar` и малый остаток: симметричный шум.
+    """
+    mae = agreement.get("mae")
+    residual = agreement.get("directional_residual")
+    if mae is None:
+        verdict = "degenerate"
+    elif mae <= mae_bar:
+        verdict = "artifact"
+    elif residual is not None and abs(residual) >= residual_bar:
+        verdict = "real_failure_bias"
+    else:
+        verdict = "real_failure_noise"
+    return {"verdict": verdict, "mae": mae, "residual": residual}
+
+
 def beats_baseline(candidate_mae: float | None, baseline_mae: float | None) -> bool:
     """Строго ли кандидат-фикс лучше baseline по mae. Явные None-проверки: `base=0.0`
     (идеальный baseline) — валидное значение, а не «отсутствует» (баг `0.0 or ...`)."""
@@ -182,5 +209,62 @@ def main(n_samples: int = 5) -> None:
           f"candidate_mae={_f(cand['mae'])} -> {_REPORT}")
 
 
+_CONFIRM_REPORT = "eval/trial/faith_confirm_report.md"
+
+
+def main_confirm(mae_bar: float = 0.25, residual_bar: float = 0.2) -> None:
+    """Онлайн: пере-прогон СУЩЕСТВУЮЩЕГО холистического судьи на ТРУДНОМ подмножестве gold
+    и вердикт по абсолютному порогу — реально ли судья проваливается или 0.33 был артефактом.
+
+    Дёшево (только hard-подмножество, контекст инлайн — ни Neo4j, ни ретрива). Пороги
+    `mae_bar`/`residual_bar` номинальные — калибруются по первому прогону (Open Question плана).
+    """
+    import json
+
+    from graphrag.config import load_settings
+    from graphrag.llm import build_llm
+
+    from eval.metrics import judge_faithfulness
+
+    s = load_settings()
+    gold = json.load(open(_GOLD, encoding="utf-8"))["items"]
+    hard = [it for it in gold if it.get("hard")]
+    llm = build_llm(s.llm, role="generation")
+
+    pairs = run_gold_judge(
+        hard, lambda a, c: judge_faithfulness(llm, a, c, n_samples=1, temperature=0.0))
+    agr = judge_agreement(pairs)
+    v = holistic_verdict(agr, mae_bar=mae_bar, residual_bar=residual_bar)
+
+    def _f(x):
+        return "—" if x is None else f"{x:.3f}"
+
+    lines = [
+        "# Подтверждение: холистический судья на трудных случаях",
+        "",
+        f"Трудных случаев: {len(hard)} (порог mae={mae_bar}, residual={residual_bar}).",
+        "",
+        f"- holistic judge: mae={_f(agr['mae'])}, направленный остаток={_f(agr['directional_residual'])}, "
+        f"bucket-согласие={_f(agr['bucket_agreement'])} (n_scored={agr['n_scored']}, "
+        f"воздержаний={agr['n_abstained']})",
+        "",
+        f"**Вердикт: {v['verdict']}** — "
+        + {"artifact": "судья согласен с метками → 0.33 был артефактом; decompose-verify НЕ нужен.",
+           "real_failure_bias": "судья систематически ошибается → рубрика/decompose-verify оправданы.",
+           "real_failure_noise": "симметричный шум → аггрегация могла бы помочь.",
+           "degenerate": "нет оценённых (всё воздержалось/пусто) — вердикт неопределён."}[v["verdict"]],
+        "",
+        "⚠️ n мал, how-to-архетип, метки посеяны агентом — вывод направленный, не статзначимый.",
+    ]
+    open(_CONFIRM_REPORT, "w", encoding="utf-8").write("\n".join(lines))
+    print(f"DONE confirm hard: mae={_f(agr['mae'])} residual={_f(agr['directional_residual'])} "
+          f"verdict={v['verdict']} -> {_CONFIRM_REPORT}")
+
+
 if __name__ == "__main__":
-    main()
+    import sys
+
+    if len(sys.argv) > 1 and sys.argv[1] == "confirm":
+        main_confirm()
+    else:
+        main()
