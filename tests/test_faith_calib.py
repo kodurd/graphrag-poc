@@ -5,6 +5,7 @@ from __future__ import annotations
 import pytest
 
 from eval.faith_calib import (
+    beats_baseline,
     diagnose,
     diagnose_run,
     judge_agreement,
@@ -143,6 +144,13 @@ def test_diagnose_run_bias_signature():
     baseline = [_p(1.0, 0.0), _p(1.0, 0.0), _p(1.0, 0.0)]
     sampled = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.1], [0.0, 0.0, 0.0]]
     assert diagnose_run(baseline, sampled)["verdict"] == "bias"
+
+
+def test_beats_baseline_handles_perfect_zero_baseline():
+    assert beats_baseline(0.029, 0.0) is False   # 0.0 baseline валиден, не «отсутствует»
+    assert beats_baseline(0.05, 0.1) is True
+    assert beats_baseline(0.1, 0.1) is False      # строго лучше, не равно
+    assert beats_baseline(None, 0.1) is False and beats_baseline(0.1, None) is False
 
 
 def test_diagnose_run_noise_signature():

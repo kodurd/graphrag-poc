@@ -110,6 +110,14 @@ def diagnose_run(baseline_pairs: list[dict], sampled_scores: list[list[float | N
     return {**diagnose(mean_var, residual), "baseline_agreement": agr}
 
 
+def beats_baseline(candidate_mae: float | None, baseline_mae: float | None) -> bool:
+    """Строго ли кандидат-фикс лучше baseline по mae. Явные None-проверки: `base=0.0`
+    (идеальный baseline) — валидное значение, а не «отсутствует» (баг `0.0 or ...`)."""
+    if candidate_mae is None or baseline_mae is None:
+        return False
+    return candidate_mae < baseline_mae
+
+
 _GOLD = "eval/trial/faith_gold.json"
 _REPORT = "eval/trial/faith_calib_report.md"
 
@@ -164,8 +172,8 @@ def main(n_samples: int = 5) -> None:
         f"- кандидат (среднее {n_samples} сэмплов): mae={_f(cand['mae'])}, "
         f"bucket-согласие={_f(cand['bucket_agreement'])}",
         "",
-        ("Кандидат БЬЁТ baseline — фикс оправдан." if (cand["mae"] or 9) < (base["mae"] or 9)
-         else "Кандидат НЕ бьёт baseline — при 'bias' нужна рубрика/decompose-verify, не сэмплинг."),
+        ("Кандидат БЬЁТ baseline — фикс оправдан." if beats_baseline(cand["mae"], base["mae"])
+         else "Кандидат НЕ бьёт baseline — сэмплинг не оправдан; при 'bias' нужна рубрика/decompose-verify."),
         "",
         "⚠️ n мал, how-to-архетип — вывод направленный, не статзначимый; метки посеяны агентом.",
     ]
