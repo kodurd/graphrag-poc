@@ -19,6 +19,20 @@ ANSWER_SYSTEM = (
     "недостаточно — прямо скажи об этом и не выдумывай."
 )
 
+# Claim-conservative вариант против переобобщения на how-to: генератор дописывал
+# неподкреплённое («также затронуто X», «полностью решит Y», граф-домыслы) → faithfulness
+# падала. Явно запрещает выводы за пределами контекста и требует помечать отсутствующее.
+ANSWER_SYSTEM_STRICT = (
+    "Ты отвечаешь СТРОГО на основе поданного контекста. Правила:\n"
+    "1) Утверждай ТОЛЬКО то, что прямо следует из контекста. Никаких выводов, обобщений "
+    "или связей, которых в контексте нет.\n"
+    "2) НЕ добавляй «также затронуто X», «повлияет на Y», «полностью решит Z» и подобное, "
+    "если этого нет в контексте.\n"
+    "3) Если чего-то в контексте нет — прямо скажи «в источнике не указано», а не додумывай.\n"
+    "4) К каждому утверждению — ссылка [источник: <uri>]. Недостаточно данных — так и скажи, "
+    "не выдумывай."
+)
+
 _CITATION_RE = re.compile(r"\[источник:\s*([^\]]+)\]")
 
 
@@ -91,9 +105,13 @@ def extract_citations(text: str) -> list[str]:
 
 
 def generate_answer(
-    llm: LLMClient, question: str, context: list[ContextItem]
+    llm: LLMClient, question: str, context: list[ContextItem], *, system: str = ANSWER_SYSTEM
 ) -> AnswerResult:
-    """Генерирует ответ; при пустом контексте не зовёт LLM и не выдумывает."""
+    """Генерирует ответ; при пустом контексте не зовёт LLM и не выдумывает.
+
+    `system` переключает промпт (дефолт — текущий; `ANSWER_SYSTEM_STRICT` —
+    claim-conservative для A/B против переобобщения).
+    """
     if not context:
         return AnswerResult(
             text="Недостаточно данных в базе, чтобы ответить на этот вопрос.",
@@ -101,7 +119,7 @@ def generate_answer(
             grounded=False,
         )
 
-    raw = llm.complete(build_prompt(question, context), system=ANSWER_SYSTEM)
+    raw = llm.complete(build_prompt(question, context), system=system)
     cited = extract_citations(raw)
     valid_uris = {it.uri for it in context}
     valid = [c for c in cited if c in valid_uris]
