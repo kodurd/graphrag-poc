@@ -28,8 +28,8 @@ from eval.quality_eval import evaluate_question
 from eval.quality_report import render_report
 
 _QUESTIONS = Path("eval/trial/questions_grown.json")
-_REPORT = Path("eval/quality_snapshot_report.md")
-_RESULTS = Path("eval/quality_snapshot_results.json")
+_REPORT = Path("eval/trial/quality_snapshot_report.md")
+_RESULTS = Path("eval/trial/quality_snapshot_results.json")
 
 
 def main() -> int:
