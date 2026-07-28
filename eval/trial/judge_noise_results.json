@@ -1,0 +1,861 @@
+{
+  "per_group": {
+    "low": [
+      {
+        "question": "Как обойти IllegalArgumentException с 'Invalid partition: -1' в Kafka Streams FK LeftJoin, когда Punctuator удаляет записи из state store, а CACHE_MAX_BYTES_BUFFERING_CONFIG не равен 0, и какие модули или настройки топологии будут затронуты этим багом?",
+        "source_id": "task:KAFKA-20792",
+        "route": "multihop",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как перестроить публичный API стримингового ассайнора в Kafka, чтобы он стал общедоступным модулем, и какие существующие тикеты или модули будут затронуты этим изменением?",
+        "source_id": "task:KAFKA-20789",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти таймаут в TimeWindowedKStreamIntegrationTest.shouldRestoreAfterJoinRestart, если он вызван не изменениями в самом тесте, а накопившимися изменениями в Kafka Streams, и какие модули KS могут быть затронуты этим сбоем?",
+        "source_id": "task:KAFKA-20786",
+        "route": "multihop",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как интеграция api-checker в корневую задачу check через composite-include повлияет на время CI-сборки и какие модули могут сломаться, если в api-checker упадут checkstyle или unit-тесты?",
+        "source_id": "task:KAFKA-20779",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как избежать двойного ребаланса в классическом потребителе при временном отключении реплики, когда идентификатор стойки меняется на null и обратно, и можно ли использовать информацию о потере хоста репликой, чтобы не запускать лишнюю перебалансировку?",
+        "source_id": "task:KAFKA-20778",
+        "route": "factual",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.6666666666666666,
+          0.0,
+          0.6666666666666666,
+          0.6666666666666666,
+          0.6666666666666666
+        ],
+        "abstained_n": 0,
+        "mean": 0.5333333333333333,
+        "variance": 0.07111111111111111,
+        "stable": false,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти IllegalStateException в StagedMergeIterator при использовании после закрытия store, чтобы получить InvalidStateStoreException, и какие модули будут затронуты этим изменением?",
+        "source_id": "task:KAFKA-20777",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти игнорирование skipCache() в MeteredKeyValueStore при выполнении KeyQuery, чтобы гарантировать, что caching-слой действительно пропускает кэш, и не сломаются ли при этом другие запросы, связанные с TimestampedKeyQuery?",
+        "source_id": "task:KAFKA-20776",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "abstained_n": 0,
+        "mean": 1.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как реализовать readOnly-режим в RocksDB SegmentedStore, чтобы избежать блокировок при параллельном чтении, и какие компромиссы по производительности это вызовет?",
+        "source_id": "task:KAFKA-20768",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти бесконечный цикл повторных попыток OffsetFetch при ошибке STALE_MEMBER_EPOCH, когда дублирующийся запрос цепляется к уже завершённому future, и какие модули (AsyncKafkaConsumer, CommitRequestManager, Kafka Streams) будут затронуты, если не исправить проверку sameRequest в PendingRequests?",
+        "source_id": "task:KAFKA-20765",
+        "route": "multihop",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти неатомарное перемещение задач между коллекциями в DefaultStateUpdater, чтобы избежать дублирования и ошибки 'Task not found in the state updater'?",
+        "source_id": "task:KAFKA-20764",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как сделать публичной конфигурацию распределения продюсеров, которая изначально была помечена как внутренняя, и какие модули или тикеты могут быть затронуты при изменении её видимости?",
+        "source_id": "task:KAFKA-20763",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как интеграция асинхронного чтения логов в DelayedShareFetch повлияет на производительность и какие модули могут быть затронуты при обходе блокировок синхронного ввода-вывода?",
+        "source_id": "task:KAFKA-20783",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти IllegalStateException в StagedMergeIterator при закрытии транзакционного state store, чтобы получить InvalidStateStoreException, и какие модули Kafka Streams будут затронуты этим несоответствием?",
+        "source_id": "task:KAFKA-20777",
+        "route": "multihop",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти потерю SCRAM-пользователей в KRaft-режиме при пакетной обработке REMOVE-записей для отсутствующих пользователей, если исправление в ScramDelta.apply() ещё не применено, и какие модули/тикеты будут затронуты при ручном патче?",
+        "source_id": "task:KAFKA-20774",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти проблему с DLQ в системных тестах, если сообщения не попадают в очередь из-за ошибок валидации, и как это связано с модулем обработки ошибок?",
+        "source_id": "task:KAFKA-20772",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как настроить DLQ-топик, чтобы избежать перегрузки при обработке крупных запросов на запись, и какие параметры конфигурации критически влияют на производительность?",
+        "source_id": "task:KAFKA-20771",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          null,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 4,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти расхождение в значении leader epoch между LocalLeaderEndPoint и RemoteLeaderEndPoint, когда epoch не может быть разрешён из кэша, и какие модули (TierStateMachine, ReplicaAlterLogDirsThread, ReplicaFetcherThread) будут затронуты, если оставить fallback на 0 вместо -1?",
+        "source_id": "task:KAFKA-20770",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как реализовать readOnly-режим в RocksDB SegmentedStore, чтобы избежать блокировок при параллельном чтении, и какие модули или тикеты могут быть затронуты при изменении этой логики?",
+        "source_id": "task:KAFKA-20768",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как переключить store-level unit suites на transactional path для persistent RocksDB stores и key-value/segmented families, если в некоторых из них отсутствует hook transactional() — нужно ли добавлять его с нуля или можно переиспользовать существующий механизм, и не сломает ли это другие модули, которые зависят от нетранзакционного поведения?",
+        "source_id": "task:KAFKA-20757",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как предотвратить усечение временных меток при сериализации в формате JSON, если логический тип данных не учитывается, и какие модули или тикеты могут быть затронуты этим багом?",
+        "source_id": "task:KAFKA-20752",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как корректно обработать зависшие подтверждения и сессии шардинга в ShareConsumer при смене лидерства, чтобы избежать потери данных или дублирования сообщений?",
+        "source_id": "task:KAFKA-20736",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как корректно протестировать игнорирование неожиданной партиции в ответе FetchResponse для CONSUMER протокола, если текущий тест проходит по ложной причине из-за отсутствия настройки ребалансировки через ConsumerGroupHeartbeat, и какие модули будут затронуты при добавлении недостающего теста в FetchRequestManagerTest?",
+        "source_id": "task:KAFKA-20733",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как избежать падения потока обновления состояния в Kafka Streams, когда вызов transitToUpdateStandby происходит при уже установленном состоянии STANDBY_UPDATING, и какие модули (StoreChangelogReader, DefaultStateUpdater) будут затронуты, если не добавить проверку isRestoringActive() перед каждым из трёх мест вызова?",
+        "source_id": "task:KAFKA-20731",
+        "route": "multihop",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как правильно параметризовать системные тесты Kafka Streams для использования транзакционных state stores, и какие изменения в тестовом окружении потребуются, чтобы не сломать существующие smoke-тесты?",
+        "source_id": "task:KAFKA-20727",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как избежать утечки памяти при использовании DefaultSupplier в KRaftControlRecordStateMachine, если он кэширует буферы без ограничения по размеру, и какие модули или тикеты будут затронуты при замене этого подхода?",
+        "source_id": "task:KAFKA-20726",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти двойное удаление задачи в Kafka Streams при холодном старте с перебалансировкой, если waitForFuture с таймаутом 5 минут возвращает null, а последующая повторная попытка удаления вызывает IllegalStateException, и какие модули (TaskManager, DefaultStateUpdater) будут затронуты при добавлении привязки по времени и очистке утекшей задачи?",
+        "source_id": "task:KAFKA-20721",
+        "route": "multihop",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как понизить уровень логирования ошибок сессии шардинга в ShareSessionHandler с INFO до DEBUG, чтобы не потерять важные сообщения, и не сломает ли это механизм самовосстановления клиента, который использует nextCloseExistingAttemptNew()?",
+        "source_id": "task:KAFKA-20720",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти флаки-тест testClosingOffsetReaderWhenOffsetStoreHangsAndHasIncompleteFutures в OffsetStorageReaderTest, если CompletableFuture.get() не вызывается из-за того, что мок не взаимодействует с тестируемым кодом, и как это связано с обработкой незавершённых фьючерсов в OffsetStore?",
+        "source_id": "task:KAFKA-20718",
+        "route": "mixed",
+        "recorded_faith": 0.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      }
+    ],
+    "high": [
+      {
+        "question": "Как диагностировать, какой именно SMT в цепочке трансформеров Kafka Connect теряет записи, и как при этом избежать бесконечного цикла переобработки для sink-коннекторов, переопределяющих preCommit(), когда все записи в партиции отфильтрованы?",
+        "source_id": "task:KAFKA-20797",
+        "route": "factual",
+        "recorded_faith": 1.0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "abstained_n": 0,
+        "mean": 1.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как исправить расхождение между метриками num-open-iterators и oldest-iterator-open-since-ms при использовании MeteredTimestampedKeyValueStore, чтобы итераторы корректно учитывались в обоих датчиках, и не сломает ли добавление вызовов increment/decrement в конструктор и метод close другие модули, работающие с этим хранилищем?",
+        "source_id": "task:KAFKA-20796",
+        "route": "mixed",
+        "recorded_faith": 1.0,
+        "scores": [
+          0.5,
+          0.5,
+          0.5,
+          0.5,
+          0.5
+        ],
+        "abstained_n": 0,
+        "mean": 0.5,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как переложить реализацию методов RequestConvertToJson#request и RequestConvertToJson#response на генератор, чтобы избежать хардкода, и какие модули или тикеты будут затронуты при таком рефакторинге?",
+        "source_id": "task:KAFKA-20795",
+        "route": "mixed",
+        "recorded_faith": 1.0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "abstained_n": 0,
+        "mean": 1.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как определить причину внезапного роста rebalance-rate-per-hour в Kafka consumer без просмотра логов, и какие метрики или API нужно добавить, чтобы различать rebalance из-за превышения max.poll.interval.ms, session timeout и вызовов enforceRebalance?",
+        "source_id": "task:KAFKA-20788",
+        "route": "mixed",
+        "recorded_faith": 1.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как диагностировать, какой именно SMT в цепочке трансформеров Kafka Connect теряет записи, и как при этом избежать бесконечного цикла переобработки для sink-коннектора, который переопределяет preCommit() и не получает уведомлений о пропущенных записях?",
+        "source_id": "task:KAFKA-20797",
+        "route": "mixed",
+        "recorded_faith": 1.0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "abstained_n": 0,
+        "mean": 1.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как исправить расхождение между метриками num-open-iterators и oldest-iterator-open-since-ms при использовании MeteredTimestampedKeyValueStore, чтобы итераторы из timestamped key-value store корректно учитывались в обоих счётчиках?",
+        "source_id": "task:KAFKA-20796",
+        "route": "mixed",
+        "recorded_faith": 1.0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "abstained_n": 0,
+        "mean": 1.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти IllegalArgumentException с 'Invalid partition: -1' в Kafka Streams FK LeftJoin, когда Punctuator удаляет записи из state store, а CACHE_MAX_BYTES_BUFFERING_CONFIG не равен 0, и какие модули или настройки топологии могут быть затронуты этим багом?",
+        "source_id": "task:KAFKA-20792",
+        "route": "multihop",
+        "recorded_faith": 1.0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "abstained_n": 0,
+        "mean": 1.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти фатальную ошибку InvalidTxnStateException на EndTxn в Kafka Streams при использовании транзакций V2, когда commit гоняется с таймаутом транзакции, и почему это не восстанавливается автоматически, в отличие от V1, где возвращается PRODUCER_FENCED?",
+        "source_id": "task:KAFKA-20785",
+        "route": "factual",
+        "recorded_faith": 1.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          1.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.2,
+        "variance": 0.16000000000000003,
+        "stable": false,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как правильно разделить управление SSL-сертификатами для внешнего и внутреннего трафика в Kafka, чтобы избежать использования самоподписанных клиентских и серверных сертификатов, которые скоро будут отклонены Google, и при этом не сломать связь между контроллерами?",
+        "source_id": "task:KAFKA-20784",
+        "route": "mixed",
+        "recorded_faith": 1.0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "abstained_n": 0,
+        "mean": 1.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Почему при использовании group.protocol=streams с несколькими потоками (N threads) метод metadataForAllStreamsClients() возвращает только 1/N метаданных, и как это связано с тем, что в HashMap, построенном в convertHostInfoMap(), последняя запись с одинаковым host:port перезаписывает предыдущие, в то время как классический протокол (classic protocol) избегает этой проблемы за счёт агрегации всех задач процесса до ключевания по хосту?",
+        "source_id": "task:KAFKA-20782",
+        "route": "mixed",
+        "recorded_faith": 1.0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "abstained_n": 0,
+        "mean": 1.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти задержку в AsyncKafkaConsumer при KIP-848, когда между итерациями pollForFetches нет ожидающего fetch-запроса, и как это связано с порядком вызовов checkInflightPoll и maybeClearCurrentInflightPoll?",
+        "source_id": "task:KAFKA-20780",
+        "route": "factual",
+        "recorded_faith": 1.0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "abstained_n": 0,
+        "mean": 1.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти баг в ScramDelta.apply(), когда при пакетной обработке REMOVE-записей для отсутствующих пользователей теряются UPSERT-записи для других пользователей, и почему это происходит из-за проверки userMap.isEmpty() внутри цикла?",
+        "source_id": "task:KAFKA-20774",
+        "route": "factual",
+        "recorded_faith": 1.0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "abstained_n": 0,
+        "mean": 1.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти @JsonIgnoreProperties в jackson-databind, если на поле установлен @JsonFormat с ACCEPT_CASE_INSENSITIVE_PROPERTIES, и какие версии библиотеки уязвимы к восстановлению игнорируемых свойств?",
+        "source_id": "task:KAFKA-20773",
+        "route": "mixed",
+        "recorded_faith": 1.0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "abstained_n": 0,
+        "mean": 1.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти расхождение в значении leader epoch между LocalLeaderEndPoint и RemoteLeaderEndPoint, когда эпоха не может быть разрешена из кэша, и какие модули (TierStateMachine, ReplicaAlterLogDirsThread, ReplicaFetcherThread) будут затронуты, если оставить fallback на 0 вместо -1?",
+        "source_id": "task:KAFKA-20770",
+        "route": "mixed",
+        "recorded_faith": 1.0,
+        "scores": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "abstained_n": 0,
+        "mean": 0.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      },
+      {
+        "question": "Как обойти баг в ListDeserializer, когда при десериализации усечённого списка Kafka вместо исключения SerializationException возвращается молча испорченный элемент, и какие модули или тикеты (например, KAFKA-8326) это затрагивает?",
+        "source_id": "task:KAFKA-20769",
+        "route": "factual",
+        "recorded_faith": 1.0,
+        "scores": [
+          1.0,
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "abstained_n": 0,
+        "mean": 1.0,
+        "variance": 0.0,
+        "stable": true,
+        "n_scored": 5,
+        "no_score": false
+      }
+    ],
+    "mid": []
+  },
+  "group_stats": {
+    "low": {
+      "n": 28,
+      "n_scored": 28,
+      "no_score": 0,
+      "noisy_frac": 0.03571428571428571,
+      "mean_variance": 0.0025396825396825397,
+      "mean_faith": 0.054761904761904755
+    },
+    "high": {
+      "n": 15,
+      "n_scored": 15,
+      "no_score": 0,
+      "noisy_frac": 0.06666666666666667,
+      "mean_variance": 0.010666666666666668,
+      "mean_faith": 0.7799999999999999
+    },
+    "mid": {
+      "n": 0,
+      "n_scored": 0,
+      "no_score": 0,
+      "noisy_frac": null,
+      "mean_variance": null,
+      "mean_faith": null,
+      "note": "n/a"
+    }
+  },
+  "verdict": {
+    "fix_warranted": false,
+    "reason": "судья стабилен: доля шумных 4% < 30% и подъём полюса 0.055 < 0.30 — метрики честны",
+    "noisy_frac": 0.03571428571428571,
+    "low_mean": 0.054761904761904755,
+    "gate_noisy": false,
+    "gate_lift": false
+  }
+}
