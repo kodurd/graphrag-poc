@@ -3,6 +3,8 @@
 from __future__ import annotations
 
 from graphrag.generate.answer import (
+    ANSWER_SYSTEM,
+    ANSWER_SYSTEM_STRICT,
     ContextItem,
     build_context,
     extract_citations,
@@ -77,3 +79,39 @@ def test_hallucinated_citation_is_flagged_not_counted():
     assert res.citations == ["u-real"]
     assert res.hallucinated_citations == ["u-fake"]
     assert res.grounded  # есть хотя бы одна валидная
+
+
+class CapturingLLM(LLMClient):
+    """Фиксирует system-промпт, поданный в генерацию."""
+
+    def __init__(self, response: str):
+        super().__init__("capturing")
+        self.response = response
+        self.seen_system: str | None = None
+
+    def _raw_complete(self, prompt, *, system=None, temperature=None, max_tokens=None):
+        self.seen_system = system
+        return self.response
+
+
+def test_strict_system_is_passed_through():
+    """system=ANSWER_SYSTEM_STRICT доезжает до LLM (claim-conservative плечо A/B)."""
+    ctx = [ContextItem(text="реальный источник", uri="u-real")]
+    llm = CapturingLLM("Ответ [источник: u-real]")
+    generate_answer(llm, "q", ctx, system=ANSWER_SYSTEM_STRICT)
+    assert llm.seen_system == ANSWER_SYSTEM_STRICT
+
+
+def test_default_system_unchanged():
+    """Без system дефолт — прежний ANSWER_SYSTEM (поведение main не меняется)."""
+    ctx = [ContextItem(text="реальный источник", uri="u-real")]
+    llm = CapturingLLM("Ответ [источник: u-real]")
+    generate_answer(llm, "q", ctx)
+    assert llm.seen_system == ANSWER_SYSTEM
+
+
+def test_strict_empty_context_still_short_circuits():
+    """Строгий промпт не ломает инвариант: пустой контекст → LLM не зовётся."""
+    res = generate_answer(ExplodingLLM("x"), "q", [], system=ANSWER_SYSTEM_STRICT)
+    assert not res.grounded
+    assert "недостаточно" in res.text.lower()
