@@ -133,3 +133,157 @@ def verdict(
     return {"fix_warranted": fix, "reason": reason,
             "noisy_frac": noisy_frac, "low_mean": low_mean,
             "gate_noisy": gate_noisy, "gate_lift": gate_lift}
+
+
+# --- Раннер (U2): реконструкция контекста, N пере-оценок, отчёт ---
+
+_SNAPSHOT = "eval/trial/quality_snapshot_results.json"
+_REPORT = "eval/trial/judge_noise_report.md"
+_RESULTS = "eval/trial/judge_noise_results.json"
+_CONTROL_SIZE = 15  # подвыборка полюса «≈1» для контроля (первые N, детерминировано)
+
+
+def _rejudge_record(retr, llm, record: dict, judge_fn) -> dict:
+    """Реконструирует контекст по вопросу и судит ЗАФИКСИРОВАННЫЙ ответ N раз."""
+    from graphrag.generate.answer import build_context
+
+    retrieved = retr.retrieve(record["question"])
+    ctx = build_context(retrieved.get("candidates", []))
+    ctx_texts = [c.text for c in ctx]
+    scores: list[float | None] = []
+    abstained_n = 0
+    for _ in range(N_SAMPLES):
+        score, abstained = judge_fn(llm, record["answer"], ctx_texts)
+        scores.append(score)
+        if abstained:
+            abstained_n += 1
+    st = stability(scores)
+    return {"question": record["question"], "source_id": record.get("source_id"),
+            "route": record.get("route"),
+            "recorded_faith": (record.get("metrics") or {}).get("faithfulness"),
+            "scores": scores, "abstained_n": abstained_n, **st}
+
+
+def main() -> int:
+    import json
+    from pathlib import Path
+
+    from graphrag.config import load_settings
+    from graphrag.embeddings import build_embedder, build_reranker
+    from graphrag.graph import Neo4jConnection
+    from graphrag.llm import build_llm
+    from graphrag.retrieval.hybrid import HybridRetriever
+
+    from eval.metrics import judge_faithfulness
+
+    s = load_settings()
+    if s.llm.provider == "api" and not s.llm.api_key:
+        print("judge-noise: не задан LLM_API_KEY (.env).")
+        return 1
+
+    records = json.loads(Path(_SNAPSHOT).read_text(encoding="utf-8-sig"))["records"]
+    groups = select_groups(records)
+    # Отбор: полюс «0» — все; контроль «≈1» — первые _CONTROL_SIZE; mid — если есть (обычно пуст).
+    selected = {
+        "low": groups["low"],
+        "high": groups["high"][:_CONTROL_SIZE],
+        "mid": groups["mid"][:_CONTROL_SIZE],
+    }
+    print(
+        f"judge-noise: low={len(selected['low'])} high(control)={len(selected['high'])} "
+        f"mid={len(selected['mid'])} · N={N_SAMPLES} · reranker {s.reranker.provider}",
+        flush=True,
+    )
+
+    per_group: dict[str, list[dict]] = {"low": [], "high": [], "mid": []}
+    with Neo4jConnection(s.neo4j) as conn:
+        if not conn.verify_connectivity():
+            print("judge-noise: Neo4j недоступен — `docker compose up -d`")
+            return 1
+        retr = HybridRetriever(
+            conn, build_embedder(s.embeddings), build_reranker(s.reranker),
+            top_k=s.retrieval.top_k, rerank_top_k=s.retrieval.rerank_top_k,
+            max_hops=s.retrieval.max_hops, min_rerank_score=s.retrieval.min_rerank_score,
+        )
+        llm = build_llm(s.llm, role="generation")
+        for gname, recs in selected.items():
+            for i, record in enumerate(recs, 1):
+                try:
+                    per_group[gname].append(
+                        _rejudge_record(retr, llm, record, judge_faithfulness)
+                    )
+                except Exception as e:  # noqa: BLE001 — сбой на записи не роняет прогон
+                    print(f"  [{gname} {i}/{len(recs)}] SKIP: {type(e).__name__}: {e}", flush=True)
+                    continue
+                if (len(per_group[gname])) % 5 == 0:
+                    print(f"  [{gname}] обработано {len(per_group[gname])}/{len(recs)}", flush=True)
+
+    stats = {g: group_stats(rs) for g, rs in per_group.items()}
+    v = verdict(stats["low"])
+
+    Path(_RESULTS).write_text(
+        json.dumps({"per_group": per_group, "group_stats": stats, "verdict": v},
+                   ensure_ascii=False, indent=2),
+        encoding="utf-8",
+    )
+    _write_report(stats, v, per_group)
+    print(
+        f"DONE judge-noise: low noisy={_pct(stats['low'].get('noisy_frac'))} "
+        f"low_mean={_fmt(stats['low'].get('mean_faith'))} -> "
+        f"{'FIX' if v['fix_warranted'] else 'NO-FIX'} ({v['reason']}) -> {_REPORT}",
+        flush=True,
+    )
+    return 0
+
+
+def _fmt(x) -> str:
+    return "—" if x is None else f"{x:.3f}"
+
+
+def _pct(x) -> str:
+    return "—" if x is None else f"{x:.0%}"
+
+
+def _write_report(stats: dict, v: dict, per_group: dict) -> None:
+    from pathlib import Path
+
+    lines = [
+        "# Диагностика шума faithfulness-судьи",
+        "",
+        f"Каждый зафиксированный ответ из снимка пере-судён N={N_SAMPLES} раз (варьируется только "
+        "оценка судьи, не генерация). Контекст реконструирован пере-извлечением (cross-encoder).",
+        "",
+        "## По группам",
+        "",
+        "| Группа | n | оценено | no_score | доля шумных | ср. дисперсия | усреднённая faith |",
+        "|---|---|---|---|---|---|---|",
+    ]
+    labels = {"low": "полюс «≈0»", "high": "контроль «≈1»", "mid": "середина"}
+    for g in ("low", "high", "mid"):
+        st = stats[g]
+        lines.append(
+            f"| {labels[g]} | {st['n']} | {st['n_scored']} | {st['no_score']} | "
+            f"{_pct(st.get('noisy_frac'))} | {_fmt(st.get('mean_variance'))} | "
+            f"{_fmt(st.get('mean_faith'))} |"
+        )
+    lines += [
+        "",
+        "## Вердикт (предрегистрированный порог)",
+        "",
+        f"- доля шумных в полюсе «0»: {_pct(v.get('noisy_frac'))} "
+        f"(порог {NOISY_FRAC_THRESHOLD:.0%})",
+        f"- macro-усреднённая оценка полюса «0»: {_fmt(v.get('low_mean'))} "
+        f"(порог {LOW_MEAN_THRESHOLD:.2f}; подъём над записанным ≈0)",
+        "",
+        f"**Решение: {'НУЖЕН ФИКС (мульти-сэмпл судья)' if v['fix_warranted'] else 'МЕТРИКИ ЧЕСТНЫ'}** "
+        f"— {v['reason']}",
+        "",
+        "⚠️ Реконструированный контекст фиксирован по N оценкам одной записи (замер дисперсии судьи "
+        "корректен), но может отличаться от того, что видел исходный ответ. N мал — вердикт "
+        "бинарный, при пограничности увеличить N. Само-судья.",
+    ]
+    Path(_REPORT).write_text("\n".join(lines), encoding="utf-8")
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
