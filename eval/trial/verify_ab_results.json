@@ -1,0 +1,957 @@
+{
+  "pairs": [
+    {
+      "question": "Как исправить расхождение между метриками num-open-iterators и oldest-iterator-open-since-ms при использовании MeteredTimestampedKeyValueStore, чтобы итераторы корректно учитывались в обоих датчиках, и не сломает ли добавление вызовов increment/decrement в конструктор и метод close другие модули, работающие с этим хранилищем?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 0.7,
+      "b_rel": null,
+      "a_faith": 0.0,
+      "b_faith": null
+    },
+    {
+      "question": "Как переложить реализацию методов RequestConvertToJson#request и RequestConvertToJson#response на генератор, чтобы избежать хардкода, и какие модули или тикеты будут затронуты при таком рефакторинге?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как корректно протестировать и задокументировать поле deprecatedVersions в RPC, чтобы избежать конфликтов с существующими модулями версионирования?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.16666666666666666,
+      "a_rel": 0.2,
+      "b_rel": 0.2,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как корректно обновить share.version с 1 на 2 в стабильной сборке, чтобы не сломать обратную совместимость с клиентами, которые ещё не поддерживают новую версию?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.0,
+      "b_rel": 0.8,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти IllegalArgumentException с 'Invalid partition: -1' в Kafka Streams FK LeftJoin, когда Punctuator удаляет записи из state store, а CACHE_MAX_BYTES_BUFFERING_CONFIG не равен 0, и какие модули или настройки топологии будут затронуты этим багом?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 0.7,
+      "b_rel": null,
+      "a_faith": 0.0,
+      "b_faith": null
+    },
+    {
+      "question": "Как обновление log4j до версии 2.25.5 повлияет на совместимость с существующими модулями, использующими старые версии, и какие шаги нужно предпринять для предотвращения конфликтов зависимостей?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 0.0,
+      "b_rel": null,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как перейти на публичный API стримового assignor, не сломав обратную совместимость с существующими приватными интеграциями, и какие модули будут затронуты при изменении сигнатуры методов?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 0.2,
+      "b_rel": null,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как перестроить публичный API стримингового ассайнора в Kafka, чтобы он стал общедоступным модулем, и какие существующие тикеты или модули будут затронуты этим изменением?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 1.0,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как определить причину внезапного роста rebalance-rate-per-hour в Kafka consumer без просмотра логов, и какие метрики или API нужно добавить, чтобы различать rebalance из-за превышения max.poll.interval.ms, session timeout и вызовов enforceRebalance?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": null,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как диагностировать, какой именно SMT в цепочке трансформеров Kafka Connect теряет записи, и как при этом избежать бесконечного цикла переобработки для sink-коннектора, который переопределяет preCommit() и не получает уведомлений о пропущенных записях?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как исправить расхождение между метриками num-open-iterators и oldest-iterator-open-since-ms при использовании MeteredTimestampedKeyValueStore, чтобы итераторы из timestamped key-value store корректно учитывались в обоих счётчиках?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как корректно обновить конфигурацию с share.version=1 на share.version=2 в стабильной сборке, чтобы не сломать обратную совместимость с клиентами, которые ещё не обновились?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 0.2,
+      "b_rel": null,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти IllegalArgumentException с 'Invalid partition: -1' в Kafka Streams FK LeftJoin, когда Punctuator удаляет записи из state store, а CACHE_MAX_BYTES_BUFFERING_CONFIG не равен 0, и какие модули или настройки топологии могут быть затронуты этим багом?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 0.7,
+      "b_rel": null,
+      "a_faith": 0.0,
+      "b_faith": null
+    },
+    {
+      "question": "Как обновление log4j до версии 2.25.5 повлияет на совместимость с другими зависимостями проекта, и какие модули могут сломаться из-за изменений в API или конфигурации?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.0,
+      "b_rel": 0.0,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как перестроить публичный API стрим-ассайнора в соответствии с KIP-1357, чтобы не сломать обратную совместимость с существующими модулями и тикетами?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.2,
+      "b_rel": 0.0,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как при выполнении join между KStream и GlobalKTable в Kafka Streams корректно получить доступ как к исходному ключу потока, так и к ключу, полученному после применения KeyValueMapper, если текущий API возвращает только один из них, и какие модули или тикеты могут быть затронуты при добавлении этой функциональности?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 0.0,
+      "b_rel": null,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти таймаут в TimeWindowedKStreamIntegrationTest.shouldRestoreAfterJoinRestart, если он вызван не изменениями в самом тесте, а накопившимися изменениями в Kafka Streams, и какие модули KS могут быть затронуты этим сбоем?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.7,
+      "b_rel": 0.6,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как правильно разделить управление SSL-сертификатами для внешнего и внутреннего трафика в Kafka, чтобы избежать использования самоподписанных клиентских и серверных сертификатов, которые скоро будут отклонены Google, и при этом не сломать связь между контроллерами?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 0.75,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как интеграция асинхронного чтения логов в DelayedShareFetch повлияет на производительность других модулей, которые зависят от синхронного чтения, и какие шаги нужно предпринять для обратной совместимости?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.0,
+      "b_rel": 0.0,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Почему при использовании group.protocol=streams с несколькими потоками (N threads) метод metadataForAllStreamsClients() возвращает только 1/N метаданных, и как это связано с тем, что в HashMap, построенном в convertHostInfoMap(), последняя запись с одинаковым host:port перезаписывает предыдущие, в то время как классический протокол (classic protocol) избегает этой проблемы за счёт агрегации всех задач процесса до ключевания по хосту?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти флакинг теста ConsumerGroupHeartbeatWithRegexWithDifferentMemberAcls, который стал нестабильным на trunk после 23 июня, и какие модули или ACL-настройки могут быть затронуты при изменении логики heartbeat для consumer group с regex-подпиской?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.0,
+      "b_rel": 0.0,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как интеграция api-checker в корневую задачу check через composite-include повлияет на время CI-сборки и какие модули могут сломаться, если в api-checker упадут checkstyle или unit-тесты?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 1.0,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как обойти IllegalStateException в StagedMergeIterator при использовании после закрытия store, чтобы получить InvalidStateStoreException, и какие модули будут затронуты этим изменением?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.7,
+      "b_rel": 0.7,
+      "a_faith": 0.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти игнорирование skipCache() в MeteredKeyValueStore при выполнении KeyQuery, чтобы гарантировать, что caching-слой действительно пропускает кэш, и не сломаются ли при этом другие запросы, связанные с TimestampedKeyQuery?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.14285714285714285,
+      "a_rel": 0.9,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти несовместимость Node#idString при обновлении модуля, чтобы не сломать существующие интеграции, и какие другие тикеты или модули это затронет?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.0,
+      "b_rel": 0.2,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти @JsonIgnoreProperties в jackson-databind, если на поле установлен @JsonFormat с ACCEPT_CASE_INSENSITIVE_PROPERTIES, и какие версии библиотеки уязвимы к восстановлению игнорируемых свойств?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 1.0,
+      "b_rel": null,
+      "a_faith": 1.0,
+      "b_faith": null
+    },
+    {
+      "question": "Как настроить DLQ-топик, чтобы он не перегружался крупными produce-запросами, и какие параметры конфигурации нужно изменить для этого?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.2,
+      "b_rel": 0.2,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти расхождение в значении leader epoch между LocalLeaderEndPoint и RemoteLeaderEndPoint, когда эпоха не может быть разрешена из кэша, и какие модули (TierStateMachine, ReplicaAlterLogDirsThread, ReplicaFetcherThread) будут затронуты, если оставить fallback на 0 вместо -1?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 0.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как реализовать readOnly-режим в RocksDB SegmentedStore, чтобы избежать блокировок при параллельном чтении, и какие компромиссы по производительности это вызовет?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.14285714285714285,
+      "a_rel": 0.2,
+      "b_rel": 0.2,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти ограничения PolymorphicTypeValidator в jackson-databind, если в allowlist добавлен только конкретный тип-контейнер, но не его generic-параметры, и как это связано с уязвимостью CVE-2026-54512?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти блокировку SASL-аутентификации в Kafka при медленном обратном DNS-запросе (PTR), чтобы избежать переполнения очереди SYN и падения кластера, и какие настройки DNS или конфигурации брокера (например, отключение PTR-резолвинга или fallback на /etc/hosts) могут решить проблему без замены DNS-сервера?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 1.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как обойти бесконечный цикл повторных попыток OffsetFetch при ошибке STALE_MEMBER_EPOCH, когда дублирующийся запрос цепляется к уже завершённому future, и какие модули (AsyncKafkaConsumer, CommitRequestManager, Kafka Streams) будут затронуты, если не исправить проверку sameRequest в PendingRequests?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти неатомарное перемещение задач между коллекциями в DefaultStateUpdater, чтобы избежать дублирования и ошибки 'Task not found in the state updater'?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.2,
+      "b_rel": 0.3,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как сделать публичной конфигурацию распределения продюсеров, которая изначально была помечена как внутренняя, и какие модули или тикеты могут быть затронуты при изменении её видимости?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.2,
+      "b_rel": 0.4,
+      "a_faith": null,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как обойти ошибку краш-лупа при замене узла во время KRaft-миграции, если kafka-storage.sh format всегда создаёт meta.properties с version=1, что блокирует откат миграции?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как добавление клиентских логов для конфигураций consumer group, полученных от брокера, повлияет на отладку проблем с heartbeat-интервалом в абстрактном менеджере heartbeat, и не приведёт ли это к конфликтам с существующими тикетами по логированию в модулях consumer и share consumer?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 0.7,
+      "a_faith": 1.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Почему тест testUnsubscribeDoesNotCommitOffsetsEvenWithAutoCommitEnabled зависает при закрытии, и как правильно смоделировать обработку CommitOnCloseEvent, чтобы избежать блокировки close()?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как корректно протестировать переход из состояния clean close в reopen на существующем состоянии диска, чтобы гарантировать, что при восстановлении не произойдет неожиданного стирания или повреждения данных, и как это связано с механизмами продвижения offset'ов при standby→active promotion под EOS?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как исправить расхождение между метриками num-open-iterators и oldest-iterator-open-since-ms в Kafka Streams, если итераторы из MeteredTimestampedKeyValueStore не учитываются в первой метрике, и какие модули или тикеты будут затронуты этим изменением?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как перейти на публичный API стримового assignor, не сломав обратную совместимость с существующими приватными интеграциями, и какие модули потребуется переписать?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.2,
+      "b_rel": 0.2,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как интеграция асинхронного чтения логов в DelayedShareFetch повлияет на производительность и какие модули могут быть затронуты при обходе блокировок синхронного ввода-вывода?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.3,
+      "a_faith": 0.0,
+      "b_faith": null
+    },
+    {
+      "question": "Почему при использовании group.protocol=streams с несколькими потоками (N threads) метод metadataForAllStreamsClients() возвращает только 1/N метаданных, и как это связано с тем, что в HashMap, построенном в convertHostInfoMap(), последняя запись с одинаковым host:port перезаписывает предыдущие, в то время как при классическом протоколе такой проблемы нет?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти IllegalStateException в StagedMergeIterator при закрытии транзакционного state store, чтобы получить InvalidStateStoreException, и какие модули Kafka Streams будут затронуты этим несоответствием?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.7,
+      "b_rel": 0.7,
+      "a_faith": 1.0,
+      "b_faith": 0.5
+    },
+    {
+      "question": "Как обойти несовместимость Node#idString при интеграции изменений из PR 22512, если в нашем проекте уже используется кастомная реализация этого метода, и какие модули Kafka будут затронуты?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.0,
+      "b_rel": 0.2,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти потерю SCRAM-пользователей в KRaft-режиме при пакетной обработке REMOVE-записей для отсутствующих пользователей, если исправление в ScramDelta.apply() ещё не применено, и какие модули/тикеты будут затронуты при ручном патче?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": null,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как обойти @JsonIgnoreProperties в jackson-databind, если на том же поле задан @JsonFormat с ACCEPT_CASE_INSENSITIVE_PROPERTIES, и какие версии библиотеки уязвимы к восстановлению игнорируемых свойств?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти проблему с DLQ в системных тестах, если сообщения не попадают в очередь из-за ошибок валидации, и как это связано с модулем обработки ошибок?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.7,
+      "b_rel": 0.9,
+      "a_faith": 0.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как настроить DLQ-топик, чтобы избежать перегрузки при обработке крупных запросов на запись, и какие параметры конфигурации критически влияют на производительность?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.4,
+      "b_rel": 0.3,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как обойти расхождение в значении leader epoch между LocalLeaderEndPoint и RemoteLeaderEndPoint, когда epoch не может быть разрешён из кэша, и какие модули (TierStateMachine, ReplicaAlterLogDirsThread, ReplicaFetcherThread) будут затронуты, если оставить fallback на 0 вместо -1?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти некорректную десериализацию списка в Kafka при частичном повреждении данных, если DataInputStream.read() возвращает неполное количество байт, а не -1, и какие модули или тикеты (например, KAFKA-8326) это затрагивает?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 1.0,
+      "b_rel": null,
+      "a_faith": 0.0,
+      "b_faith": null
+    },
+    {
+      "question": "Как реализовать readOnly-режим в RocksDB SegmentedStore, чтобы избежать блокировок при параллельном чтении, и какие модули или тикеты могут быть затронуты при изменении этой логики?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.7,
+      "b_rel": 0.6,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как обойти BasicPolymorphicTypeValidator, если в allowlist добавлен только конкретный класс, но при этом используется allowIfSubTypeIsArray(), и какие типы данных будут затронуты при десериализации?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как обойти блокировку SASL-аутентификации в Kafka при медленном обратном DNS-запросе (PTR), чтобы избежать переполнения очереди SYN и падения кластера, и какие настройки DNS или конфигурации брокера (например, отключение PTR-резолвинга или fallback на /etc/hosts) могут решить проблему без замены внешнего DNS-сервера?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 1.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как обойти бесконечный цикл повторных попыток OffsetFetch при ошибке STALE_MEMBER_EPOCH, когда дублирующийся запрос цепляется к уже завершённому future, и какие модули (AsyncKafkaConsumer, CommitRequestManager, Kafka Streams) будут затронуты, если не исправить логику дедупликации в PendingRequests.addOffsetFetchRequest?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как сделать публичной конфигурацию распределения продюсера, которая изначально была помечена как внутренняя, и какие модули или тикеты могут быть затронуты при изменении её видимости?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.7,
+      "b_rel": 0.7,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как обойти ClassCastException при выполнении RangeQuery к transactional state store в IQv2, и почему при перезапуске теряется committed Position, из-за чего запросы по позиции уходят в NOT_UP_TO_BOUND?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как переключить store-level unit suites на transactional path для persistent RocksDB stores и key-value/segmented families, если в некоторых из них отсутствует hook transactional() — нужно ли добавлять его с нуля или можно переиспользовать существующий механизм, и не сломает ли это другие модули, которые зависят от нетранзакционного поведения?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как параметризовать интеграционные тесты для транзакционных хранилищ состояний, чтобы покрыть все формы хранилищ (key-value, windowed, session, sliding, versioned, join, suppression) и при этом не сломать существующие тесты для EOS-совместимых сценариев?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 1.0,
+      "b_faith": 0.875
+    },
+    {
+      "question": "Как параметризовать существующие тесты для KIP-892 transactional statestores, чтобы покрыть сценарии с разными конфигурациями транзакций, и не сломает ли это обратную совместимость с другими модулями, использующими общие тестовые утилиты?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.7,
+      "b_rel": 0.7,
+      "a_faith": 0.5,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как запрет изменения instance id у статического участника повлияет на существующие механизмы перебалансировки и совместимость с Java-клиентом, и какие модули (например, TargetAssignmentRecordsBuilder) потребуют доработки?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти бесконечный цикл TaskCorruptedException при повторном открытии RocksDB store с включенными exactly_once_v2 и enable.transactional.statestores, если статусный маркер CLOSED теряется из-за сброса RocksDBTransactionBuffer без коммита, и как это связано с коллизией активной и резервной копий задачи на одном инстансе?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 0.9,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как предотвратить усечение временных меток при сериализации в формате JSON, если логический тип данных не учитывается, и какие модули или тикеты могут быть затронуты этим багом?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.0,
+      "b_rel": 0.0,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти потерю доступных версий плагина при повторной валидации конфигурации коннектора, если кеширование ошибок загрузки в CachedConnectors приводит к NullPointerException и 500-му ответу вместо корректного списка рекомендуемых версий?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 0.2,
+      "b_rel": null,
+      "a_faith": 0.0,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти деление на ноль в метрике PollIdleRatio при субмиллисекундных интервалах опроса, чтобы вместо NaN возвращался 0, и не сломаются ли при этом другие метрики в KafkaConsumerMetrics?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 0.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти краш KStream-KStream outer/left join при использовании EOS с transactional state stores, если проблема в том, что staging map RocksDBTransactionBuffer.pendingWrites не учитывает column-family, из-за чего записи в offsets column family попадают в data-column-family range()/all() сканы и вызывают ошибку десериализации Position как списка значений, при этом get() уже защищён, а итераторы — нет?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 0.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как исправить расхождение между StoredDescriptionTopologyEpoch и состоянием плагина topology-description при сбоях или гонках, чтобы избежать утечек топологии или потери данных, и какие операции (клиентский push, периодическая очистка, DeleteGroups, конвертация Streams-группы в классическую) будут затронуты этим исправлением?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 1.0,
+      "a_faith": 0.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти NPE в MetadataCache#toCluster при фильтрации fenced brokers, если реплики включают fenced узлы, и как это связано с поддержкой ClientQuotaCallback в KRaft?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 0.9,
+      "b_rel": null,
+      "a_faith": 0.0,
+      "b_faith": null
+    },
+    {
+      "question": "Как проверить, что SkimpyOffsetMap корректно работает с разными хеш-алгоритмами, и какие тесты нужно добавить, чтобы избежать регрессий при смене алгоритма?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.7,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как добавление конфигурации `rack.aware.assignment.tags` на стороне брокера повлияет на существующую логику назначения резервных задач (standby tasks) в Kafka Streams, если KIP-1071 уже включён в релиз 4.2.0, но ещё не полностью реализован, и какие модули или тикеты могут быть затронуты при интеграции этой конфигурации с групповыми настройками?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как обойти ошибку, связанную с отрицательным leaderEpoch в readState, и как это влияет на согласованность данных при записи через writeState с отрицательными leaderEpoch и stateEpoch в shared coordinator?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как изменить начальное смещение для вновь инициализируемых разделов shared-памяти, чтобы оно было равно 0, и какие модули или тикеты могут быть затронуты этим изменением?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.0,
+      "b_rel": 0.2,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как добавление интерфейса ReadOnlyRecord повлияет на существующие реализации Record и какие изменения потребуются в модулях, работающих с итераторами запросов IQv2, чтобы обеспечить обратную совместимость?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.6,
+      "b_rel": 0.7,
+      "a_faith": null,
+      "b_faith": 0.5
+    },
+    {
+      "question": "Как обойти ошибку UNSUPPORTED_VERSION при восстановлении 2PC-транзакции через InitProducerId v6 с KeepPreparedTxn=true, если на брокере включён transaction.two.phase.commit.enable, и какие шаги клиента и брокера должны быть выполнены для корректного завершения прерванной подготовленной транзакции после краша?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как обойти ошибку UnsupportedVersionException при инициализации 2PC-транзакции в KafkaProducer, если InitProducerIdRequest.Builder ограничивает версию до v5, а поле Enable2Pc доступно только в v6, и какие модули (TransactionManager, NetworkClient) будут затронуты при исправлении?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 0.9,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как настроить CI-проверку, чтобы ссылки на архивные релизы в документации автоматически указывали на archive.apache.org, и не сломается ли при этом сборка, если ссылка ведёт на другой домен?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.6,
+      "b_rel": 0.6,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как корректно обработать зависшие подтверждения и сессии шардинга в ShareConsumer при смене лидерства, чтобы избежать потери данных или дублирования сообщений?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.7,
+      "b_rel": 0.9,
+      "a_faith": 0.75,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти ложное ERROR-сообщение 'Failed to acquire lock while closing the state store' в Kafka Streams при частых ребалансировках, не отключая весь логгер, и не приведет ли предложенное исправление (проверка открытости state manager перед закрытием) к потере сигнала о реальных сбоях?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти потерю транзакционных маркеров при офлайн-партиции, если metadataCache.getPartitionLeaderEndpoint возвращает None вместо Some(Node.noNode), и какие модули будут затронуты этим багом?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.7,
+      "b_rel": 0.5,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как корректно протестировать игнорирование неожиданной партиции в ответе FetchResponse для CONSUMER протокола, если текущий тест проходит по ложной причине из-за отсутствия настройки ребалансировки через ConsumerGroupHeartbeat, и какие модули будут затронуты при добавлении недостающего теста в FetchRequestManagerTest?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 0.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как избежать двойного учёта локальных и удалённых сегментов в size-retention после выборов лидера, если highestOffsetInRemoteStorage инициализируется -1 и не восстанавливается из метаданных, что приводит к удалению данных, находящихся в пределах retention.bytes, на обоих уровнях хранения?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как избежать падения потока обновления состояния в Kafka Streams, когда вызов transitToUpdateStandby происходит при уже установленном состоянии STANDBY_UPDATING, и какие модули (StoreChangelogReader, DefaultStateUpdater) будут затронуты, если не добавить проверку isRestoringActive() перед каждым из трёх мест вызова?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как обойти ошибку NoClassDefFoundError для scala/util/control/NonFatal при запуске spotlessScalaCheck в модуле streams-scala, не удаляя сам плагин Spotless из сборки, и не затронет ли это другие модули, использующие Spotless?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.2,
+      "b_rel": 0.4,
+      "a_faith": 0.0,
+      "b_faith": null
+    },
+    {
+      "question": "Как реализовать newBaseSnapshotIterator в RocksDBTransactionBuffer, чтобы исправить ошибку компиляции trunk, и какие последствия это будет иметь для не-владельческих (IQ) сканов?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 0.9,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как добавить поддержку PQC TLS в Kafka, если SslEngineBuilder не вызывает setNamedGroups(), а JVM-свойство jdk.tls.namedGroups недокументировано, и при этом нужно сохранить обратную совместимость с существующими конфигурациями?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 1.0,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как правильно параметризовать системные тесты Kafka Streams для использования транзакционных state stores, и какие изменения в тестовом окружении потребуются, чтобы не сломать существующие smoke-тесты?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 0.3,
+      "b_rel": null,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как избежать утечки памяти при использовании DefaultSupplier в KRaftControlRecordStateMachine, если он кэширует буферы без ограничения по размеру, и какие модули или тикеты будут затронуты при замене этого подхода?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.7,
+      "b_rel": 0.7,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как реализовать мониторинг внутристоечного трафика между клиентами и брокерами, чтобы выявить аномалии задержек, и какие метрики для этого потребуются?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.2,
+      "b_rel": 0.2,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти race condition в DefaultStateUpdater.tasks(), когда пауза/возобновление топологии во время ребаланса приводит к дублированию задач и IllegalStateException, убивающему StreamThread, и какие модули (handleAssignment, handleLostAll) будут затронуты, если не защитить переходы между updatingTasks и pausedTasks блокировкой?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 1.0,
+      "b_rel": 0.95,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти проблему с потерей сообщений в DLQ при использовании ShareGroupDLQStateManager, если hardening не решает проблему, и какие модули могут быть затронуты?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.0,
+      "b_rel": 0.0,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти уязвимости GHSA-47qp-hqvx-6r3f и GHSA-2r2c-cx56-8933, и какие модули или зависимости будут затронуты при их исправлении?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.0,
+      "b_rel": 0.0,
+      "a_faith": null,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти двойное удаление задачи в Kafka Streams при холодном старте с перебалансировкой, если waitForFuture с таймаутом 5 минут возвращает null, а последующая повторная попытка удаления вызывает IllegalStateException, и какие модули (TaskManager, DefaultStateUpdater) будут затронуты при добавлении привязки по времени и очистке утекшей задачи?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": null,
+      "b_rel": 0.9,
+      "a_faith": 0.0,
+      "b_faith": 0.0
+    },
+    {
+      "question": "Как понизить уровень логирования ошибок сессии шардинга в ShareSessionHandler с INFO до DEBUG, чтобы не потерять важные сообщения, и не сломает ли это механизм самовосстановления клиента, который использует nextCloseExistingAttemptNew()?",
+      "a_abst": false,
+      "b_abst": true,
+      "residual": null,
+      "a_rel": 0.9,
+      "b_rel": null,
+      "a_faith": 0.0,
+      "b_faith": null
+    },
+    {
+      "question": "Как обойти проблему, что sticky-ассайнор для 'streams' групп не сохраняет привязку задач при старте нового инстанса KS, и почему передача taskOffsetSum через join group heartbeat решает эту проблему, учитывая, что статическое членство пока не поддерживается?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.125,
+      "a_rel": 0.9,
+      "b_rel": 0.9,
+      "a_faith": 1.0,
+      "b_faith": 1.0
+    },
+    {
+      "question": "Как обойти флаки-тест testClosingOffsetReaderWhenOffsetStoreHangsAndHasIncompleteFutures в OffsetStorageReaderTest, если CompletableFuture.get() не вызывается из-за того, что мок не взаимодействует с тестируемым кодом, и как это связано с обработкой незавершённых фьючерсов в OffsetStore?",
+      "a_abst": false,
+      "b_abst": false,
+      "residual": 0.0,
+      "a_rel": 0.2,
+      "b_rel": 0.2,
+      "a_faith": null,
+      "b_faith": null
+    }
+  ],
+  "verdict": {
+    "n": 94,
+    "ship": false,
+    "reason": "no-ship: воздержания +13.8% > 5%",
+    "relevance_delta": 0.014374999999999995,
+    "relevance_p": 0.4145,
+    "abstention_delta": 0.13829787234042554,
+    "a_abst_rate": 0.0,
+    "b_abst_rate": 0.13829787234042554,
+    "residual_mean": 0.007128159905937683,
+    "faith_delta": 0.040948275862068964,
+    "faith_p": 0.5261
+  }
+}
