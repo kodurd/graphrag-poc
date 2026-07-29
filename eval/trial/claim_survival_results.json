@@ -1,0 +1,198 @@
+[
+  {
+    "n_total": 10,
+    "n_supported": 9,
+    "type": "A",
+    "route": "multihop",
+    "source_id": "task:KAFKA-20792"
+  },
+  {
+    "n_total": 7,
+    "n_supported": 3,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20789"
+  },
+  {
+    "n_total": 12,
+    "n_supported": 9,
+    "type": "A",
+    "route": "multihop",
+    "source_id": "task:KAFKA-20786"
+  },
+  {
+    "n_total": 9,
+    "n_supported": 6,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20779"
+  },
+  {
+    "n_total": 6,
+    "n_supported": 4,
+    "type": "A",
+    "route": "factual",
+    "source_id": "task:KAFKA-20778"
+  },
+  {
+    "n_total": 6,
+    "n_supported": 4,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20777"
+  },
+  {
+    "n_total": 8,
+    "n_supported": 8,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20776"
+  },
+  {
+    "n_total": 6,
+    "n_supported": 6,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20768"
+  },
+  {
+    "n_total": 12,
+    "n_supported": 12,
+    "type": "A",
+    "route": "multihop",
+    "source_id": "task:KAFKA-20765"
+  },
+  {
+    "n_total": 7,
+    "n_supported": 6,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20764"
+  },
+  {
+    "n_total": 6,
+    "n_supported": 3,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20763"
+  },
+  {
+    "n_total": 7,
+    "n_supported": 6,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20783"
+  },
+  {
+    "n_total": 6,
+    "n_supported": 5,
+    "type": "A",
+    "route": "multihop",
+    "source_id": "task:KAFKA-20777"
+  },
+  {
+    "n_total": 10,
+    "n_supported": 9,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20774"
+  },
+  {
+    "n_total": 8,
+    "n_supported": 8,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20772"
+  },
+  {
+    "n_total": 6,
+    "n_supported": 6,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20771"
+  },
+  {
+    "n_total": 9,
+    "n_supported": 9,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20770"
+  },
+  {
+    "n_total": 11,
+    "n_supported": 7,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20768"
+  },
+  {
+    "n_total": 7,
+    "n_supported": 6,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20757"
+  },
+  {
+    "n_total": 7,
+    "n_supported": 6,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20752"
+  },
+  {
+    "n_total": 14,
+    "n_supported": 13,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20736"
+  },
+  {
+    "n_total": 8,
+    "n_supported": 4,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20733"
+  },
+  {
+    "n_total": 6,
+    "n_supported": 6,
+    "type": "A",
+    "route": "multihop",
+    "source_id": "task:KAFKA-20731"
+  },
+  {
+    "n_total": 9,
+    "n_supported": 3,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20727"
+  },
+  {
+    "n_total": 6,
+    "n_supported": 4,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20726"
+  },
+  {
+    "n_total": 11,
+    "n_supported": 9,
+    "type": "A",
+    "route": "multihop",
+    "source_id": "task:KAFKA-20721"
+  },
+  {
+    "n_total": 7,
+    "n_supported": 6,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20720"
+  },
+  {
+    "n_total": 8,
+    "n_supported": 4,
+    "type": "A",
+    "route": "mixed",
+    "source_id": "task:KAFKA-20718"
+  }
+]
