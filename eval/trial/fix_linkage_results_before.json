@@ -1,6 +1,6 @@
 {
-  "r0_commit_chunks": 3788,
-  "r0_ok": true,
+  "r0_commit_chunks": 0,
+  "r0_ok": false,
   "results": [
     {
       "source_id": "task:KAFKA-20794",
@@ -33,9 +33,9 @@
       "source_id": "task:KAFKA-20791",
       "route": "mixed",
       "has_fix": true,
-      "fix_reachable": true,
+      "fix_reachable": false,
       "in_prod_topk": false,
-      "class": "already_retrieved",
+      "class": "surfaceable",
       "commit_msg": "KAFKA-20791: Bump log4j to 2.25.5 (#22794)"
     },
     {
@@ -69,9 +69,9 @@
       "source_id": "task:KAFKA-20791",
       "route": "mixed",
       "has_fix": true,
-      "fix_reachable": true,
+      "fix_reachable": false,
       "in_prod_topk": false,
-      "class": "already_retrieved",
+      "class": "surfaceable",
       "commit_msg": "KAFKA-20791: Bump log4j to 2.25.5 (#22794)"
     },
     {
@@ -105,9 +105,9 @@
       "source_id": "task:KAFKA-20783",
       "route": "mixed",
       "has_fix": true,
-      "fix_reachable": true,
-      "in_prod_topk": true,
-      "class": "already_retrieved",
+      "fix_reachable": false,
+      "in_prod_topk": false,
+      "class": "surfaceable",
       "commit_msg": "KAFKA-20783: Integrate async log reader fetch in DelayedShareFetch (1/N) (#22780)"
     },
     {
@@ -222,9 +222,9 @@
       "source_id": "task:KAFKA-20783",
       "route": "mixed",
       "has_fix": true,
-      "fix_reachable": true,
-      "in_prod_topk": true,
-      "class": "already_retrieved",
+      "fix_reachable": false,
+      "in_prod_topk": false,
+      "class": "surfaceable",
       "commit_msg": "KAFKA-20783: Integrate async log reader fetch in DelayedShareFetch (1/N) (#22780)"
     },
     {
@@ -321,9 +321,9 @@
       "source_id": "task:KAFKA-20741",
       "route": "mixed",
       "has_fix": true,
-      "fix_reachable": true,
-      "in_prod_topk": true,
-      "class": "already_retrieved",
+      "fix_reachable": false,
+      "in_prod_topk": false,
+      "class": "surfaceable",
       "commit_msg": "KAFKA-20741: Add ReadOnlyRecordIterator IQv2 result type (KIP-1356) (#22729)"
     },
     {
@@ -348,9 +348,9 @@
       "source_id": "task:KAFKA-20733",
       "route": "mixed",
       "has_fix": true,
-      "fix_reachable": true,
-      "in_prod_topk": true,
-      "class": "already_retrieved",
+      "fix_reachable": false,
+      "in_prod_topk": false,
+      "class": "surfaceable",
       "commit_msg": "KAFKA-20733: Fix fetchResponseWithUnexpectedPartitionIsIgnored passing for wrong reason with CONSUMER protocol (#22651)"
     },
     {
@@ -366,9 +366,9 @@
       "source_id": "task:KAFKA-20727",
       "route": "mixed",
       "has_fix": true,
-      "fix_reachable": true,
+      "fix_reachable": false,
       "in_prod_topk": false,
-      "class": "already_retrieved",
+      "class": "surfaceable",
       "commit_msg": "KAFKA-20727: Update system tests for transactional state stores (#22642)"
     },
     {
@@ -420,9 +420,9 @@
       "source_id": "task:KAFKA-20720",
       "route": "mixed",
       "has_fix": true,
-      "fix_reachable": true,
-      "in_prod_topk": true,
-      "class": "already_retrieved",
+      "fix_reachable": false,
+      "in_prod_topk": false,
+      "class": "surfaceable",
       "commit_msg": "KAFKA-20720: Lower level for client log on self-healing share session… (#22691)"
     },
     {
@@ -438,13 +438,12 @@
   "verdict": {
     "counts": {
       "no_fix": 37,
-      "already_retrieved": 8,
-      "surfaceable": 3
+      "surfaceable": 11
     },
     "n": 48,
     "frac": {
-      "surfaceable": 0.0625,
-      "already_retrieved": 0.16666666666666666,
+      "surfaceable": 0.22916666666666666,
+      "already_retrieved": 0.0,
       "no_fix": 0.7708333333333334
     },
     "verdict": "ingest",
