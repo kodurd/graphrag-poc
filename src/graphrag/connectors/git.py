@@ -26,6 +26,9 @@ from graphrag.intermediate import JsonlWriter, edge, node
 _REC_SEP = "\x1e"
 _FIELD_SEP = "\x1f"
 _LOG_FORMAT = _REC_SEP + _FIELD_SEP.join(["%H", "%an", "%ae", "%aI", "%s"])
+# Отдельный вызов за телами: %B = raw body (subject + пустая строка + body),
+# многострочный, поэтому свой разделитель записей (_REC_SEP) и без --name-only.
+_BODY_FORMAT = _REC_SEP + _FIELD_SEP.join(["%H", "%B"])
 
 ISSUE_RE = re.compile(r"\b([A-Z][A-Z0-9]+-\d+)\b")
 _IMPORT_RE_FALLBACK = re.compile(r"^\s*import\s+(?:static\s+)?([\w.]+)\s*;", re.MULTILINE)
@@ -39,10 +42,23 @@ class Commit:
     date: str
     message: str
     files: list[str] = field(default_factory=list)
+    # subject (%s) хранится отдельно от message: после обогащения телом message
+    # содержит %B (subject+body), а subject нужен, чтобы отличать ссылки на тикет
+    # в ТЕЛЕ (проброс-цитаты, ложные фикс-линки) от ссылок в заголовке.
+    subject: str = ""
+
+    def __post_init__(self) -> None:
+        if not self.subject:
+            self.subject = self.message
 
     @property
     def issue_refs(self) -> list[str]:
         return sorted(set(ISSUE_RE.findall(self.message)))
+
+    @property
+    def subject_issue_refs(self) -> list[str]:
+        """Ссылки на тикеты только из заголовка (%s) — надёжные фикс-линки."""
+        return sorted(set(ISSUE_RE.findall(self.subject)))
 
 
 def parse_git_log(raw: str) -> list[Commit]:
@@ -67,6 +83,24 @@ def parse_git_log(raw: str) -> list[Commit]:
             Commit(sha=sha, author_name=an, author_email=ae, date=date, message=subject, files=files)
         )
     return commits
+
+
+def parse_git_bodies(raw: str) -> dict[str, str]:
+    """Разбирает `git log` формата _BODY_FORMAT в {sha: raw_body(%B)}.
+
+    Чистая функция. Каждая запись: <sha>\x1f<multiline body>, записи разделены
+    _REC_SEP. %B включает subject первой строкой, поэтому body уже начинается с
+    заголовка — subject не теряется при использовании как message.
+    """
+    bodies: dict[str, str] = {}
+    for chunk in raw.split(_REC_SEP):
+        if not chunk.strip("\n"):
+            continue
+        sha, sep, body = chunk.lstrip("\n").partition(_FIELD_SEP)
+        if not sep:
+            continue
+        bodies[sha.strip()] = body.strip("\n")
+    return bodies
 
 
 def extract_imports(java_source: str) -> list[str]:
@@ -141,6 +175,26 @@ class GitConnector:
             cmd, capture_output=True, check=True, encoding="utf-8", errors="replace"
         ).stdout
 
+    def _run_git_bodies(self) -> str:
+        """Отдельный вызов за телами коммитов (%B). Зеркалит _run_git_log по
+        кодировке и --since, чтобы {sha: body} покрывал ТОТ ЖЕ набор коммитов —
+        иначе часть коммитов молча осталась бы с subject-only message."""
+        cmd = ["git", "-C", self.repo_path, "log", f"--pretty=format:{_BODY_FORMAT}"]
+        if self.since:
+            cmd.insert(4, f"--since={self.since}")
+        return subprocess.run(
+            cmd, capture_output=True, check=True, encoding="utf-8", errors="replace"
+        ).stdout
+
+    def _enrich_bodies(self, commits: list[Commit]) -> None:
+        """Обогащает Commit.message телом (%B), сохраняя subject первой строкой.
+        subject остаётся в c.subject для отличения body-ссылок от subject-ссылок."""
+        bodies = parse_git_bodies(self._run_git_bodies())
+        for c in commits:
+            body = bodies.get(c.sha, "").strip()
+            if body:
+                c.message = body  # %B уже начинается с subject → тугой сигнал в начале
+
     def _java_files(self) -> list[str]:
         root = Path(self.repo_path)
         result: list[str] = []
@@ -153,8 +207,23 @@ class GitConnector:
     def extract(self, out_path: str) -> dict:
         """Читает репозиторий и пишет JSONL. Возвращает статистику."""
         commits = parse_git_log(self._run_git_log())
+        self._enrich_bodies(commits)
         java_files = self._java_files()
         return self._emit(commits, java_files, out_path)
+
+    def extract_commits_only(self, out_path: str) -> dict:
+        """Только Commit-узлы + MENTIONS (с обогащённым телом), без Java-скана.
+
+        Для дешёвого бэкфилла: обновить message и добавить body-производные
+        MENTIONS, не пересчитывая File/Module/IMPORTS. TOUCHES пропускаем —
+        иначе создались бы File-заглушки (skeleton достраивает концы рёбер)."""
+        commits = parse_git_log(self._run_git_log())
+        self._enrich_bodies(commits)
+        stats = {"commits": 0, "mentions": 0, "body_mentions": 0}
+        with JsonlWriter(out_path) as w:
+            for c in commits:
+                self._emit_commit(w, c, stats, with_touches=False)
+        return stats
 
     def _emit(self, commits: list[Commit], java_files: list[str], out_path: str) -> dict:
         """Строит записи из уже разобранных данных (тестируемо без git)."""
@@ -164,7 +233,8 @@ class GitConnector:
             by_suffix[Path(f).name] = f
 
         module_deps: set[tuple[str, str]] = set()
-        stats = {"commits": 0, "files": 0, "imports": 0, "module_deps": 0, "mentions": 0}
+        stats = {"commits": 0, "files": 0, "imports": 0, "module_deps": 0,
+                 "mentions": 0, "body_mentions": 0}
 
         with JsonlWriter(out_path) as w:
             # Файлы и модули
@@ -203,24 +273,41 @@ class GitConnector:
 
             # Коммиты, касания файлов, упоминания тикетов
             for c in commits:
-                src = {"source": "git", "date": c.date, "author": c.author_name}
-                w.write(
-                    node(
-                        "Commit",
-                        f"commit:{c.sha}",
-                        {"sha": c.sha, "author": c.author_name, "date": c.date, "message": c.message},
-                        src,
-                    )
-                )
-                stats["commits"] += 1
-                for f in c.files:
-                    if f.endswith(".java") and (not self.components or module_of(f, self.components)):
-                        w.write(edge("TOUCHES", f"commit:{c.sha}", f"file:{f}", source={"source": "git"}))
-                for ref in c.issue_refs:
-                    w.write(edge("MENTIONS", f"commit:{c.sha}", f"task:{ref}", source={"source": "git"}))
-                    stats["mentions"] += 1
+                self._emit_commit(w, c, stats, with_touches=True)
 
         return stats
+
+    def _emit_commit(self, w: JsonlWriter, c: Commit, stats: dict, *, with_touches: bool) -> None:
+        """Пишет один Commit-узел + его MENTIONS (и опц. TOUCHES).
+
+        Ссылки на тикет ТОЛЬКО из тела (не из subject) метятся `ref_source:'body'`:
+        тело часто цитирует чужой тикет в проброс («Reverts KAFKA-N», «follow-up
+        to KAFKA-N») — это НЕ фикс-линк, засчитывать снижение no_fix только после
+        ручной верификации таких рёбер."""
+        src = {"source": "git", "date": c.date, "author": c.author_name}
+        w.write(
+            node(
+                "Commit",
+                f"commit:{c.sha}",
+                {"sha": c.sha, "author": c.author_name, "date": c.date, "message": c.message},
+                src,
+            )
+        )
+        stats["commits"] += 1
+        if with_touches:
+            for f in c.files:
+                if f.endswith(".java") and (not self.components or module_of(f, self.components)):
+                    w.write(edge("TOUCHES", f"commit:{c.sha}", f"file:{f}", source={"source": "git"}))
+        subject_refs = set(c.subject_issue_refs)
+        for ref in c.issue_refs:
+            ref_source = "subject" if ref in subject_refs else "body"
+            w.write(edge(
+                "MENTIONS", f"commit:{c.sha}", f"task:{ref}",
+                props={"ref_source": ref_source}, source={"source": "git"},
+            ))
+            stats["mentions"] += 1
+            if ref_source == "body":
+                stats["body_mentions"] = stats.get("body_mentions", 0) + 1
 
     @staticmethod
     def _resolve_import(fqn: str, by_suffix: dict[str, str]) -> str | None:
