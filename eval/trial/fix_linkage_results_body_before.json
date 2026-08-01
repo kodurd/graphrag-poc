@@ -1,5 +1,5 @@
 {
-  "r0_commit_chunks": 4793,
+  "r0_commit_chunks": 3788,
   "r0_ok": true,
   "results": [
     {
@@ -34,9 +34,9 @@
       "route": "mixed",
       "has_fix": true,
       "fix_reachable": true,
-      "in_prod_topk": true,
+      "in_prod_topk": false,
       "class": "already_retrieved",
-      "commit_msg": "KAFKA-20791: Bump log4j to 2.25.5 (#22794)\n\nUpgrade log4j2 from 2.25.4 to 2.25.5.\n\nReviewers: Mickael Maison <mickael.maison@gmail.com>\n\nSigned-off-by: Federico Valeri <fedevaleri@gmail.com>"
+      "commit_msg": "KAFKA-20791: Bump log4j to 2.25.5 (#22794)"
     },
     {
       "source_id": "task:KAFKA-20790",
@@ -70,9 +70,9 @@
       "route": "mixed",
       "has_fix": true,
       "fix_reachable": true,
-      "in_prod_topk": true,
+      "in_prod_topk": false,
       "class": "already_retrieved",
-      "commit_msg": "KAFKA-20791: Bump log4j to 2.25.5 (#22794)\n\nUpgrade log4j2 from 2.25.4 to 2.25.5.\n\nReviewers: Mickael Maison <mickael.maison@gmail.com>\n\nSigned-off-by: Federico Valeri <fedevaleri@gmail.com>"
+      "commit_msg": "KAFKA-20791: Bump log4j to 2.25.5 (#22794)"
     },
     {
       "source_id": "task:KAFKA-20789",
@@ -99,7 +99,7 @@
       "fix_reachable": false,
       "in_prod_topk": false,
       "class": "surfaceable",
-      "commit_msg": "KAFKA-20786: Bound IntegrationTestUtils.readRecords on real elapsed time (#22790)\n\nreadRecords() polls up to `waitTime` by counting a fixed 100ms per\niteration rather than measuring the wall clock. A single consumer.poll()\ncan block longer than the requested 100ms interval, and thus\nreadReacord() can exceed the specified `waitTimeMs` by orders of\nmagnitude.\n\nThis PR bounds the loop on real elapsed"
+      "commit_msg": "KAFKA-20786: Bound IntegrationTestUtils.readRecords on real elapsed time (#22790)"
     },
     {
       "source_id": "task:KAFKA-20783",
@@ -108,7 +108,7 @@
       "fix_reachable": true,
       "in_prod_topk": true,
       "class": "already_retrieved",
-      "commit_msg": "KAFKA-20783: Integrate async log reader fetch in DelayedShareFetch (1/N) (#22780)\n\nThe PR integrates async processing in DelayedShareFetch which ll help\nmove all the remote fetches out of DelayedShareFetch in future. The\nDelayedShareFetch is too complex today and shall be simplified by moving\nthe code to read data out of DelayedShareFetch.\n\nIn subsequent PR more tests will be added for this change"
+      "commit_msg": "KAFKA-20783: Integrate async log reader fetch in DelayedShareFetch (1/N) (#22780)"
     },
     {
       "source_id": "task:KAFKA-20781",
@@ -140,11 +140,11 @@
     {
       "source_id": "task:KAFKA-20776",
       "route": "mixed",
-      "has_fix": true,
-      "fix_reachable": true,
-      "in_prod_topk": true,
-      "class": "already_retrieved",
-      "commit_msg": "KAFKA-20703: IQv2 TimestampedKeyWithHeadersQuery for headers-aware key-value stores (KIP-1356) (#22666)\n\nThis PR is the **first increment of KIP-1356** — the key/value point\nquery — for  `TimestampedKeyValueStoreWithHeaders`. The\nrange/window/session header query types described in the  KIP will\nfollow in subsequent PRs.\n\n## Summary\n\n1. **`TimestampedKeyWithHeadersQuery<K, V>`** (new, `@Evolving`,"
+      "has_fix": false,
+      "fix_reachable": false,
+      "in_prod_topk": false,
+      "class": "no_fix",
+      "commit_msg": null
     },
     {
       "source_id": "task:KAFKA-20775",
@@ -225,7 +225,7 @@
       "fix_reachable": true,
       "in_prod_topk": true,
       "class": "already_retrieved",
-      "commit_msg": "KAFKA-20783: Integrate async log reader fetch in DelayedShareFetch (1/N) (#22780)\n\nThe PR integrates async processing in DelayedShareFetch which ll help\nmove all the remote fetches out of DelayedShareFetch in future. The\nDelayedShareFetch is too complex today and shall be simplified by moving\nthe code to read data out of DelayedShareFetch.\n\nIn subsequent PR more tests will be added for this change"
+      "commit_msg": "KAFKA-20783: Integrate async log reader fetch in DelayedShareFetch (1/N) (#22780)"
     },
     {
       "source_id": "task:KAFKA-20777",
@@ -324,7 +324,7 @@
       "fix_reachable": true,
       "in_prod_topk": true,
       "class": "already_retrieved",
-      "commit_msg": "KAFKA-20741: Add ReadOnlyRecordIterator IQv2 result type (KIP-1356) (#22729)\n\nThis PR adds `ReadOnlyRecordIterator`, the closeable iterator result\ntype for the headers-aware range/window/session IQv2 queries that\nKIP-1356 introduces.\n\nReviewers: Alieh Saeedi <asaeedi@confluent.io>, TengYao Chi\n<frankvicky@apache.org>"
+      "commit_msg": "KAFKA-20741: Add ReadOnlyRecordIterator IQv2 result type (KIP-1356) (#22729)"
     },
     {
       "source_id": "task:KAFKA-20737",
@@ -342,7 +342,7 @@
       "fix_reachable": false,
       "in_prod_topk": false,
       "class": "surfaceable",
-      "commit_msg": "KAFKA-20736: Improve removal of unassigned partitions from share sessions (#22720)\n\nWhen all partitions in a share session are unassigned with no pending\nacknowledgements to be sent, no ShareFetch request was being sent. This\npatch sends a ShareFetch to remove the partitions from the share session\nin this situation.\n\nReviewers: Shivsundar R <shr@confluent.io>, Apoorv Mittal\n <apoorvmittal10@gmail."
+      "commit_msg": "KAFKA-20736: Improve removal of unassigned partitions from share sessions (#22720)"
     },
     {
       "source_id": "task:KAFKA-20733",
@@ -351,7 +351,7 @@
       "fix_reachable": true,
       "in_prod_topk": true,
       "class": "already_retrieved",
-      "commit_msg": "KAFKA-20733: Fix fetchResponseWithUnexpectedPartitionIsIgnored passing for wrong reason with CONSUMER protocol (#22651)\n\n## Summary\n`KafkaConsumerTest.fetchResponseWithUnexpectedPartitionIsIgnored` was\nannotated with `@EnumSource(GroupProtocol.class)`, but the CONSUMER\nprotocol case passed for the wrong reason.\n\nThe CONSUMER protocol uses `FetchRequestManager` and relies on\n`ConsumerGroupHeartbeat"
+      "commit_msg": "KAFKA-20733: Fix fetchResponseWithUnexpectedPartitionIsIgnored passing for wrong reason with CONSUMER protocol (#22651)"
     },
     {
       "source_id": "task:KAFKA-20731",
@@ -367,9 +367,9 @@
       "route": "mixed",
       "has_fix": true,
       "fix_reachable": true,
-      "in_prod_topk": true,
+      "in_prod_topk": false,
       "class": "already_retrieved",
-      "commit_msg": "KAFKA-20727: Update system tests for transactional state stores (#22642)\n\nAdds transactional state store coverage to the Streams smoke test.\n`StreamsSmokeTestJobRunnerService` (and its base) take a new\ntransactional flag that sets `enable.transactional.statestores=true` in\n`streams.properties`; the config flows through to StreamsConfig with no\nJava changes.\n\nThis exercises the transactional RocksD"
+      "commit_msg": "KAFKA-20727: Update system tests for transactional state stores (#22642)"
     },
     {
       "source_id": "task:KAFKA-20726",
@@ -393,10 +393,10 @@
       "source_id": "task:KAFKA-20723",
       "route": "mixed",
       "has_fix": true,
-      "fix_reachable": true,
-      "in_prod_topk": true,
-      "class": "already_retrieved",
-      "commit_msg": "KAFKA-20723: Add fail fast check for share group dlq(...). [1/N] (#22635)\n\n* Add check whether the DLQ state manager is started, before enqueuing\nthe request in the `Sender`.\n* Change sequence of validations in `DefaultShareGroupDLQManager`.\n* Add tests to verify the `dlq()` method changes.\n\nReviewers: Apoorv Mittal <apoorvmittal10@gmail.com>, Andrew Schofield\n <aschofield@confluent.io>"
+      "fix_reachable": false,
+      "in_prod_topk": false,
+      "class": "surfaceable",
+      "commit_msg": "KAFKA-20723: Add fail fast check for share group dlq(...). [1/N] (#22635)"
     },
     {
       "source_id": "task:KAFKA-20722",
@@ -423,7 +423,7 @@
       "fix_reachable": true,
       "in_prod_topk": true,
       "class": "already_retrieved",
-      "commit_msg": "KAFKA-20720: Lower level for client log on self-healing share session… (#22691)\n\n## Summary\nShare consumers log recoverable share-session errors at INFO when the\nbroker returns `SHARE_SESSION_NOT_FOUND`, `INVALID_SHARE_SESSION_EPOCH`,\nor `SHARE_SESSION_LIMIT_REACHED` on ShareFetch/ShareAcknowledge\nresponses. These are broker-managed, self-healing conditions: the client\ncloses the existing session "
+      "commit_msg": "KAFKA-20720: Lower level for client log on self-healing share session… (#22691)"
     },
     {
       "source_id": "task:KAFKA-20718",
@@ -437,17 +437,17 @@
   ],
   "verdict": {
     "counts": {
-      "no_fix": 36,
-      "already_retrieved": 10,
-      "surfaceable": 2
+      "no_fix": 37,
+      "already_retrieved": 8,
+      "surfaceable": 3
     },
     "n": 48,
     "frac": {
-      "surfaceable": 0.041666666666666664,
-      "already_retrieved": 0.20833333333333334,
-      "no_fix": 0.75
+      "surfaceable": 0.0625,
+      "already_retrieved": 0.16666666666666666,
+      "no_fix": 0.7708333333333334
     },
     "verdict": "ingest",
-    "reason": "no_fix 75% ≥ 50% — связанного коммита нет; нужен ingest"
+    "reason": "no_fix 77% ≥ 50% — связанного коммита нет; нужен ingest"
   }
 }
