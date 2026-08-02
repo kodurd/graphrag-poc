@@ -1,14 +1,14 @@
 # Диагностика покрытия how-to
 
-Проваленных how-to: 48 · база (не-ranked): 46 · gold-probe: 8. Двойной сигнал: судья покрытия + source_id-якорь.
+Проваленных how-to: 48 · база (не-ranked): 48 · gold-probe: 8. Двойной сигнал: судья покрытия + source_id-якорь.
 
 ## Классы (проваленные how-to)
-- {'not_surfaced': 46, 'judge_failed': 2}
-- not_surfaced доля (по не-ranked базе): 100% · judge_failed (вне знаменателя): 2
-- divergence (source_id в широком пуле, но not_surfaced): 40 — кандидаты «источник есть, ответа-текста в нём нет»
+- {'not_surfaced': 48}
+- not_surfaced доля (по не-ranked базе): 100% · judge_failed (вне знаменателя): 0
+- divergence (source_id в широком пуле, но not_surfaced): 41 — кандидаты «источник есть, ответа-текста в нём нет»
 
 ## Проверка пола (gold-probe)
-- заведомо-покрытые retrievable: 2/8 (25%)
+- заведомо-покрытые retrievable: 3/8 (38%)
 - метод НЕ ДОВЕРЕННЫЙ (gold-probe провалился) (порог 75%)
 
 **Вердикт направления: SOURCES** — not_surfaced 100% ≥ 60% — нужны новые источники ⚠️ вердикт НЕ доверенный: gold-probe не прошёл.

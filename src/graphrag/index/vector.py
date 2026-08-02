@@ -39,6 +39,32 @@ def collect_text_nodes(
     return out
 
 
+def collect_fix_commit_nodes(
+    conn: Neo4jConnection,
+) -> list[tuple[str, str, str | None]]:
+    """Собирает (id, message, uri) для **фикс-связанных** коммитов графа.
+
+    Только `(n:Commit)-[:MENTIONS]->(:Task)` — коммит, упомянувший тикет: целевой
+    how-to-контент. Все Commit'ы индексировать не нужно (шум + раздув), поэтому
+    отдельная выборка вместо `collect_text_nodes(['Commit'])`. Пустой message
+    отбрасываем и дедупим по id в Python (коммит может ссылаться на несколько
+    тикетов → повторные строки).
+    """
+    rows = conn.run(
+        "MATCH (n:Commit)-[:MENTIONS]->(:Task) "
+        "RETURN n.id AS id, coalesce(n.message,'') AS text, n.uri AS uri"
+    )
+    out: list[tuple[str, str, str | None]] = []
+    seen: set[str] = set()
+    for r in rows:
+        rid = r["id"]
+        if rid in seen or not (r.get("text") or "").strip():
+            continue
+        seen.add(rid)
+        out.append((rid, r["text"], r.get("uri")))
+    return out
+
+
 class VectorIndexer:
     """Строит и опрашивает векторный индекс чанков."""
 

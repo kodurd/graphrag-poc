@@ -62,7 +62,7 @@
       "prod_sufficient": false,
       "broad_sufficient": false,
       "class": "not_surfaced",
-      "sid_in_prod": 0.0,
+      "sid_in_prod": 1.0,
       "sid_in_broad": 1.0,
       "sid_applicable": true
     },
@@ -180,9 +180,9 @@
       "question": "Как обойти несовместимость Node#idString при обновлении модуля, чтобы не сломать существующие интеграции, и какие другие тикеты или модули это затронет?",
       "route": "mixed",
       "source_id": "task:KAFKA-20775",
-      "prod_sufficient": null,
+      "prod_sufficient": false,
       "broad_sufficient": false,
-      "class": "judge_failed",
+      "class": "not_surfaced",
       "sid_in_prod": 1.0,
       "sid_in_broad": 1.0,
       "sid_applicable": true
@@ -359,7 +359,7 @@
       "prod_sufficient": false,
       "broad_sufficient": false,
       "class": "not_surfaced",
-      "sid_in_prod": 0.0,
+      "sid_in_prod": 1.0,
       "sid_in_broad": 1.0,
       "sid_applicable": true
     },
@@ -433,9 +433,9 @@
       "question": "Как избежать падения потока обновления состояния в Kafka Streams, когда вызов transitToUpdateStandby происходит при уже установленном состоянии STANDBY_UPDATING, и какие модули (StoreChangelogReader, DefaultStateUpdater) будут затронуты, если не добавить проверку isRestoringActive() перед каждым из трёх мест вызова?",
       "route": "multihop",
       "source_id": "task:KAFKA-20731",
-      "prod_sufficient": null,
+      "prod_sufficient": false,
       "broad_sufficient": false,
-      "class": "judge_failed",
+      "class": "not_surfaced",
       "sid_in_prod": null,
       "sid_in_broad": null,
       "sid_applicable": false
@@ -546,7 +546,7 @@
       "route": "mixed",
       "source_id": "task:KAFKA-20796",
       "prod_sufficient": true,
-      "broad_sufficient": false,
+      "broad_sufficient": true,
       "class": "ranked",
       "sid_in_prod": 1.0,
       "sid_in_broad": 1.0,
@@ -590,7 +590,7 @@
       "route": "mixed",
       "source_id": "task:KAFKA-20796",
       "prod_sufficient": true,
-      "broad_sufficient": true,
+      "broad_sufficient": false,
       "class": "ranked",
       "sid_in_prod": 1.0,
       "sid_in_broad": 1.0,
@@ -611,9 +611,9 @@
       "question": "Как обойти фатальную ошибку InvalidTxnStateException на EndTxn в Kafka Streams при использовании транзакций V2, когда commit гоняется с таймаутом транзакции, и почему это не восстанавливается автоматически, в отличие от V1, где возвращается PRODUCER_FENCED?",
       "route": "factual",
       "source_id": "task:KAFKA-20785",
-      "prod_sufficient": false,
+      "prod_sufficient": true,
       "broad_sufficient": false,
-      "class": "not_surfaced",
+      "class": "ranked",
       "sid_in_prod": 1.0,
       "sid_in_broad": 1.0,
       "sid_applicable": true
@@ -621,17 +621,16 @@
   ],
   "verdict": {
     "counts": {
-      "not_surfaced": 46,
-      "judge_failed": 2
+      "not_surfaced": 48
     },
     "n_total": 48,
-    "base": 46,
-    "judge_failed": 2,
+    "base": 48,
+    "judge_failed": 0,
     "not_surfaced_frac": 1.0,
     "verdict": "sources",
     "reason": "not_surfaced 100% ≥ 60% — нужны новые источники"
   },
-  "gold_pass": 0.25,
+  "gold_pass": 0.375,
   "trusted": false,
-  "divergence": 40
+  "divergence": 41
 }
