@@ -36,3 +36,4 @@ docs/
 
 # Логи прогонов eval (шумные, результаты — в *.json/*.md)
 eval/trial/*.log
+eval/trial/commit_message_snapshot.jsonl

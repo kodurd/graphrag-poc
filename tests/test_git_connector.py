@@ -9,10 +9,16 @@ from graphrag.connectors.git import (
     GitConnector,
     extract_imports,
     module_of,
+    parse_git_bodies,
     parse_git_log,
 )
 from graphrag.connectors.git import _FIELD_SEP, _REC_SEP
-from graphrag.intermediate import read_jsonl
+from graphrag.intermediate import JsonlWriter, read_jsonl
+
+
+def _mk_bodies(*records: tuple[str, str]) -> str:
+    """Сырой вывод git log формата _BODY_FORMAT: REC_SEP + sha + FIELD_SEP + %B."""
+    return "".join(_REC_SEP + sha + _FIELD_SEP + body for sha, body in records)
 
 
 def _mk_log(*records: tuple[str, str, str, str, str, list[str]]) -> str:
@@ -51,6 +57,62 @@ def test_commit_without_issue_ref_is_empty():
     """Коммит без KAFKA-xxx → пустой список упоминаний, не падение."""
     c = Commit("s", "a", "a@x", "d", "just a refactor")
     assert c.issue_refs == []
+
+
+# --- parse_git_bodies + тело коммита (U1) ---
+
+def test_parse_git_bodies_multiline():
+    raw = _mk_bodies(
+        ("abc123", "KAFKA-1 fix producer\n\nDetailed body line one.\nLine two."),
+        ("def456", "refactor utils"),  # subject-only, тело пустое
+    )
+    bodies = parse_git_bodies(raw)
+    assert bodies["abc123"] == "KAFKA-1 fix producer\n\nDetailed body line one.\nLine two."
+    assert bodies["def456"] == "refactor utils"
+    # тело начинается с subject (%B) — тугой сигнал в начале
+    assert bodies["abc123"].splitlines()[0] == "KAFKA-1 fix producer"
+
+
+def test_commit_subject_vs_body_refs():
+    """subject_issue_refs = только заголовок; issue_refs = весь message (subject+body)."""
+    c = Commit("s", "a", "a@x", "d",
+               message="KAFKA-1 fix\n\nReverts KAFKA-2, follow-up to KAFKA-3",
+               subject="KAFKA-1 fix")
+    assert c.subject_issue_refs == ["KAFKA-1"]
+    assert c.issue_refs == ["KAFKA-1", "KAFKA-2", "KAFKA-3"]
+
+
+def test_commit_subject_defaults_to_message():
+    """Без явного subject (как из parse_git_log) subject = message."""
+    c = Commit("s", "a", "a@x", "d", "KAFKA-9 fix")
+    assert c.subject == "KAFKA-9 fix"
+    assert c.subject_issue_refs == ["KAFKA-9"]
+
+
+def test_emit_commit_tags_body_mentions(tmp_path: Path):
+    """MENTIONS из тела помечены ref_source='body'; из заголовка — 'subject'.
+    commits-only (with_touches=False) не пишет File/Module/TOUCHES."""
+    c = Commit("abc", "Ann", "ann@x", "2024-03-01T10:00:00+00:00",
+               message="KAFKA-1 fix\n\nReverts KAFKA-2",
+               subject="KAFKA-1 fix",
+               files=["clients/src/Producer.java"])
+    conn = GitConnector(str(tmp_path))
+    out = tmp_path / "commits.jsonl"
+    stats = {"commits": 0, "mentions": 0, "body_mentions": 0}
+    with JsonlWriter(str(out)) as w:
+        conn._emit_commit(w, c, stats, with_touches=False)
+
+    records = list(read_jsonl(out))
+    edges = {r["to"]: r for r in records if r["kind"] == "edge" and r["type"] == "MENTIONS"}
+    assert edges["task:KAFKA-1"]["props"]["ref_source"] == "subject"
+    assert edges["task:KAFKA-2"]["props"]["ref_source"] == "body"
+    assert stats["body_mentions"] == 1
+    # commits-only: только Commit-узел, без File/Module/TOUCHES
+    assert not any(r["kind"] == "node" and r["label"] in ("File", "Module") for r in records)
+    assert not any(r["kind"] == "edge" and r["type"] == "TOUCHES" for r in records)
+    # message коммита несёт тело
+    commit_node = next(r for r in records if r["kind"] == "node" and r["label"] == "Commit")
+    assert "Reverts KAFKA-2" in commit_node["props"]["message"]
 
 
 # --- extract_imports (tree-sitter с фолбэком) ---

@@ -5,14 +5,20 @@
 Этот раннер собирает только фикс-связанные коммиты и грузит их существующим
 `VectorIndexer` (идемпотентно, resume пропускает готовые чанки).
 
+`--reindex`: сперва удалить существующие коммит-чанки. Нужно после обогащения
+`Commit.message` телом — иначе идемпотентность `index_nodes` (done_ids) пропустит
+уже существующие `chunk:commit:SHA#0` и богатый текст не переиндексируется.
+
 Запуск (нужны --extra ml + Neo4j):
-    uv run --extra ml python -m eval.index_fix_commits
+    uv run --extra ml python -m eval.index_fix_commits [--reindex]
 """
 
 from __future__ import annotations
 
+import sys
 
-def main() -> int:
+
+def main(reindex: bool = False) -> int:
     from graphrag.config import load_settings
     from graphrag.embeddings import build_embedder
     from graphrag.graph import Neo4jConnection
@@ -28,6 +34,14 @@ def main() -> int:
             "MATCH (c:Chunk) WHERE c.id STARTS WITH 'chunk:commit:' RETURN count(c) AS n"
         )[0]["n"]
         print(f"index-fix-commits: коммит-чанков до прогона: {before}", flush=True)
+
+        if reindex:
+            deleted = conn.run(
+                "MATCH (c:Chunk) WHERE c.id STARTS WITH 'chunk:commit:' "
+                "DETACH DELETE c RETURN count(c) AS n"
+            )[0]["n"]
+            print(f"index-fix-commits: --reindex удалил старых коммит-чанков: {deleted}",
+                  flush=True)
 
         nodes = collect_fix_commit_nodes(conn)
         print(f"index-fix-commits: фикс-связанных коммитов {len(nodes)}", flush=True)
@@ -52,4 +66,4 @@ def main() -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    raise SystemExit(main(reindex="--reindex" in sys.argv))
