@@ -6,11 +6,16 @@ import json
 
 import pytest
 
-from eval.human_gold import is_refusal, load_gold, select_gold
+from eval.human_gold import (
+    is_refusal,
+    load_gold,
+    select_gold,
+    select_nonrefusal_gold,
+)
 
 
-def _r(sid, answer, abstained=False):
-    return {"source_id": sid, "question": f"q-{sid}", "answer": answer,
+def _r(sid, answer, abstained=False, route="mixed"):
+    return {"source_id": sid, "question": f"q-{sid}", "answer": answer, "route": route,
             "abstained": {"faithfulness": abstained}, "context_texts": ["ctx"]}
 
 
@@ -44,6 +49,26 @@ def test_select_fills_with_highest_judge_disagreement():
     ]
     sel = select_gold(recs, cross_results=cross, limit=1)
     assert sel[0]["source_id"] == "t2"
+
+
+def test_select_nonrefusal_excludes_refusals():
+    recs = [
+        _r("t1", "невозможно оценить"),        # refusal -> исключён
+        _r("t2", "нормальный ответ A"),
+        _r("t3", "любой", abstained=True),     # refusal (flag) -> исключён
+        _r("t4", "нормальный ответ B"),
+    ]
+    sel = select_nonrefusal_gold(recs, cross_results=None, limit=10)
+    assert {r["source_id"] for r in sel} == {"t2", "t4"}
+
+
+def test_select_nonrefusal_spreads_across_routes():
+    recs = [_r(f"m{i}", "норм", route="mixed") for i in range(5)] + \
+           [_r("f1", "норм", route="factual"), _r("h1", "норм", route="multihop")]
+    sel = select_nonrefusal_gold(recs, cross_results=None, limit=3, per_route=True)
+    # round-robin по маршрутам: должны попасть разные маршруты, не только mixed
+    routes = {r["route"] for r in sel}
+    assert len(routes) >= 2 and len(sel) == 3
 
 
 def test_load_gold_valid(tmp_path):

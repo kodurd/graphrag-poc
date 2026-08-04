@@ -75,6 +75,43 @@ def select_gold(
     return list(picked.values())
 
 
+def select_nonrefusal_gold(
+    records: list[dict], cross_results: list[dict] | None = None, *, limit: int = 15,
+    per_route: bool = True,
+) -> list[dict]:
+    """Отбирает НЕ-отказы для глобальной калибровки судьи (не только на refusal).
+
+    Приоритет — записи, где судьи сильнее расходятся (макс Δ из cross): там человеческий
+    якорь ценнее. При per_route — раскладывает лимит по маршрутам (mixed/multihop/factual),
+    чтобы доверие проверялось на разных типах, а не только на самом частом.
+    """
+    def key(r: dict) -> tuple:
+        return (r.get("source_id"), r.get("question"))
+
+    delta_by_key: dict[tuple, float] = {}
+    for cr in cross_results or []:
+        delta_by_key[(cr.get("source_id"), cr.get("question"))] = _max_delta(cr)
+
+    cands = [r for r in records if not is_refusal(r)]
+    cands.sort(key=lambda r: delta_by_key.get(key(r), 0.0), reverse=True)
+
+    if not per_route:
+        return cands[:limit]
+
+    # Round-robin по маршрутам: берём по очереди из каждого маршрута (внутри — по Δ).
+    from collections import defaultdict, deque
+    buckets: dict[str, deque] = defaultdict(deque)
+    for r in cands:
+        buckets[r.get("route") or "?"].append(r)
+    picked: list[dict] = []
+    routes = list(buckets)
+    while len(picked) < limit and any(buckets[rt] for rt in routes):
+        for rt in routes:
+            if buckets[rt] and len(picked) < limit:
+                picked.append(buckets[rt].popleft())
+    return picked
+
+
 def render_sheet(selected: list[dict]) -> str:
     """Лист для человека: вопрос + ответ + (усечённый) контекст + пустые поля оценок."""
     lines = [
@@ -131,12 +168,35 @@ def main() -> int:
               f"скелет -> {_LABELS}.template (заполни и сохрани как {_LABELS})")
         return 0
 
+    if mode == "build_nonrefusal":
+        # Глобальное доверие: добавить ~15 НЕ-отказов к существующим отказам.
+        records = json.loads(Path(_SNAPSHOT).read_text(encoding="utf-8-sig"))["records"]
+        cross = None
+        if Path(_CROSS).exists():
+            cross = json.loads(Path(_CROSS).read_text(encoding="utf-8-sig"))["records"]
+        new = select_nonrefusal_gold(records, cross, limit=15)
+        # Лист = уже размеченные (28) + новые не-отказы → UI покажет прогресс и пустые новые.
+        done = load_gold(_LABELS) if Path(_LABELS).exists() else {}
+        by_sid = {r.get("source_id"): r for r in records}
+        selected = [by_sid[sid] for sid in done if sid in by_sid] + new
+        Path(_SHEET).write_text(render_sheet(selected), encoding="utf-8")
+        skel = {**{sid: {m: None for m in _METRICS} for sid in done},
+                **{r.get("source_id"): {m: None for m in _METRICS} for r in new}}
+        Path(_LABELS + ".template").write_text(
+            json.dumps(skel, ensure_ascii=False, indent=2), encoding="utf-8")
+        from collections import Counter
+        print(f"build_nonrefusal: +{len(new)} не-отказов "
+              f"(маршруты {dict(Counter(r.get('route') for r in new))}); "
+              f"лист {len(selected)} (из них {len(done)} уже размечены) -> {_SHEET}; "
+              f"template -> {_LABELS}.template. Размечай новые через eval.gold_ui.")
+        return 0
+
     if mode == "ingest":
         gold = load_gold()
         print(f"ingest: gold валиден, {len(gold)} размеченных записей ({_LABELS})")
         return 0
 
-    print(f"human-gold: режим {mode!r} неизвестен (build|ingest)")
+    print(f"human-gold: режим {mode!r} неизвестен (build|build_nonrefusal|ingest)")
     return 1
 
 
