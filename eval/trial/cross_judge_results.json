@@ -1314,7 +1314,7 @@
         "context_precision": 1.0
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 0.95,
         "context_precision": 0.95
       },
@@ -3514,7 +3514,7 @@
         "context_precision": 0.9
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 0.95,
         "context_precision": 0.95
       },
@@ -4814,7 +4814,7 @@
         "context_precision": 1.0
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 1.0,
         "context_precision": 0.95
       },
@@ -4834,7 +4834,7 @@
         "context_precision": 1.0
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 1.0,
         "context_precision": 0.95
       },
@@ -5114,7 +5114,7 @@
         "context_precision": 1.0
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 1.0,
         "context_precision": 1.0
       },
@@ -5394,7 +5394,7 @@
         "context_precision": 0.9
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 1.0,
         "context_precision": 0.95
       },
@@ -5474,7 +5474,7 @@
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 0.9,
         "context_precision": 0.85
       },
@@ -5554,7 +5554,7 @@
         "context_precision": 0.9
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 0.85,
         "context_precision": 0.95
       },
