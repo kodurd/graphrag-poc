@@ -69,6 +69,10 @@ def evaluate_question(
         "citations": answer.citations,
         "grounded": answer.grounded,
         "context_ids": [c.get("id") for c in candidates],
+        # Тексты контекста сохраняем в запись, чтобы кросс-модельный судья (Qwen)
+        # оценивал ТОТ ЖЕ контекст, что видел генератор. Фетч по id из Neo4j терял бы
+        # синтетический graph://-текст (не Chunk-узлы) → судьи на разном контексте.
+        "context_texts": context_texts,
         "metrics": {
             "faithfulness": faith_score,
             "answer_relevance": judge_answer_relevance(llm, question, answer.text),

@@ -62,6 +62,8 @@ def test_evaluate_question_collects_reference_free_metrics():
     assert rec["grounded"] is True
     assert rec["citations"] == [URI]
     assert rec["context_ids"] == ["chunk:task:1#0"]
+    # context_texts сохраняются в записи (для кросс-модельного судьи — тот же контекст).
+    assert rec["context_texts"] == ["clients reconnect loop"]
     assert rec["metrics"]["faithfulness"] == 0.9
     assert rec["metrics"]["answer_relevance"] == 0.8
     assert rec["metrics"]["context_precision"] == 0.7
