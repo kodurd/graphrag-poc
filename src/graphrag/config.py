@@ -24,6 +24,13 @@ class LLMConfig(BaseModel):
     max_retries: int = 2
     temperature: float = 0.0
     api_key: str | None = None  # из env LLM_API_KEY
+    # Независимый СУДЬЯ (напр. Qwen через OpenAI-совместимый эндпоинт) — чтобы
+    # генератор и оценщик были разными моделями (разрыв само-оценки). Пустые поля
+    # => fallback на generation-модель (обратная совместимость). Из env JUDGE_*.
+    judge_provider: str | None = None  # None => как provider
+    judge_model: str | None = None
+    judge_api_base: str | None = None
+    judge_api_key: str | None = None
 
 
 class EmbeddingsConfig(BaseModel):
@@ -119,5 +126,13 @@ def load_settings(path: str | Path = DEFAULT_SETTINGS_PATH) -> Settings:
     if os.getenv("LLM_MODEL"):
         settings.llm.generation_model = os.getenv("LLM_MODEL")
         settings.llm.extraction_model = os.getenv("LLM_MODEL")
+    # Независимый судья (Qwen): свой ключ/эндпоинт/модель — иначе судья пойдёт на
+    # DeepSeek-эндпоинт. Пустые => build_llm(role="judge") откатится на generation.
+    if os.getenv("JUDGE_API_KEY"):
+        settings.llm.judge_api_key = os.getenv("JUDGE_API_KEY")
+    if os.getenv("JUDGE_BASE_URL"):
+        settings.llm.judge_api_base = os.getenv("JUDGE_BASE_URL")
+    if os.getenv("JUDGE_MODEL"):
+        settings.llm.judge_model = os.getenv("JUDGE_MODEL")
     settings.neo4j.password = os.getenv("NEO4J_PASSWORD", "graphrag-local")
     return settings
