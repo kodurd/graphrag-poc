@@ -35,6 +35,8 @@ def test_classify_genre_build_vs_fix():
     assert classify_genre("как обойти IllegalArgumentException в проде") == "fix_prod"
     # fix-маркер имеет приоритет над build-маркером
     assert classify_genre("как починить и добавить обработку ошибки") == "fix_prod"
+    # ни build, ни fix -> "other" (не молча build_feature) — чтобы build_share был честным
+    assert classify_genre("что означает поле deprecatedVersions") == "other"
 
 
 # --- Причина отсутствия ------------------------------------------------------

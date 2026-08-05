@@ -46,16 +46,35 @@ def _key(r: dict) -> tuple:
 def join_before_after(before: list[dict], after: list[dict]) -> list[tuple]:
     """Пары (before_rec, after_rec) по (source_id, question) — только пересечение.
 
-    Замороженный набор вопросов (R4) => ключи совпадают; несопоставленные записи
-    (дрейф набора) молча отбрасываем, чтобы дельта считалась на идентичном множестве.
+    Замороженный набор вопросов (R4) => ключи совпадают. Дедуп по ключу с обеих
+    сторон (последняя запись выигрывает), иначе дубликат ключа удвоил бы счётчики.
+    Несопоставленные записи учитываются отдельно (`unmatched_unanswered`), а не
+    молча теряются — иначе усадка знаменателя завысила бы лифт.
     """
+    before_by_key = {_key(r): r for r in before}
     after_by_key = {_key(r): r for r in after}
-    pairs: list[tuple] = []
+    return [(b, after_by_key[k]) for k, b in before_by_key.items()
+            if k in after_by_key]
+
+
+def unmatched_unanswered(before: list[dict], after: list[dict]) -> int:
+    """Сколько ранее-безответных (refusal в BEFORE) НЕ нашли пары в AFTER.
+
+    Телеметрия честности знаменателя: >0 означает, что набор ПОСЛЕ неполон
+    (прерванный/сбойный прогон), и первичный лифт считается на усечённом множестве —
+    об этом надо предупредить, а не молча завышать rate.
+    """
+    after_keys = {_key(r) for r in after}
+    seen: set = set()
+    n = 0
     for b in before:
-        a = after_by_key.get(_key(b))
-        if a is not None:
-            pairs.append((b, a))
-    return pairs
+        k = _key(b)
+        if k in seen:
+            continue
+        seen.add(k)
+        if is_refusal(b) and k not in after_keys:
+            n += 1
+    return n
 
 
 def _kip_ids(rec: dict) -> list[str]:
@@ -216,6 +235,7 @@ def report(before: list[dict], after: list[dict], *, flip_rate_count: int = 0,
 
     return {
         "n_joined": len(pairs),
+        "unmatched_unanswered": unmatched_unanswered(before, after),
         "transitions": dict(transitions),
         "primary_lift": lift,
         "diagnostic": diag,
@@ -261,6 +281,13 @@ def render_report(rep: dict) -> str:
         f"- ранее-безответных (знаменатель): **{pl['denominator']}**",
         f"- стали отвечены (числитель): **{pl['numerator']}**",
         f"- лифт answer-rate: **{_fmt(pl['rate'])}**",
+    ]
+    _unm = rep.get("unmatched_unanswered", 0)
+    if _unm:
+        lines.append(
+            f"- ⚠️ **{_unm} ранее-безответных не нашли пары в AFTER** — знаменатель "
+            "усечён, лифт может быть завышен; пере-снять AFTER на полном наборе.")
+    lines += [
         "",
         "## Диагностический срез: KIP-в-top-k (НЕ первичный критерий)", "",
         f"- размер среза (KIP дошли в top-k): {dg['size']}",

@@ -12,6 +12,7 @@ from eval.kip_delta import (
     primary_lift,
     reachability_gate,
     report,
+    unmatched_unanswered,
 )
 
 
@@ -38,6 +39,23 @@ def _rec(sid, *, refusal=False, kip=False, answer="Готовое how-to-опи�
         "metrics": {"faithfulness": 1.0},
         "abstained": {"faithfulness": bool(refusal)},
     }
+
+
+def test_unmatched_unanswered_flags_denominator_shrink():
+    # ранее-безответный "9" отсутствует в AFTER -> усадка знаменателя, должна считаться
+    before = [_rec("1", refusal=True), _rec("9", refusal=True)]
+    after = [_rec("1", kip=True)]  # "9" пропал
+    assert unmatched_unanswered(before, after) == 1
+    # и отчёт несёт предупреждение
+    rep = report(before, after)
+    assert rep["unmatched_unanswered"] == 1
+
+
+def test_join_dedups_duplicate_before_keys():
+    # дубликат ключа в BEFORE не должен удваивать знаменатель
+    before = [_rec("1", refusal=True), _rec("1", refusal=True)]
+    after = [_rec("1", kip=True)]
+    assert primary_lift(before, after)["denominator"] == 1
 
 
 def test_kip_in_topk_detects_page_chunk():

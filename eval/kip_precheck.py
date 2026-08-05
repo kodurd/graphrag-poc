@@ -78,7 +78,9 @@ def classify_absence(record: dict) -> str:
 def classify_genre(question: str) -> str:
     """Жанр вопроса — детерминированная эвристика на ключевых основах слов.
 
-    "fix_prod" при маркерах починки/сбоя (проверяются первыми), иначе "build_feature".
+    "fix_prod" при маркерах починки/сбоя (проверяются первыми), "build_feature" при
+    маркерах создания/фичи, иначе "other". Три класса важны: build_share для GO-гейта
+    должна отражать реальные «устроить фичу» вопросы (жанр KIP), а не всё-кроме-fix.
     Заглушка под возможную замену LLM-классификатором.
     """
     q = question or ""
@@ -86,7 +88,7 @@ def classify_genre(question: str) -> str:
         return "fix_prod"
     if _BUILD_RE.search(q):
         return "build_feature"
-    return "build_feature"
+    return "other"
 
 
 def _tokens(text: str) -> set[str]:
@@ -133,7 +135,7 @@ def precheck(records: list[dict], kip_titles: list[str] | None, *,
     n = len(unanswered)
 
     cause = {"missing_genre": 0, "undocumented": 0}
-    genre = {"build_feature": 0, "fix_prod": 0}
+    genre = {"build_feature": 0, "fix_prod": 0, "other": 0}
     for r in unanswered:
         cause[classify_absence(r)] += 1
         genre[classify_genre(r.get("question") or "")] += 1

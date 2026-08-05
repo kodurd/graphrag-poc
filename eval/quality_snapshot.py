@@ -96,9 +96,11 @@ def main() -> int:
     out_path.write_text(
         json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8"
     )
-    report = render_report(results)
-    _REPORT.write_text(report, encoding="utf-8")
-    print(f"quality-snapshot: отчёт -> {_REPORT}", flush=True)
+    # Отчёт изолируем вместе с JSON: при override кладём рядом с out_path, иначе дефолт.
+    report_path = _REPORT if out_path == _RESULTS else out_path.with_suffix(".report.md")
+    report_path.write_text(render_report(results), encoding="utf-8")
+    print(f"DONE quality-snapshot: results -> {out_path} ; report -> {report_path}",
+          flush=True)
     return 0
 
 
