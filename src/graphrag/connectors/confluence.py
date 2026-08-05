@@ -12,6 +12,8 @@ r"""Confluence-коннектор: страницы/KIP + иерархия и с
 from __future__ import annotations
 
 import re
+import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 
 import httpx
@@ -67,22 +69,33 @@ class ConfluenceConnector:
     space: str  # напр. KAFKA
     page_size: int = 50
     max_pages: int | None = None
+    # Таргетинг: если задан CQL — тянем только совпавшее поддерево (напр. KIP по
+    # ancestor/label) через /rest/api/content/search. None => весь space по spaceKey.
+    cql: str | None = None
     _client: httpx.Client | None = field(default=None, repr=False)
+    _sleep: Callable[[float], None] = field(default=time.sleep, repr=False)
 
     def _client_or_new(self) -> httpx.Client:
         return self._client or httpx.Client(timeout=60.0)
 
     def _fetch(self, client: httpx.Client, start: int) -> dict:
-        return get_json_with_backoff(
-            client,
-            f"{self.base_url.rstrip('/')}/rest/api/content",
-            params={
+        if self.cql:
+            url = f"{self.base_url.rstrip('/')}/rest/api/content/search"
+            params = {
+                "cql": self.cql,
+                "start": start,
+                "limit": self.page_size,
+                "expand": "body.storage,ancestors",
+            }
+        else:
+            url = f"{self.base_url.rstrip('/')}/rest/api/content"
+            params = {
                 "spaceKey": self.space,
                 "start": start,
                 "limit": self.page_size,
                 "expand": "body.storage,ancestors",
-            },
-        )
+            }
+        return get_json_with_backoff(client, url, params=params, sleep=self._sleep)
 
     def extract(self, out_path: str) -> dict:
         client = self._client_or_new()

@@ -65,6 +65,11 @@ class SourcesConfig(BaseModel):
     confluence_space: str = "KAFKA"
     max_issues: int | None = 500
     max_pages: int | None = 200
+    # Таргетинг KIP-поддерева: CQL для /rest/api/content/search вместо всего space.
+    # None => прежнее поведение (весь space по spaceKey). Значение подставляется в
+    # рантайме (id родительской KIP-страницы известен на прогоне), напр.
+    # "type=page AND ancestor=12345".
+    confluence_cql: str | None = None
 
 
 class ChunkConfig(BaseModel):

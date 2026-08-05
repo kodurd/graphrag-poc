@@ -59,7 +59,10 @@ def ingest(
 
     if confluence:
         conn = ConfluenceConnector(
-            s.sources.confluence_base, s.sources.confluence_space, max_pages=s.sources.max_pages
+            s.sources.confluence_base,
+            s.sources.confluence_space,
+            max_pages=s.sources.max_pages,
+            cql=s.sources.confluence_cql,
         )
         typer.echo(f"confluence: {conn.extract(f'{out_dir}/confluence.jsonl')}")
 
