@@ -1,0 +1,142 @@
+{
+  "task:KAFKA-20794": {
+    "faithfulness": 1,
+    "answer_relevance": 0.75,
+    "context_precision": 0.5
+  },
+  "task:KAFKA-20793": {
+    "faithfulness": 0.5,
+    "answer_relevance": 0.25,
+    "context_precision": 0.75
+  },
+  "task:KAFKA-20792": {
+    "faithfulness": 1,
+    "answer_relevance": 0.75,
+    "context_precision": 0.75
+  },
+  "task:KAFKA-20791": {
+    "faithfulness": 0.75,
+    "answer_relevance": 0.75,
+    "context_precision": 0.5
+  },
+  "task:KAFKA-20790": {
+    "faithfulness": 1,
+    "answer_relevance": 1,
+    "context_precision": 0.25
+  },
+  "task:KAFKA-20789": {
+    "faithfulness": 0.75,
+    "answer_relevance": 0.75,
+    "context_precision": 0.5
+  },
+  "task:KAFKA-20788": {
+    "faithfulness": 1,
+    "answer_relevance": 0.75,
+    "context_precision": 1
+  },
+  "task:KAFKA-20787": {
+    "faithfulness": 1,
+    "answer_relevance": 0.75,
+    "context_precision": 0.5
+  },
+  "task:KAFKA-20786": {
+    "faithfulness": 0.5,
+    "answer_relevance": 0.5,
+    "context_precision": 0.5
+  },
+  "task:KAFKA-20783": {
+    "faithfulness": 0.75,
+    "answer_relevance": 0.5,
+    "context_precision": 0.75
+  },
+  "task:KAFKA-20781": {
+    "faithfulness": 1,
+    "answer_relevance": 0.5,
+    "context_precision": 0.5
+  },
+  "task:KAFKA-20775": {
+    "faithfulness": 0.75,
+    "answer_relevance": 0.5,
+    "context_precision": 0.5
+  },
+  "task:KAFKA-20774": {
+    "faithfulness": 1,
+    "answer_relevance": 1,
+    "context_precision": 0.75
+  },
+  "task:KAFKA-20772": {
+    "faithfulness": 0.75,
+    "answer_relevance": 0.25,
+    "context_precision": 0.5
+  },
+  "task:KAFKA-20771": {
+    "faithfulness": 0.75,
+    "answer_relevance": 0.25,
+    "context_precision": 0.75
+  },
+  "task:KAFKA-20768": {
+    "faithfulness": 1,
+    "answer_relevance": 0.5,
+    "context_precision": 0.75
+  },
+  "task:KAFKA-20763": {
+    "faithfulness": 1,
+    "answer_relevance": 1,
+    "context_precision": 0.25
+  },
+  "task:KAFKA-20761": {
+    "faithfulness": 0.75,
+    "answer_relevance": 0.75,
+    "context_precision": 0.5
+  },
+  "task:KAFKA-20777": {
+    "faithfulness": 0.75,
+    "answer_relevance": 1,
+    "context_precision": 1
+  },
+  "task:KAFKA-20766": {
+    "faithfulness": 1,
+    "answer_relevance": 0.75,
+    "context_precision": 0.75
+  },
+  "task:KAFKA-20765": {
+    "faithfulness": 0.75,
+    "answer_relevance": 1,
+    "context_precision": 0.75
+  },
+  "task:KAFKA-20757": {
+    "faithfulness": 1,
+    "answer_relevance": 0.75,
+    "context_precision": 0.75
+  },
+  "task:KAFKA-20745": {
+    "faithfulness": 1,
+    "answer_relevance": 0.75,
+    "context_precision": 0.25
+  },
+  "task:KAFKA-20743": {
+    "faithfulness": 0.5,
+    "answer_relevance": 0.5,
+    "context_precision": 0.75
+  },
+  "task:KAFKA-20742": {
+    "faithfulness": 0.5,
+    "answer_relevance": 0.25,
+    "context_precision": 1
+  },
+  "task:KAFKA-20741": {
+    "faithfulness": 1,
+    "answer_relevance": 0.25,
+    "context_precision": 0.75
+  },
+  "task:KAFKA-20736": {
+    "faithfulness": 1,
+    "answer_relevance": 0.25,
+    "context_precision": 1
+  },
+  "task:KAFKA-20734": {
+    "faithfulness": 1,
+    "answer_relevance": 0.5,
+    "context_precision": 0.5
+  }
+}
