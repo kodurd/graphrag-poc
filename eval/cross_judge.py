@@ -14,6 +14,7 @@
 from __future__ import annotations
 
 import json
+import os
 from pathlib import Path
 
 from graphrag.llm.base import LLMClient
@@ -26,6 +27,26 @@ from eval.metrics import (
 
 _SNAPSHOT = "eval/trial/quality_snapshot_results.json"
 _RESULTS = "eval/trial/cross_judge_results.json"
+
+
+def _resolve_in(default: str) -> Path:
+    """Входной снимок: env `CJ_IN` перекрывает `default` (иначе дефолт).
+
+    Чистая (без диска): BEFORE/AFTER читают свой снимок на одном билде.
+    Существование файла проверяет вызывающий, не резолвер.
+    """
+    override = os.environ.get("CJ_IN")
+    return Path(override) if override else Path(default)
+
+
+def _resolve_out(default: str) -> Path:
+    """Выходной путь: env `CJ_OUT` перекрывает `default` (иначе дефолт).
+
+    Чистая (без диска): BEFORE/AFTER пишут в разные файлы. Создание/ошибка
+    каталога — забота писателя, не резолвера.
+    """
+    override = os.environ.get("CJ_OUT")
+    return Path(override) if override else Path(default)
 
 
 def _faith_with_retry(judge_llm: LLMClient, answer: str, ctx: list[str]):
@@ -102,6 +123,8 @@ def main() -> int:
     from graphrag.llm import build_llm
 
     mode = sys.argv[1] if len(sys.argv) > 1 else "full"
+    in_path = _resolve_in(_SNAPSHOT)
+    out_path = _resolve_out(_RESULTS)
 
     s = load_settings()
     # Гейт: без независимого judge-ключа судья = DeepSeek (не разрывает круг).
@@ -111,7 +134,7 @@ def main() -> int:
         return 1
 
     if mode == "rejudge-failures":
-        cross_p, snap_p = Path(_RESULTS), Path(_SNAPSHOT)
+        cross_p, snap_p = out_path, in_path
         if not (cross_p.exists() and snap_p.exists()):
             print("rejudge-failures: нет cross_judge_results.json или снимка")
             return 1
@@ -123,10 +146,10 @@ def main() -> int:
                      and not r.get("qwen_faith_abstained"))
         residual = rejudge_failures(cross, snapshot, judge)
         cross_p.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-        print(f"DONE rejudge-failures: было {before}, остаточный шум {residual} -> {_RESULTS}")
+        print(f"DONE rejudge-failures: было {before}, остаточный шум {residual} -> {cross_p}")
         return 0
 
-    snap = Path(_SNAPSHOT)
+    snap = in_path
     if not snap.exists():
         print(f"cross-judge: нет снимка {snap} — сначала eval.quality_snapshot")
         return 1
@@ -144,12 +167,12 @@ def main() -> int:
         if i % 20 == 0 or i == len(records):
             print(f"  [{i}/{len(records)}]", flush=True)
 
-    Path(_RESULTS).write_text(
+    out_path.write_text(
         json.dumps({"records": results, "judge_model": s.llm.judge_model},
                    ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-    print(f"DONE cross-judge: {len(results)} -> {_RESULTS}", flush=True)
+    print(f"DONE cross-judge: {len(results)} -> {out_path}", flush=True)
     return 0
 
 

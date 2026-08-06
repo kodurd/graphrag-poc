@@ -40,6 +40,10 @@ sources:
   confluence_space: KAFKA
   max_issues: 500
   max_pages: 200
+  # Таргетинг KIP-поддерева: CQL для /rest/api/content/search вместо всего space.
+  # Закомментировано => прежнее поведение (весь space по spaceKey). Значение
+  # (id родительской KIP-страницы) подставляется на прогоне.
+  # confluence_cql: "type=page AND ancestor=<KIP-parent-id>"
 
 chunk:
   size: 800

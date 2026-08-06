@@ -15,6 +15,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -30,6 +31,16 @@ from eval.quality_report import render_report
 _QUESTIONS = Path("eval/trial/questions_grown.json")
 _REPORT = Path("eval/trial/quality_snapshot_report.md")
 _RESULTS = Path("eval/trial/quality_snapshot_results.json")
+
+
+def _resolve_out(default: Path) -> Path:
+    """Выходной путь снимка: env `QS_OUT` перекрывает `default` (иначе дефолт).
+
+    Чистая (без диска): изоляция BEFORE/AFTER пишет в разные файлы на одном билде.
+    Создание/ошибка каталога — забота писателя, не резолвера.
+    """
+    override = os.environ.get("QS_OUT")
+    return Path(override) if override else default
 
 
 def main() -> int:
@@ -81,12 +92,15 @@ def main() -> int:
         "records": records,
         "counts": {"questions": len(records), "labeled": 0, "total": len(records)},
     }
-    _RESULTS.write_text(
+    out_path = _resolve_out(_RESULTS)
+    out_path.write_text(
         json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8"
     )
-    report = render_report(results)
-    _REPORT.write_text(report, encoding="utf-8")
-    print(f"quality-snapshot: отчёт -> {_REPORT}", flush=True)
+    # Отчёт изолируем вместе с JSON: при override кладём рядом с out_path, иначе дефолт.
+    report_path = _REPORT if out_path == _RESULTS else out_path.with_suffix(".report.md")
+    report_path.write_text(render_report(results), encoding="utf-8")
+    print(f"DONE quality-snapshot: results -> {out_path} ; report -> {report_path}",
+          flush=True)
     return 0
 
 
