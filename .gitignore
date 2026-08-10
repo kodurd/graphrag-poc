@@ -37,3 +37,9 @@ docs/
 # Логи прогонов eval (шумные, результаты — в *.json/*.md)
 eval/trial/*.log
 eval/trial/commit_message_snapshot.jsonl
+
+# Neo4j backups (large binaries) + restore leftovers
+backups/
+neo4j_data.prev/
+# temp measurement orchestration/logs
+eval/trial/_*
