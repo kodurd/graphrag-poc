@@ -89,6 +89,11 @@ class RetrievalConfig(BaseModel):
     # impact-вопрос фактических чанков → воздержание). Дефолт True — это баг-фикс; флаг
     # существует для A/B-замера (graph-only vs full). См. retrieval/hybrid.py.
     multihop_full_retrieval: bool = True
+    # KIP-scoped глубина: сколько слотов финального капа резервировать под page-чанки
+    # (`chunk:page:*`), чтобы полная процедура KIP доходила до генератора цельной. 0 =
+    # прежнее поведение (не-KIP вопросы не затронуты). Только для page-чанков; тикеты/
+    # коммиты не трогает. См. cap_candidates_keep_kip в retrieval/hybrid.py.
+    kip_reserve: int = 0
 
 
 class EvalConfig(BaseModel):
