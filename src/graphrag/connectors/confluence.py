@@ -23,6 +23,15 @@ from graphrag.intermediate import JsonlWriter, edge, node
 
 _ISSUE_RE = re.compile(r"\b([A-Z][A-Z0-9]+-\d+)\b")
 _TAG_RE = re.compile(r"<[^>]+>")
+# Заголовки разделов KIP (<h1>..<h3>, с атрибутами) — берём вместе с телом, чтобы
+# заменить на сентинел-маркер и сохранить границы разделов для секционного чанкинга.
+_HEADING_RE = re.compile(r"<h[1-3][^>]*>(.*?)</h[1-3]\s*>", re.IGNORECASE | re.DOTALL)
+
+
+def _mark_heading(match: re.Match) -> str:
+    """Заголовок раздела → сентинел '\\n## <текст>\\n'; пустой заголовок отбрасываем."""
+    inner = re.sub(r"\s+", " ", _TAG_RE.sub(" ", match.group(1))).strip()
+    return f"\n## {inner}\n" if inner else " "
 
 
 def parse_page(page: dict, *, base_uri: str = "https://cwiki.apache.org/confluence") -> list[dict]:
@@ -35,7 +44,15 @@ def parse_page(page: dict, *, base_uri: str = "https://cwiki.apache.org/confluen
     src = {"source": "confluence", "uri": uri}
 
     body = ((page.get("body") or {}).get("storage") or {}).get("value", "")
-    plain = re.sub(r"\s+", " ", _TAG_RE.sub(" ", body)).strip()
+    # Сперва фиксируем заголовки разделов сентинелом, затем сносим остальные теги.
+    marked = _HEADING_RE.sub(_mark_heading, body)
+    plain = _TAG_RE.sub(" ", marked)
+    # Коллапс пробелов/табов, но с сохранением переносов вокруг маркеров разделов.
+    plain = re.sub(r"[^\S\n]+", " ", plain)
+    plain = re.sub(r"\s*\n\s*", "\n", plain).strip()
+    # Единый разделитель '\n## ' и для первого раздела, чтобы чанкер резал однородно.
+    if plain.startswith("## "):
+        plain = "\n" + plain
     records.append(
         node(
             "Page",
