@@ -30,13 +30,13 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.8,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.85,
-        "context_precision": null
+        "answer_relevance": 0.9,
+        "context_precision": 0.95
       },
       "qwen_faith_abstained": false
     },
@@ -50,12 +50,12 @@
       },
       "deepseek": {
         "faithfulness": 0.5,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.8,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 0.6666666666666666,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.9,
         "context_precision": 0.8
       },
       "qwen_faith_abstained": false
@@ -70,15 +70,15 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.0,
         "context_precision": 0.4
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 0.2,
         "context_precision": 0.8
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20793",
@@ -89,16 +89,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.6,
-        "answer_relevance": 0.9,
-        "context_precision": 0.8
+        "faithfulness": 0.0,
+        "answer_relevance": 0.7,
+        "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.95,
-        "context_precision": 0.85
+        "faithfulness": null,
+        "answer_relevance": 0.85,
+        "context_precision": 0.75
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20792",
@@ -109,14 +109,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.75,
+        "faithfulness": 0.8,
         "answer_relevance": 0.7,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.92,
-        "context_precision": 0.9
+        "answer_relevance": 0.95,
+        "context_precision": 0.95
       },
       "qwen_faith_abstained": false
     },
@@ -129,14 +129,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.0,
         "answer_relevance": 0.0,
-        "context_precision": 0.6
+        "context_precision": 0.4
       },
       "qwen": {
         "faithfulness": null,
         "answer_relevance": 0.2,
-        "context_precision": 0.75
+        "context_precision": 0.3
       },
       "qwen_faith_abstained": true
     },
@@ -149,7 +149,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.75,
+        "faithfulness": 1.0,
         "answer_relevance": 0.7,
         "context_precision": 0.8
       },
@@ -169,14 +169,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.8,
         "answer_relevance": 1.0,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 0.95,
-        "context_precision": 0.85
+        "context_precision": 0.75
       },
       "qwen_faith_abstained": false
     },
@@ -210,12 +210,12 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.95,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -249,16 +249,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.6666666666666666,
-        "answer_relevance": 0.7,
+        "faithfulness": 0.0,
+        "answer_relevance": 0.4,
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.85,
+        "faithfulness": null,
+        "answer_relevance": 0.3,
         "context_precision": 0.85
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20792",
@@ -269,7 +269,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.9,
+        "faithfulness": 0.75,
         "answer_relevance": 0.9,
         "context_precision": 0.8
       },
@@ -290,15 +290,15 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.4,
         "context_precision": 0.2
       },
       "qwen": {
-        "faithfulness": null,
-        "answer_relevance": 0.3,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.2,
         "context_precision": 0.2
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20789",
@@ -310,12 +310,12 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 1.0,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 1.0,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -349,14 +349,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.6,
-        "answer_relevance": 0.7,
+        "faithfulness": 0.3333333333333333,
+        "answer_relevance": 0.4,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.85,
-        "context_precision": 0.6
+        "answer_relevance": 0.65,
+        "context_precision": 0.7
       },
       "qwen_faith_abstained": false
     },
@@ -415,7 +415,7 @@
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
       "qwen_faith_abstained": true
@@ -444,21 +444,21 @@
       "source_id": "task:KAFKA-20781",
       "question": "Как обойти флакинг теста ConsumerGroupHeartbeatWithRegexWithDifferentMemberAcls, который стал нестабильным на trunk после 23 июня, и какие модули или ACL-настройки могут быть затронуты при изменении логики heartbeat для consumer group с regex-подпиской?",
       "route": "mixed",
-      "grounded": false,
+      "grounded": true,
       "abstained": {
         "faithfulness": false
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.0,
+        "answer_relevance": 0.7,
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": null,
-        "answer_relevance": 0.9,
+        "faithfulness": 0.0,
+        "answer_relevance": 0.75,
         "context_precision": 0.85
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20780",
@@ -509,13 +509,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.9,
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 1.0,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -534,11 +534,11 @@
         "context_precision": 0.8
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": null,
+        "faithfulness": null,
+        "answer_relevance": 0.85,
         "context_precision": 0.8
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20776",
@@ -549,13 +549,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.0,
         "answer_relevance": 0.9,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.95,
         "context_precision": 0.9
       },
       "qwen_faith_abstained": false
@@ -575,7 +575,7 @@
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.3,
+        "answer_relevance": 0.85,
         "context_precision": 0.6
       },
       "qwen_faith_abstained": true
@@ -615,7 +615,7 @@
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.95,
         "context_precision": 0.8
       },
       "qwen_faith_abstained": false
@@ -630,15 +630,15 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.7,
+        "answer_relevance": 0.4,
         "context_precision": 0.8
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "faithfulness": null,
+        "answer_relevance": 0.3,
         "context_precision": 0.85
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20771",
@@ -654,11 +654,11 @@
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": null,
-        "answer_relevance": 0.3,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.65,
         "context_precision": 0.6
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20770",
@@ -694,8 +694,8 @@
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "faithfulness": 0.8571428571428571,
+        "answer_relevance": 1.0,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -710,15 +710,15 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.4,
+        "answer_relevance": 0.2,
         "context_precision": 1.0
       },
       "qwen": {
-        "faithfulness": 0.6666666666666666,
+        "faithfulness": null,
         "answer_relevance": 0.3,
         "context_precision": 0.95
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20767",
@@ -749,14 +749,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.9,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.7,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 0.95,
-        "context_precision": 0.85
+        "context_precision": 0.9
       },
       "qwen_faith_abstained": false
     },
@@ -789,13 +789,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
+        "faithfulness": 1.0,
         "answer_relevance": 0.7,
         "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.9,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -810,15 +810,15 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.7,
+        "answer_relevance": 0.4,
         "context_precision": 0.4
       },
       "qwen": {
-        "faithfulness": 1.0,
+        "faithfulness": null,
         "answer_relevance": 0.85,
         "context_precision": 0.4
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20762",
@@ -836,7 +836,7 @@
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 0.95,
-        "context_precision": 0.95
+        "context_precision": 0.9
       },
       "qwen_faith_abstained": false
     },
@@ -850,12 +850,12 @@
       },
       "deepseek": {
         "faithfulness": 0.5,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.8,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.9,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": false
@@ -869,13 +869,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8,
-        "answer_relevance": 0.9,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.6,
         "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.85,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -889,8 +889,8 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8,
-        "answer_relevance": 0.7,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 1.0
       },
       "qwen": {
@@ -910,153 +910,13 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
-        "context_precision": 0.7
-      },
-      "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.95,
-        "context_precision": 0.75
-      },
-      "qwen_faith_abstained": false
-    },
-    {
-      "source_id": "task:KAFKA-20796",
-      "question": "Как исправить расхождение между метриками num-open-iterators и oldest-iterator-open-since-ms в Kafka Streams, если итераторы из MeteredTimestampedKeyValueStore не учитываются в первой метрике, и какие модули или тикеты будут затронуты этим изменением?",
-      "route": "multihop",
-      "grounded": true,
-      "abstained": {
-        "faithfulness": false
-      },
-      "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 1.0,
-        "context_precision": 0.8
-      },
-      "qwen": {
-        "faithfulness": 0.8,
-        "answer_relevance": 1.0,
-        "context_precision": 0.95
-      },
-      "qwen_faith_abstained": false
-    },
-    {
-      "source_id": "task:KAFKA-20790",
-      "question": "Как перейти на публичный API стримового assignor, не сломав обратную совместимость с существующими приватными интеграциями, и какие модули потребуется переписать?",
-      "route": "mixed",
-      "grounded": true,
-      "abstained": {
-        "faithfulness": false
-      },
-      "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.6,
-        "context_precision": 0.8
-      },
-      "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.85,
-        "context_precision": 0.9
-      },
-      "qwen_faith_abstained": false
-    },
-    {
-      "source_id": "task:KAFKA-20783",
-      "question": "Как интеграция асинхронного чтения логов в DelayedShareFetch повлияет на производительность и какие модули могут быть затронуты при обходе блокировок синхронного ввода-вывода?",
-      "route": "mixed",
-      "grounded": false,
-      "abstained": {
-        "faithfulness": false
-      },
-      "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.7,
-        "context_precision": 0.8
-      },
-      "qwen": {
-        "faithfulness": null,
-        "answer_relevance": 0.9,
-        "context_precision": 0.8
-      },
-      "qwen_faith_abstained": true
-    },
-    {
-      "source_id": "task:KAFKA-20782",
-      "question": "Почему при использовании group.protocol=streams с несколькими потоками (N threads) метод metadataForAllStreamsClients() возвращает только 1/N метаданных, и как это связано с тем, что в HashMap, построенном в convertHostInfoMap(), последняя запись с одинаковым host:port перезаписывает предыдущие, в то время как при классическом протоколе такой проблемы нет?",
-      "route": "mixed",
-      "grounded": true,
-      "abstained": {
-        "faithfulness": false
-      },
-      "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 1.0,
-        "context_precision": 0.6
-      },
-      "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 1.0,
-        "context_precision": 0.95
-      },
-      "qwen_faith_abstained": false
-    },
-    {
-      "source_id": "task:KAFKA-20777",
-      "question": "Как обойти IllegalStateException в StagedMergeIterator при закрытии транзакционного state store, чтобы получить InvalidStateStoreException, и какие модули Kafka Streams будут затронуты этим несоответствием?",
-      "route": "multihop",
-      "grounded": true,
-      "abstained": {
-        "faithfulness": false
-      },
-      "deepseek": {
-        "faithfulness": 0.5,
-        "answer_relevance": 0.6,
-        "context_precision": 0.6
-      },
-      "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.3,
-        "context_precision": 0.8
-      },
-      "qwen_faith_abstained": false
-    },
-    {
-      "source_id": "task:KAFKA-20775",
-      "question": "Как обойти несовместимость Node#idString при интеграции изменений из PR 22512, если в нашем проекте уже используется кастомная реализация этого метода, и какие модули Kafka будут затронуты?",
-      "route": "mixed",
-      "grounded": true,
-      "abstained": {
-        "faithfulness": true
-      },
-      "deepseek": {
-        "faithfulness": null,
-        "answer_relevance": 0.0,
-        "context_precision": 0.6
-      },
-      "qwen": {
-        "faithfulness": null,
         "answer_relevance": 0.9,
         "context_precision": 0.6
       },
-      "qwen_faith_abstained": true
-    },
-    {
-      "source_id": "task:KAFKA-20774",
-      "question": "Как обойти потерю SCRAM-пользователей в KRaft-режиме при пакетной обработке REMOVE-записей для отсутствующих пользователей, если исправление в ScramDelta.apply() ещё не применено, и какие модули/тикеты будут затронуты при ручном патче?",
-      "route": "mixed",
-      "grounded": true,
-      "abstained": {
-        "faithfulness": false
-      },
-      "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.7,
-        "context_precision": 0.8
-      },
       "qwen": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.8571428571428571,
         "answer_relevance": 0.95,
-        "context_precision": 0.9
+        "context_precision": 0.65
       },
       "qwen_faith_abstained": false
     },
@@ -1070,11 +930,11 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 0.5,
+        "faithfulness": 1.0,
         "answer_relevance": 0.95,
         "context_precision": 0.8
       },
@@ -1086,16 +946,16 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": true
+        "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": null,
-        "answer_relevance": 0.0,
+        "faithfulness": 0.0,
+        "answer_relevance": 0.4,
         "context_precision": 0.2
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.3,
         "context_precision": 0.6
       },
       "qwen_faith_abstained": true
@@ -1109,16 +969,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.4,
-        "context_precision": 0.6
+        "faithfulness": 0.75,
+        "answer_relevance": 0.7,
+        "context_precision": 0.8
       },
       "qwen": {
-        "faithfulness": null,
-        "answer_relevance": 0.3,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.85,
         "context_precision": 0.65
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20770",
@@ -1151,7 +1011,7 @@
       "deepseek": {
         "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 0.8
+        "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -1170,15 +1030,15 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.6,
+        "answer_relevance": 0.4,
         "context_precision": 1.0
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 0.3,
         "context_precision": 0.95
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20767",
@@ -1189,14 +1049,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8571428571428571,
-        "answer_relevance": 1.0,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 0.9
+        "context_precision": 0.95
       },
       "qwen_faith_abstained": false
     },
@@ -1209,9 +1069,9 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.9,
+        "faithfulness": 0.8,
         "answer_relevance": 0.9,
-        "context_precision": 0.9
+        "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -1236,7 +1096,7 @@
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 1.0
+        "context_precision": 0.95
       },
       "qwen_faith_abstained": false
     },
@@ -1251,14 +1111,14 @@
       "deepseek": {
         "faithfulness": 0.0,
         "answer_relevance": 0.7,
-        "context_precision": 0.2
-      },
-      "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.9,
         "context_precision": 0.4
       },
-      "qwen_faith_abstained": false
+      "qwen": {
+        "faithfulness": null,
+        "answer_relevance": 0.85,
+        "context_precision": 0.25
+      },
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20760",
@@ -1269,14 +1129,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8,
-        "answer_relevance": 0.7,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
-        "context_precision": 1.0
+        "answer_relevance": 1.0,
+        "context_precision": 0.95
       },
       "qwen_faith_abstained": false
     },
@@ -1289,13 +1149,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.75,
         "answer_relevance": 0.9,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 1.0,
         "context_precision": 0.9
       },
       "qwen_faith_abstained": false
@@ -1309,14 +1169,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8,
-        "answer_relevance": 0.8,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 0.95,
-        "context_precision": 0.85
+        "context_precision": 0.8
       },
       "qwen_faith_abstained": false
     },
@@ -1329,7 +1189,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.6666666666666666,
+        "faithfulness": 1.0,
         "answer_relevance": 0.7,
         "context_precision": 0.9
       },
@@ -1354,8 +1214,8 @@
         "context_precision": 0.8
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "faithfulness": 0.8333333333333334,
+        "answer_relevance": 0.95,
         "context_precision": 0.9
       },
       "qwen_faith_abstained": false
@@ -1369,7 +1229,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.9,
+        "faithfulness": 0.8,
         "answer_relevance": 1.0,
         "context_precision": 1.0
       },
@@ -1395,7 +1255,7 @@
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.0,
+        "answer_relevance": 1.0,
         "context_precision": 0.1
       },
       "qwen_faith_abstained": true
@@ -1415,7 +1275,7 @@
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.9,
         "context_precision": 0.9
       },
       "qwen_faith_abstained": false
@@ -1429,14 +1289,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.5,
+        "faithfulness": 1.0,
         "answer_relevance": 0.9,
-        "context_precision": 0.6
+        "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
-        "context_precision": 0.9
+        "answer_relevance": 1.0,
+        "context_precision": 0.8
       },
       "qwen_faith_abstained": false
     },
@@ -1470,7 +1330,7 @@
       },
       "deepseek": {
         "faithfulness": 0.9,
-        "answer_relevance": 0.9,
+        "answer_relevance": 1.0,
         "context_precision": 0.9
       },
       "qwen": {
@@ -1511,12 +1371,12 @@
       "deepseek": {
         "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 0.8
+        "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 0.9
+        "context_precision": 0.95
       },
       "qwen_faith_abstained": false
     },
@@ -1529,16 +1389,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.7,
+        "faithfulness": 0.0,
+        "answer_relevance": 0.2,
         "context_precision": 0.2
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "faithfulness": null,
+        "answer_relevance": 0.2,
         "context_precision": 0.25
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20744",
@@ -1549,7 +1409,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8,
+        "faithfulness": 0.5,
         "answer_relevance": 0.9,
         "context_precision": 0.8
       },
@@ -1569,13 +1429,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.75,
+        "faithfulness": 0.5,
         "answer_relevance": 0.7,
         "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.9,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -1584,19 +1444,19 @@
       "source_id": "task:KAFKA-20742",
       "question": "Как изменить начальное смещение для вновь инициализируемых разделов shared-памяти, чтобы оно было равно 0, и какие модули или тикеты могут быть затронуты этим изменением?",
       "route": "mixed",
-      "grounded": false,
+      "grounded": true,
       "abstained": {
         "faithfulness": true
       },
       "deepseek": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.0,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.9,
-        "context_precision": 0.8
+        "answer_relevance": 0.2,
+        "context_precision": 0.9
       },
       "qwen_faith_abstained": true
     },
@@ -1610,7 +1470,7 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 1.0,
         "context_precision": 0.9
       },
       "qwen": {
@@ -1636,7 +1496,7 @@
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 0.85
+        "context_precision": 0.9
       },
       "qwen_faith_abstained": false
     },
@@ -1650,7 +1510,7 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.7,
         "context_precision": 1.0
       },
       "qwen": {
@@ -1694,11 +1554,11 @@
         "context_precision": 0.2
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 0.3333333333333333,
         "answer_relevance": 0.6,
         "context_precision": 0.25
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20736",
@@ -1715,7 +1575,7 @@
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.2,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": true
@@ -1730,7 +1590,7 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 1.0,
         "context_precision": 0.6
       },
       "qwen": {
@@ -1749,7 +1609,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.6666666666666666,
+        "faithfulness": 0.5,
         "answer_relevance": 0.7,
         "context_precision": 0.6
       },
@@ -1770,12 +1630,12 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.7,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.85,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -1799,106 +1659,6 @@
         "context_precision": 1.0
       },
       "qwen_faith_abstained": false
-    },
-    {
-      "source_id": "task:KAFKA-20731",
-      "question": "Как избежать падения потока обновления состояния в Kafka Streams, когда вызов transitToUpdateStandby происходит при уже установленном состоянии STANDBY_UPDATING, и какие модули (StoreChangelogReader, DefaultStateUpdater) будут затронуты, если не добавить проверку isRestoringActive() перед каждым из трёх мест вызова?",
-      "route": "multihop",
-      "grounded": true,
-      "abstained": {
-        "faithfulness": false
-      },
-      "deepseek": {
-        "faithfulness": null,
-        "answer_relevance": 1.0,
-        "context_precision": 0.8
-      },
-      "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 1.0,
-        "context_precision": 0.95
-      },
-      "qwen_faith_abstained": false
-    },
-    {
-      "source_id": "task:KAFKA-20730",
-      "question": "Как обойти ошибку NoClassDefFoundError для scala/util/control/NonFatal при запуске spotlessScalaCheck в модуле streams-scala, не удаляя сам плагин Spotless из сборки, и не затронет ли это другие модули, использующие Spotless?",
-      "route": "multihop",
-      "grounded": true,
-      "abstained": {
-        "faithfulness": false
-      },
-      "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.7,
-        "context_precision": 0.9
-      },
-      "qwen": {
-        "faithfulness": null,
-        "answer_relevance": 0.2,
-        "context_precision": 0.95
-      },
-      "qwen_faith_abstained": true
-    },
-    {
-      "source_id": "task:KAFKA-20729",
-      "question": "Как реализовать newBaseSnapshotIterator в RocksDBTransactionBuffer, чтобы исправить ошибку компиляции trunk, и какие последствия это будет иметь для не-владельческих (IQ) сканов?",
-      "route": "mixed",
-      "grounded": true,
-      "abstained": {
-        "faithfulness": false
-      },
-      "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.9,
-        "context_precision": 0.8
-      },
-      "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 1.0,
-        "context_precision": 0.9
-      },
-      "qwen_faith_abstained": false
-    },
-    {
-      "source_id": "task:KAFKA-20728",
-      "question": "Как добавить поддержку PQC TLS в Kafka, если SslEngineBuilder не вызывает setNamedGroups(), а JVM-свойство jdk.tls.namedGroups недокументировано, и при этом нужно сохранить обратную совместимость с существующими конфигурациями?",
-      "route": "mixed",
-      "grounded": true,
-      "abstained": {
-        "faithfulness": false
-      },
-      "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 1.0,
-        "context_precision": 0.9
-      },
-      "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 1.0,
-        "context_precision": 0.95
-      },
-      "qwen_faith_abstained": false
-    },
-    {
-      "source_id": "task:KAFKA-20727",
-      "question": "Как правильно параметризовать системные тесты Kafka Streams для использования транзакционных state stores, и какие изменения в тестовом окружении потребуются, чтобы не сломать существующие smoke-тесты?",
-      "route": "mixed",
-      "grounded": true,
-      "abstained": {
-        "faithfulness": false
-      },
-      "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.4,
-        "context_precision": 0.6
-      },
-      "qwen": {
-        "faithfulness": null,
-        "answer_relevance": 0.3,
-        "context_precision": 0.8
-      },
-      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20726",
@@ -1930,12 +1690,12 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.4,
         "context_precision": 0.4
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.85,
         "context_precision": 0.4
       },
       "qwen_faith_abstained": true
@@ -1951,7 +1711,7 @@
       "deepseek": {
         "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 1.0
+        "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -1975,7 +1735,7 @@
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
       "qwen_faith_abstained": true
@@ -1990,7 +1750,7 @@
       },
       "deepseek": {
         "faithfulness": null,
-        "answer_relevance": 0.7,
+        "answer_relevance": 0.0,
         "context_precision": 0.0
       },
       "qwen": {
@@ -2009,13 +1769,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.0,
         "answer_relevance": 0.7,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.85,
+        "answer_relevance": 0.3,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -2029,7 +1789,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8,
+        "faithfulness": 0.75,
         "answer_relevance": 0.9,
         "context_precision": 0.9
       },
@@ -2041,21 +1801,41 @@
       "qwen_faith_abstained": false
     },
     {
+      "source_id": "task:KAFKA-20719",
+      "question": "Как обойти проблему, что sticky-ассайнор для 'streams' групп не сохраняет привязку задач при старте нового инстанса KS, и почему передача taskOffsetSum через join group heartbeat решает эту проблему, учитывая, что статическое членство пока не поддерживается?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
+        "context_precision": 0.8
+      },
+      "qwen": {
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
+        "context_precision": 0.9
+      },
+      "qwen_faith_abstained": false
+    },
+    {
       "source_id": "task:KAFKA-20718",
       "question": "Как обойти флаки-тест testClosingOffsetReaderWhenOffsetStoreHangsAndHasIncompleteFutures в OffsetStorageReaderTest, если CompletableFuture.get() не вызывается из-за того, что мок не взаимодействует с тестируемым кодом, и как это связано с обработкой незавершённых фьючерсов в OffsetStore?",
       "route": "mixed",
-      "grounded": false,
+      "grounded": true,
       "abstained": {
-        "faithfulness": true
+        "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": null,
+        "faithfulness": 0.0,
         "answer_relevance": 0.0,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.1,
+        "answer_relevance": 0.2,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": true
@@ -2075,8 +1855,28 @@
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.95,
         "context_precision": 0.95
+      },
+      "qwen_faith_abstained": false
+    },
+    {
+      "source_id": "task:KAFKA-20796",
+      "question": "Как обойти расхождение метрик num-open-iterators и oldest-iterator-open-since-ms при работе с timestamped key-value store, если итераторы не учитываются в счётчике, и какие модули или тикеты будут затронуты при исправлении этого бага?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.9,
+        "context_precision": 0.8
+      },
+      "qwen": {
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
+        "context_precision": 0.9
       },
       "qwen_faith_abstained": false
     },
@@ -2111,12 +1911,12 @@
       "deepseek": {
         "faithfulness": 0.0,
         "answer_relevance": 0.0,
-        "context_precision": 0.2
+        "context_precision": 0.4
       },
       "qwen": {
         "faithfulness": null,
         "answer_relevance": 0.9,
-        "context_precision": 0.4
+        "context_precision": 0.2
       },
       "qwen_faith_abstained": true
     },
@@ -2129,9 +1929,9 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 1.0,
-        "context_precision": 0.4
+        "faithfulness": 0.75,
+        "answer_relevance": 0.9,
+        "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -2150,12 +1950,12 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.0,
-        "context_precision": 0.9
+        "answer_relevance": 0.7,
+        "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.95,
         "context_precision": 0.9
       },
       "qwen_faith_abstained": true
@@ -2169,9 +1969,9 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.4,
-        "context_precision": 0.4
+        "faithfulness": 0.0,
+        "answer_relevance": 0.7,
+        "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -2195,7 +1995,7 @@
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.95,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": false
@@ -2209,8 +2009,8 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.5,
-        "answer_relevance": 1.0,
+        "faithfulness": 0.95,
+        "answer_relevance": 0.9,
         "context_precision": 0.4
       },
       "qwen": {
@@ -2230,7 +2030,7 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.7,
+        "answer_relevance": 0.9,
         "context_precision": 0.8
       },
       "qwen": {
@@ -2270,15 +2070,15 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.4,
+        "answer_relevance": 0.7,
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": null,
-        "answer_relevance": 0.85,
+        "faithfulness": 0.25,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20785",
@@ -2289,13 +2089,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.9,
+        "faithfulness": 1.0,
         "answer_relevance": 0.9,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 1.0,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -2309,7 +2109,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 1.0,
         "context_precision": 0.8
       },
@@ -2326,19 +2126,39 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": false
+        "faithfulness": true
       },
       "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.2,
+        "faithfulness": null,
+        "answer_relevance": 0.0,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.9,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": true
+    },
+    {
+      "source_id": "task:KAFKA-20782",
+      "question": "Как обойти потерю метаданных Interactive Queries при использовании Streams-протокола с несколькими потоками, когда все потоки одного инстанса сообщают одинаковый application.server и в HashMap остаётся только последняя запись, из-за чего queryMetadataForKey() видит лишь часть партиций инстанса?",
+      "route": "factual",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.7,
+        "context_precision": 0.6
+      },
+      "qwen": {
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
+        "context_precision": 0.95
+      },
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20781",
@@ -2350,7 +2170,7 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.4,
+        "answer_relevance": 0.0,
         "context_precision": 0.4
       },
       "qwen": {
@@ -2370,7 +2190,7 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.7,
         "context_precision": 0.8
       },
       "qwen": {
@@ -2409,7 +2229,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.8,
         "answer_relevance": 0.9,
         "context_precision": 0.8
       },
@@ -2429,16 +2249,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8,
+        "faithfulness": 1.0,
         "answer_relevance": 0.7,
-        "context_precision": 0.6
+        "context_precision": 0.2
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "faithfulness": null,
+        "answer_relevance": 0.9,
         "context_precision": 0.8
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20776",
@@ -2475,7 +2295,7 @@
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.2,
         "context_precision": 0.6
       },
       "qwen_faith_abstained": true
@@ -2490,13 +2310,13 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.9,
-        "context_precision": 0.8
+        "answer_relevance": 1.0,
+        "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
-        "context_precision": 0.9
+        "answer_relevance": 1.0,
+        "context_precision": 0.95
       },
       "qwen_faith_abstained": false
     },
@@ -2510,12 +2330,12 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.7,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.85,
+        "answer_relevance": 0.95,
         "context_precision": 0.9
       },
       "qwen_faith_abstained": false
@@ -2530,7 +2350,7 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.0,
         "context_precision": 0.4
       },
       "qwen": {
@@ -2549,16 +2369,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.5,
+        "faithfulness": 1.0,
         "answer_relevance": 0.4,
-        "context_precision": 0.6
+        "context_precision": 0.4
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.75,
+        "faithfulness": null,
+        "answer_relevance": 0.65,
         "context_precision": 0.6
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20770",
@@ -2596,7 +2416,7 @@
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 1.0
+        "context_precision": 0.95
       },
       "qwen_faith_abstained": false
     },
@@ -2629,13 +2449,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "faithfulness": 0.8,
+        "answer_relevance": 0.7,
         "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.95,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -2690,12 +2510,12 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.4,
         "context_precision": 0.7
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.3,
         "context_precision": 0.9
       },
       "qwen_faith_abstained": false
@@ -2709,14 +2529,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.75,
-        "answer_relevance": 0.4,
-        "context_precision": 0.4
+        "faithfulness": 1.0,
+        "answer_relevance": 0.6,
+        "context_precision": 0.2
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.3,
-        "context_precision": 0.3
+        "answer_relevance": 0.85,
+        "context_precision": 0.5
       },
       "qwen_faith_abstained": false
     },
@@ -2730,7 +2550,7 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
       "qwen": {
@@ -2750,15 +2570,15 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 0.75,
-        "answer_relevance": 1.0,
-        "context_precision": 0.8
+        "faithfulness": null,
+        "answer_relevance": 0.95,
+        "context_precision": 0.85
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20760",
@@ -2770,13 +2590,13 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.4,
+        "answer_relevance": 0.0,
         "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 0.9,
-        "context_precision": 0.95
+        "context_precision": 0.9
       },
       "qwen_faith_abstained": false
     },
@@ -2790,12 +2610,12 @@
       },
       "deepseek": {
         "faithfulness": 0.8,
-        "answer_relevance": 0.7,
+        "answer_relevance": 0.9,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.95,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -2810,13 +2630,13 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.7,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.85,
-        "context_precision": 0.9
+        "answer_relevance": 0.95,
+        "context_precision": 0.85
       },
       "qwen_faith_abstained": false
     },
@@ -2829,13 +2649,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8571428571428571,
+        "faithfulness": 0.75,
         "answer_relevance": 0.7,
-        "context_precision": 0.7
+        "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.85,
+        "answer_relevance": 0.9,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": false
@@ -2849,14 +2669,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.75,
-        "answer_relevance": 0.7,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.6,
         "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.92,
-        "context_precision": 0.95
+        "answer_relevance": 0.85,
+        "context_precision": 0.9
       },
       "qwen_faith_abstained": false
     },
@@ -2876,7 +2696,7 @@
       "qwen": {
         "faithfulness": null,
         "answer_relevance": 0.9,
-        "context_precision": 0.6
+        "context_precision": 0.85
       },
       "qwen_faith_abstained": true
     },
@@ -2890,13 +2710,13 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
-        "context_precision": 1.0
+        "answer_relevance": 1.0,
+        "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
-        "context_precision": 0.95
+        "answer_relevance": 1.0,
+        "context_precision": 1.0
       },
       "qwen_faith_abstained": false
     },
@@ -2934,9 +2754,9 @@
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 0.0,
+        "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 0.85
+        "context_precision": 0.9
       },
       "qwen_faith_abstained": false
     },
@@ -2950,13 +2770,33 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.0,
+        "answer_relevance": 0.7,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 0.95,
-        "context_precision": 0.9
+        "context_precision": 1.0
+      },
+      "qwen_faith_abstained": false
+    },
+    {
+      "source_id": "task:KAFKA-20750",
+      "question": "Как обойти деление на ноль в метрике PollIdleRatio при субмиллисекундных интервалах опроса, чтобы вместо NaN возвращалось корректное значение, и какие другие метрики или модули могут быть затронуты аналогичной проблемой при высоких нагрузках?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
+        "context_precision": 0.75
+      },
+      "qwen": {
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
+        "context_precision": 0.8
       },
       "qwen_faith_abstained": false
     },
@@ -2969,14 +2809,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.8,
         "answer_relevance": 0.7,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 0.95,
-        "context_precision": 0.95
+        "context_precision": 1.0
       },
       "qwen_faith_abstained": false
     },
@@ -3049,14 +2889,194 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
+        "faithfulness": 1.0,
         "answer_relevance": 0.4,
         "context_precision": 0.2
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.85,
+        "answer_relevance": 0.2,
+        "context_precision": 0.2
+      },
+      "qwen_faith_abstained": true
+    },
+    {
+      "source_id": "task:KAFKA-20744",
+      "question": "Как закрыть разрыв между удалением конфигурации rack.aware.assignment.tags на стороне клиента и необходимостью её наличия на стороне брокера, чтобы не сломать будущую реализацию rack-aware назначения резервных задач, учитывая, что KIP-1071 уже выпущен в 4.2.0, но не полностью функционален?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.9,
+        "context_precision": 0.6
+      },
+      "qwen": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.95,
+        "context_precision": 0.9
+      },
+      "qwen_faith_abstained": false
+    },
+    {
+      "source_id": "task:KAFKA-20743",
+      "question": "Как обойти проблему, когда отрицательный leaderEpoch в readState и leaderEpoch/stateEpoch в writeState используют общий координатор, и что будет затронуто при изменении логики проверки этих значений?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 0.8,
+        "answer_relevance": 0.9,
+        "context_precision": 1.0
+      },
+      "qwen": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.95,
+        "context_precision": 0.9
+      },
+      "qwen_faith_abstained": false
+    },
+    {
+      "source_id": "task:KAFKA-20742",
+      "question": "Почему начальное смещение для вновь инициализированных разделов общего ресурса должно быть нулевым, и какие проблемы могут возникнуть, если это значение будет отличаться от нуля?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": true
+      },
+      "deepseek": {
+        "faithfulness": null,
+        "answer_relevance": 0.0,
+        "context_precision": 1.0
+      },
+      "qwen": {
+        "faithfulness": null,
+        "answer_relevance": 0.1,
+        "context_precision": 0.9
+      },
+      "qwen_faith_abstained": true
+    },
+    {
+      "source_id": "task:KAFKA-20741",
+      "question": "Как обойти проблему, если при внедрении read-only представления Record в Kafka Streams существующий код, который полагается на мутабельные поля Record, начнёт ломаться при использовании новых headers-aware IQv2 запросов, и какие модули или тикеты будут затронуты этим изменением?",
+      "route": "multihop",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.7,
+        "context_precision": 0.9
+      },
+      "qwen": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.95,
+        "context_precision": 0.95
+      },
+      "qwen_faith_abstained": false
+    },
+    {
+      "source_id": "task:KAFKA-20740",
+      "question": "Как обойти нарушение инварианта KRaft, когда таймаут операции изменения состава воркеров сбрасывает состояние обработчика, хотя управляющие записи уже отправлены в batch accumulator, и какие модули будут затронуты при переносе сброса состояния на продвижение High Watermark?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.9,
+        "context_precision": 0.4
+      },
+      "qwen": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.95,
+        "context_precision": 0.8
+      },
+      "qwen_faith_abstained": false
+    },
+    {
+      "source_id": "task:KAFKA-20739",
+      "question": "Как обойти ошибку UNSUPPORTED_VERSION при восстановлении 2PC-транзакции через InitProducerId v6 с KeepPreparedTxn=true, если брокер уже сконфигурирован с transaction.two.phase.commit.enable=true, и какие последствия для состояния координатора и клиента возникнут при ручном принудительном вызове без поддержки этой опции?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.9,
+        "context_precision": 0.9
+      },
+      "qwen": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.95,
+        "context_precision": 0.95
+      },
+      "qwen_faith_abstained": false
+    },
+    {
+      "source_id": "task:KAFKA-20738",
+      "question": "Как обойти ошибку UnsupportedVersionException при включении двухфазного коммита в Kafka-продюсере, если инициализация транзакции всегда использует версию 5 протокола, хотя поле enable2Pc доступно только в версии 6, и какие изменения в коде или конфигурации позволят корректно использовать эту функцию без поломки совместимости с брокерами, не поддерживающими v6?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.9,
+        "context_precision": 0.8
+      },
+      "qwen": {
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
+        "context_precision": 0.95
+      },
+      "qwen_faith_abstained": false
+    },
+    {
+      "source_id": "task:KAFKA-20737",
+      "question": "Как обеспечить, чтобы ссылки на архивные релизы в документации проекта автоматически проверялись на корректность и указывали на archive.apache.org, учитывая, что обычные проверки ссылок могут пропускать устаревшие URL?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.2,
+        "context_precision": 0.2
+      },
+      "qwen": {
+        "faithfulness": null,
+        "answer_relevance": 0.3,
         "context_precision": 0.25
+      },
+      "qwen_faith_abstained": true
+    },
+    {
+      "source_id": "task:KAFKA-20736",
+      "question": "Как корректно обработать незавершённые подтверждения и активные сессии общего доступа в ShareConsumer при смене лидера, чтобы избежать потери данных или блокировок, и какие модули или тикеты будут затронуты этим изменением?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.4,
+        "context_precision": 0.8
+      },
+      "qwen": {
+        "faithfulness": null,
+        "answer_relevance": 0.65,
+        "context_precision": 0.9
       },
       "qwen_faith_abstained": true
     },
@@ -3069,9 +3089,9 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.75,
         "answer_relevance": 0.9,
-        "context_precision": 0.7
+        "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -3086,19 +3106,19 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": true
+        "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": null,
-        "answer_relevance": 0.0,
+        "faithfulness": 0.0,
+        "answer_relevance": 0.7,
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": null,
-        "answer_relevance": 0.95,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.85,
         "context_precision": 0.85
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20733",
@@ -3111,7 +3131,7 @@
       "deepseek": {
         "faithfulness": 0.0,
         "answer_relevance": 0.9,
-        "context_precision": 0.9
+        "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -3150,12 +3170,12 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.95,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -3166,16 +3186,16 @@
       "route": "multihop",
       "grounded": true,
       "abstained": {
-        "faithfulness": true
+        "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": null,
-        "answer_relevance": 0.0,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.7,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.3,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": true
@@ -3201,6 +3221,26 @@
       "qwen_faith_abstained": false
     },
     {
+      "source_id": "task:KAFKA-20728",
+      "question": "Как обеспечить поддержку постквантового TLS-рукопожатия в Kafka на JDK 24+, если в SslEngineBuilder не вызывается setNamedGroups(), а системное свойство jdk.tls.namedGroups недокументировано — какие есть обходные пути и что сломается при их использовании?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.4,
+        "context_precision": 0.75
+      },
+      "qwen": {
+        "faithfulness": null,
+        "answer_relevance": 0.3,
+        "context_precision": 0.95
+      },
+      "qwen_faith_abstained": true
+    },
+    {
       "source_id": "task:KAFKA-20727",
       "question": "Как параметризовать существующий smoke-тест Kafka Streams, чтобы он покрывал сценарии с транзакционными state stores, и какие именно проверки или допущения в текущем тесте могут сломаться при переключении на транзакционный режим?",
       "route": "mixed",
@@ -3209,8 +3249,8 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.8,
+        "faithfulness": 0.8,
+        "answer_relevance": 0.7,
         "context_precision": 0.6
       },
       "qwen": {
@@ -3229,14 +3269,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.7,
+        "faithfulness": 0.5,
+        "answer_relevance": 0.9,
         "context_precision": 0.2
       },
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 0.95,
-        "context_precision": 0.25
+        "context_precision": 0.8
       },
       "qwen_faith_abstained": false
     },
@@ -3249,7 +3289,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.8,
         "answer_relevance": 1.0,
         "context_precision": 0.8
       },
@@ -3270,12 +3310,12 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.0,
+        "answer_relevance": 0.2,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.3,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": true
@@ -3341,6 +3381,26 @@
       "qwen_faith_abstained": false
     },
     {
+      "source_id": "task:KAFKA-20720",
+      "question": "Как снизить шум от клиентских логов при сбоях share-сессий, не потеряв диагностическую информацию, и какие последствия для наблюдаемости и самовосстановления клиента будут, если перевести эти сообщения на DEBUG?",
+      "route": "mixed",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
+        "context_precision": 1.0
+      },
+      "qwen": {
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
+        "context_precision": 0.95
+      },
+      "qwen_faith_abstained": false
+    },
+    {
       "source_id": "task:KAFKA-20719",
       "question": "Как обойти проблему, когда sticky-assignor для streams-групп не сохраняет привязку задач при старте нового инстанса, если статическое членство ещё не поддерживается, и какие изменения в join group heartbeat и assignor потребуются, чтобы использовать taskOffsetSum для восстановления предыдущего распределения?",
       "route": "factual",
@@ -3349,12 +3409,12 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "faithfulness": 0.9,
+        "answer_relevance": 1.0,
         "context_precision": 0.8
       },
       "qwen": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.8333333333333334,
         "answer_relevance": 1.0,
         "context_precision": 0.9
       },
@@ -3375,7 +3435,7 @@
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.1,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": true
@@ -3389,13 +3449,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.75,
-        "answer_relevance": 0.7,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.6,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.85,
+        "answer_relevance": 0.7,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -3416,7 +3476,7 @@
       "qwen": {
         "faithfulness": null,
         "answer_relevance": 0.95,
-        "context_precision": 0.9
+        "context_precision": 0.95
       },
       "qwen_faith_abstained": true
     },
@@ -3429,13 +3489,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "faithfulness": 0.75,
+        "answer_relevance": 0.7,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.92,
         "context_precision": 0.6
       },
       "qwen_faith_abstained": false
@@ -3449,13 +3509,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.0,
         "answer_relevance": 0.6,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.7,
+        "answer_relevance": 0.75,
         "context_precision": 0.9
       },
       "qwen_faith_abstained": false
@@ -3484,18 +3544,18 @@
       "source_id": "task:KAFKA-20712",
       "question": "Как обойти проблему, когда kafka-dump-log.sh с флагом --transaction-log-decoder выводит числовое значение transactionStatus (например, 4) вместо человекочитаемого имени состояния (например, CompleteCommit), и какие другие инструменты или модули Kafka, помимо kafka-dump-log.sh и kafka-console-consumer.sh, будут затронуты этим изменением формата вывода после KAFKA-18207?",
       "route": "mixed",
-      "grounded": true,
+      "grounded": false,
       "abstained": {
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.0,
         "answer_relevance": 0.0,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.2,
         "context_precision": 0.9
       },
       "qwen_faith_abstained": true
@@ -3510,12 +3570,12 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.7,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 1.0,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": false
@@ -3549,13 +3609,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.75,
-        "answer_relevance": 0.9,
-        "context_precision": 0.6
+        "faithfulness": 0.8,
+        "answer_relevance": 0.6,
+        "context_precision": 0.2
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.7,
         "context_precision": 0.3
       },
       "qwen_faith_abstained": false
@@ -3569,16 +3629,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
+        "faithfulness": 1.0,
         "answer_relevance": 0.0,
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 1.0,
+        "faithfulness": null,
         "answer_relevance": 0.2,
         "context_precision": 0.6
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20707",
@@ -3590,15 +3650,15 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
-        "context_precision": 0.6
+        "answer_relevance": 0.4,
+        "context_precision": 0.8
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.92,
+        "faithfulness": null,
+        "answer_relevance": 0.85,
         "context_precision": 0.85
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20706",
@@ -3609,7 +3669,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.9,
+        "faithfulness": 0.8,
         "answer_relevance": 0.9,
         "context_precision": 0.6
       },
@@ -3629,16 +3689,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8,
+        "faithfulness": 1.0,
         "answer_relevance": 0.4,
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 1.0,
+        "faithfulness": null,
         "answer_relevance": 0.3,
         "context_precision": 0.8
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20704",
@@ -3650,7 +3710,7 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.6,
+        "answer_relevance": 0.7,
         "context_precision": 0.6
       },
       "qwen": {
@@ -3666,16 +3726,16 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": true
+        "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": null,
-        "answer_relevance": 0.0,
-        "context_precision": 0.2
+        "faithfulness": 0.0,
+        "answer_relevance": 0.2,
+        "context_precision": 0.0
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.85,
+        "answer_relevance": 0.3,
         "context_precision": 0.6
       },
       "qwen_faith_abstained": true
@@ -3695,7 +3755,7 @@
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.1,
+        "answer_relevance": 0.2,
         "context_precision": 0.8
       },
       "qwen_faith_abstained": true
@@ -3706,16 +3766,16 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": false
+        "faithfulness": true
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": null,
         "answer_relevance": 0.0,
         "context_precision": 0.0
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.0,
         "context_precision": 0.1
       },
       "qwen_faith_abstained": true
@@ -3749,13 +3809,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.7,
+        "faithfulness": 0.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.95,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -3769,13 +3829,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.9,
+        "faithfulness": 0.6,
+        "answer_relevance": 0.7,
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 0.8,
-        "answer_relevance": 0.85,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.8
       },
       "qwen_faith_abstained": false
@@ -3810,12 +3870,12 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.2,
+        "answer_relevance": 1.0,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 1.0,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -3826,10 +3886,10 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": true
+        "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": null,
+        "faithfulness": 0.0,
         "answer_relevance": 0.2,
         "context_precision": 0.6
       },
@@ -3849,13 +3909,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.0,
         "answer_relevance": 0.9,
         "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.95,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -3871,11 +3931,11 @@
       "deepseek": {
         "faithfulness": 0.0,
         "answer_relevance": 0.7,
-        "context_precision": 1.0
+        "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.9,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -3889,16 +3949,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.0,
         "answer_relevance": 0.2,
         "context_precision": 0.0
       },
       "qwen": {
-        "faithfulness": 1.0,
+        "faithfulness": null,
         "answer_relevance": 0.3,
         "context_precision": 0.2
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20691",
@@ -3911,7 +3971,7 @@
       "deepseek": {
         "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 0.6
+        "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -3949,14 +4009,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.75,
         "answer_relevance": 0.7,
-        "context_precision": 0.8
+        "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.85,
-        "context_precision": 0.9
+        "answer_relevance": 0.9,
+        "context_precision": 0.8
       },
       "qwen_faith_abstained": false
     },
@@ -3975,7 +4035,7 @@
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.3,
+        "answer_relevance": 0.9,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -3989,13 +4049,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.5,
-        "answer_relevance": 0.7,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.4,
         "context_precision": 0.2
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.3,
         "context_precision": 0.25
       },
       "qwen_faith_abstained": false
@@ -4006,17 +4066,17 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": true
+        "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": null,
+        "faithfulness": 0.0,
         "answer_relevance": 0.0,
         "context_precision": 0.0
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.1,
-        "context_precision": 0.3
+        "answer_relevance": 0.2,
+        "context_precision": 0.2
       },
       "qwen_faith_abstained": true
     },
@@ -4054,11 +4114,11 @@
         "context_precision": 0.8
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 0.85,
         "context_precision": 0.85
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20683",
@@ -4070,7 +4130,7 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.8
       },
       "qwen": {
@@ -4089,8 +4149,8 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.2,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.4,
         "context_precision": 1.0
       },
       "qwen": {
@@ -4106,16 +4166,16 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": false
+        "faithfulness": true
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.4,
-        "context_precision": 0.9
+        "faithfulness": null,
+        "answer_relevance": 0.2,
+        "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.9,
         "context_precision": 0.9
       },
       "qwen_faith_abstained": true
@@ -4134,7 +4194,7 @@
         "context_precision": 0.8
       },
       "qwen": {
-        "faithfulness": 0.5,
+        "faithfulness": 0.8571428571428571,
         "answer_relevance": 1.0,
         "context_precision": 0.9
       },
@@ -4149,13 +4209,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.9,
-        "answer_relevance": 0.9,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.7,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.9,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -4175,7 +4235,7 @@
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.3,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": true
@@ -4189,7 +4249,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.5,
+        "faithfulness": 0.0,
         "answer_relevance": 0.4,
         "context_precision": 0.6
       },
@@ -4209,14 +4269,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8,
+        "faithfulness": 0.5,
         "answer_relevance": 0.9,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
-        "context_precision": 0.9
+        "answer_relevance": 0.9,
+        "context_precision": 0.8
       },
       "qwen_faith_abstained": false
     },
@@ -4230,12 +4290,12 @@
       },
       "deepseek": {
         "faithfulness": 0.9,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.95,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -4256,7 +4316,7 @@
       "qwen": {
         "faithfulness": 0.6666666666666666,
         "answer_relevance": 0.95,
-        "context_precision": 1.0
+        "context_precision": 0.9
       },
       "qwen_faith_abstained": false
     },
@@ -4270,12 +4330,12 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.7,
         "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.95,
         "context_precision": 1.0
       },
       "qwen_faith_abstained": false
@@ -4309,16 +4369,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.7,
-        "context_precision": 0.4
-      },
-      "qwen": {
-        "faithfulness": null,
-        "answer_relevance": 0.85,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.4,
         "context_precision": 0.6
       },
-      "qwen_faith_abstained": true
+      "qwen": {
+        "faithfulness": 1.0,
+        "answer_relevance": 0.85,
+        "context_precision": 0.8
+      },
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20670",
@@ -4331,7 +4391,7 @@
       "deepseek": {
         "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 0.9
+        "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -4350,7 +4410,7 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
       "qwen": {
@@ -4369,13 +4429,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.8,
         "answer_relevance": 1.0,
         "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 1.0,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -4386,10 +4446,10 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": false
+        "faithfulness": true
       },
       "deepseek": {
-        "faithfulness": 0.0,
+        "faithfulness": null,
         "answer_relevance": 0.0,
         "context_precision": 0.2
       },
@@ -4430,7 +4490,7 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.8
       },
       "qwen": {
@@ -4449,13 +4509,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8,
-        "answer_relevance": 0.7,
+        "faithfulness": 0.5,
+        "answer_relevance": 0.6,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.85,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": false
@@ -4469,9 +4529,9 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
+        "faithfulness": 1.0,
         "answer_relevance": 0.7,
-        "context_precision": 0.9
+        "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -4484,19 +4544,19 @@
       "source_id": "task:KAFKA-20662",
       "question": "При сбое десериализации подписки consumer во время online-миграции Kafka выбрасывает IllegalStateException, который маппится в UNKNOWN_SERVER_ERROR. Как правильно классифицировать эту ошибку, чтобы клиент мог отличить malformed request от внутреннего сбоя сервера, и какие последствия для совместимости протокола и обработки ошибок в других модулях (например, JoinGroup) повлечёт замена кода ошибки?",
       "route": "mixed",
-      "grounded": true,
+      "grounded": false,
       "abstained": {
-        "faithfulness": false
+        "faithfulness": true
       },
       "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.2,
+        "faithfulness": null,
+        "answer_relevance": 0.0,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.3,
-        "context_precision": 0.8
+        "answer_relevance": 0.9,
+        "context_precision": 0.9
       },
       "qwen_faith_abstained": true
     },
@@ -4510,13 +4570,13 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 1.0,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
-        "context_precision": 0.85
+        "answer_relevance": 1.0,
+        "context_precision": 0.95
       },
       "qwen_faith_abstained": false
     },
@@ -4601,6 +4661,26 @@
       "qwen_faith_abstained": false
     },
     {
+      "source_id": "task:KAFKA-20656",
+      "question": "Как обойти проблему, когда Struct.getBytes() для ByteBuffer с ненулевой позицией возвращает весь backing array вместо оставшихся байт, а для direct buffer падает с UnsupportedOperationException, и при этом equals/hashCode не считают эквивалентными byte[] и ByteBuffer — какие модули Kafka Connect будут затронуты, если изменить нормализацию BYTES в Struct, и не сломает ли это существующие конвертеры или сериализацию?",
+      "route": "multihop",
+      "grounded": true,
+      "abstained": {
+        "faithfulness": false
+      },
+      "deepseek": {
+        "faithfulness": 0.0,
+        "answer_relevance": 0.4,
+        "context_precision": 0.9
+      },
+      "qwen": {
+        "faithfulness": null,
+        "answer_relevance": 0.3,
+        "context_precision": 0.95
+      },
+      "qwen_faith_abstained": true
+    },
+    {
       "source_id": "task:KAFKA-20655",
       "question": "Как безопасно перевести три RPC-метода Streams Group из unstable в stable до релиза KIP-1331, если broker-side TopologyDescriptionManager ещё не полностью готов, и какие существующие клиенты или тесты могут сломаться при удалении флага latestVersionUnstable и возврате Builder к стандартному конструктору?",
       "route": "mixed",
@@ -4609,16 +4689,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.75,
-        "answer_relevance": 0.7,
-        "context_precision": 0.9
+        "faithfulness": 1.0,
+        "answer_relevance": 0.4,
+        "context_precision": 0.7
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "faithfulness": null,
+        "answer_relevance": 0.3,
         "context_precision": 0.95
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20654",
@@ -4629,14 +4709,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.5,
+        "faithfulness": 0.0,
         "answer_relevance": 0.7,
-        "context_precision": 0.6
+        "context_precision": 0.7
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.85,
-        "context_precision": 0.75
+        "answer_relevance": 0.95,
+        "context_precision": 0.85
       },
       "qwen_faith_abstained": false
     },
@@ -4650,13 +4730,13 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.7,
-        "context_precision": 0.6
+        "answer_relevance": 0.0,
+        "context_precision": 0.4
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
-        "context_precision": 0.95
+        "answer_relevance": 0.2,
+        "context_precision": 0.85
       },
       "qwen_faith_abstained": false
     },
@@ -4666,17 +4746,17 @@
       "route": "multihop",
       "grounded": true,
       "abstained": {
-        "faithfulness": true
+        "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": null,
+        "faithfulness": 0.0,
         "answer_relevance": 0.7,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.9,
-        "context_precision": 0.6
+        "answer_relevance": 0.95,
+        "context_precision": 0.8
       },
       "qwen_faith_abstained": true
     },
@@ -4689,13 +4769,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.5,
-        "answer_relevance": 0.9,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.7,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.95,
         "context_precision": 0.8
       },
       "qwen_faith_abstained": false
@@ -4709,9 +4789,9 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.9,
-        "answer_relevance": 0.9,
-        "context_precision": 0.8
+        "faithfulness": 0.8571428571428571,
+        "answer_relevance": 0.85,
+        "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -4731,12 +4811,12 @@
       "deepseek": {
         "faithfulness": 1.0,
         "answer_relevance": 0.7,
-        "context_precision": 0.8
+        "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
         "answer_relevance": 0.85,
-        "context_precision": 0.9
+        "context_precision": 0.85
       },
       "qwen_faith_abstained": false
     },
@@ -4756,7 +4836,7 @@
       "qwen": {
         "faithfulness": null,
         "answer_relevance": 0.0,
-        "context_precision": 0.0
+        "context_precision": 0.2
       },
       "qwen_faith_abstained": true
     },
@@ -4775,7 +4855,7 @@
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.85,
+        "answer_relevance": 0.92,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": false
@@ -4786,19 +4866,19 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": true
+        "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": null,
-        "answer_relevance": 0.0,
-        "context_precision": 0.0
+        "faithfulness": 0.0,
+        "answer_relevance": 0.7,
+        "context_precision": 0.2
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 0.9,
         "context_precision": 0.3
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20645",
@@ -4810,7 +4890,7 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.4,
         "context_precision": 0.6
       },
       "qwen": {
@@ -4849,13 +4929,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.5,
-        "answer_relevance": 0.7,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.85,
+        "answer_relevance": 0.95,
         "context_precision": 0.8
       },
       "qwen_faith_abstained": false
@@ -4866,19 +4946,19 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": false
+        "faithfulness": true
       },
       "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.7,
+        "faithfulness": null,
+        "answer_relevance": 0.0,
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.85,
-        "context_precision": 0.9
+        "faithfulness": null,
+        "answer_relevance": 0.1,
+        "context_precision": 0.8
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20641",
@@ -4889,14 +4969,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
+        "faithfulness": 0.75,
         "answer_relevance": 1.0,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 0.0,
         "answer_relevance": 1.0,
-        "context_precision": 0.85
+        "context_precision": 0.9
       },
       "qwen_faith_abstained": false
     },
@@ -4910,7 +4990,7 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.7,
+        "answer_relevance": 0.9,
         "context_precision": 0.9
       },
       "qwen": {
@@ -4929,14 +5009,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": null,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.2,
         "context_precision": 0.2
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.85,
-        "context_precision": 0.2
+        "answer_relevance": 0.2,
+        "context_precision": 0.3
       },
       "qwen_faith_abstained": true
     },
@@ -4949,8 +5029,8 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.75,
-        "answer_relevance": 0.7,
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
         "context_precision": 0.6
       },
       "qwen": {
@@ -4975,8 +5055,8 @@
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.1,
-        "context_precision": 0.3
+        "answer_relevance": 0.9,
+        "context_precision": 0.8
       },
       "qwen_faith_abstained": true
     },
@@ -4995,7 +5075,7 @@
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
+        "answer_relevance": 0.1,
         "context_precision": 0.8
       },
       "qwen_faith_abstained": true
@@ -5011,7 +5091,7 @@
       "deepseek": {
         "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 0.9
+        "context_precision": 1.0
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -5030,15 +5110,15 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.0,
+        "answer_relevance": 0.2,
         "context_precision": 0.9
       },
       "qwen": {
-        "faithfulness": null,
+        "faithfulness": 1.0,
         "answer_relevance": 0.2,
         "context_precision": 0.95
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20633",
@@ -5050,15 +5130,15 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.0,
-        "context_precision": 0.6
+        "answer_relevance": 0.9,
+        "context_precision": 0.8
       },
       "qwen": {
-        "faithfulness": null,
-        "answer_relevance": 0.9,
+        "faithfulness": 1.0,
+        "answer_relevance": 1.0,
         "context_precision": 0.85
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20632",
@@ -5069,14 +5149,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.8,
         "answer_relevance": 0.8,
-        "context_precision": 0.4
+        "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.8,
         "answer_relevance": 0.92,
-        "context_precision": 0.3
+        "context_precision": 0.8
       },
       "qwen_faith_abstained": false
     },
@@ -5089,13 +5169,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8,
-        "answer_relevance": 0.9,
-        "context_precision": 0.8
+        "faithfulness": 0.0,
+        "answer_relevance": 0.7,
+        "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.9,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": false
@@ -5109,13 +5189,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.75,
         "answer_relevance": 0.7,
         "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.9,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": false
@@ -5130,12 +5210,12 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.9,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 1.0,
+        "answer_relevance": 0.95,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -5151,7 +5231,7 @@
       "deepseek": {
         "faithfulness": 1.0,
         "answer_relevance": 1.0,
-        "context_precision": 0.9
+        "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -5170,12 +5250,12 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.7,
+        "answer_relevance": 1.0,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 1.0,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": false
@@ -5189,13 +5269,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.5,
         "answer_relevance": 0.7,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.85,
+        "answer_relevance": 0.95,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -5209,16 +5289,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.7,
-        "context_precision": 0.9
+        "faithfulness": 0.0,
+        "answer_relevance": 0.2,
+        "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 1.0,
+        "faithfulness": null,
         "answer_relevance": 0.3,
         "context_precision": 0.85
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20624",
@@ -5230,12 +5310,12 @@
       },
       "deepseek": {
         "faithfulness": 0.0,
-        "answer_relevance": 0.9,
+        "answer_relevance": 0.7,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.85,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": false
@@ -5250,12 +5330,12 @@
       },
       "deepseek": {
         "faithfulness": 0.9,
-        "answer_relevance": 0.7,
+        "answer_relevance": 0.9,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.75,
+        "answer_relevance": 1.0,
         "context_precision": 0.85
       },
       "qwen_faith_abstained": false
@@ -5274,11 +5354,11 @@
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 1.0,
+        "faithfulness": null,
         "answer_relevance": 0.2,
         "context_precision": 0.85
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20621",
@@ -5286,17 +5366,17 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": true
+        "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": null,
-        "answer_relevance": 0.2,
-        "context_precision": 0.6
+        "faithfulness": 0.5,
+        "answer_relevance": 0.6,
+        "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.2,
-        "context_precision": 0.85
+        "answer_relevance": 0.7,
+        "context_precision": 0.95
       },
       "qwen_faith_abstained": true
     },
@@ -5310,15 +5390,15 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.7,
-        "context_precision": 0.9
+        "answer_relevance": 0.4,
+        "context_precision": 0.8
       },
       "qwen": {
-        "faithfulness": null,
-        "answer_relevance": 0.85,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.3,
         "context_precision": 0.95
       },
-      "qwen_faith_abstained": true
+      "qwen_faith_abstained": false
     },
     {
       "source_id": "task:KAFKA-20619",
@@ -5329,7 +5409,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
+        "faithfulness": 0.0,
         "answer_relevance": 0.7,
         "context_precision": 0.6
       },
@@ -5350,12 +5430,12 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.6,
+        "answer_relevance": 0.9,
         "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.6,
+        "answer_relevance": 1.0,
         "context_precision": 0.95
       },
       "qwen_faith_abstained": false
@@ -5371,14 +5451,14 @@
       "deepseek": {
         "faithfulness": 0.0,
         "answer_relevance": 0.7,
-        "context_precision": 0.6
+        "context_precision": 0.8
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.85,
+        "faithfulness": null,
+        "answer_relevance": 0.95,
         "context_precision": 0.85
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20616",
@@ -5389,12 +5469,12 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8,
+        "faithfulness": 1.0,
         "answer_relevance": 0.9,
         "context_precision": 1.0
       },
       "qwen": {
-        "faithfulness": 0.8333333333333334,
+        "faithfulness": 1.0,
         "answer_relevance": 1.0,
         "context_precision": 1.0
       },
@@ -5409,16 +5489,16 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.9,
-        "context_precision": 0.6
+        "faithfulness": 0.0,
+        "answer_relevance": 0.0,
+        "context_precision": 0.4
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.95,
-        "context_precision": 0.85
+        "faithfulness": null,
+        "answer_relevance": 0.9,
+        "context_precision": 0.3
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20614",
@@ -5429,13 +5509,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.7,
+        "faithfulness": 0.5,
+        "answer_relevance": 0.6,
         "context_precision": 0.2
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.85,
+        "faithfulness": 0.3333333333333333,
+        "answer_relevance": 0.3,
         "context_precision": 0.9
       },
       "qwen_faith_abstained": false
@@ -5449,14 +5529,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.75,
-        "answer_relevance": 0.7,
-        "context_precision": 0.6
+        "faithfulness": 1.0,
+        "answer_relevance": 0.9,
+        "context_precision": 0.8
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
-        "context_precision": 0.75
+        "answer_relevance": 0.95,
+        "context_precision": 0.6
       },
       "qwen_faith_abstained": false
     },
@@ -5466,11 +5546,11 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": true
+        "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": null,
-        "answer_relevance": 0.0,
+        "faithfulness": 0.0,
+        "answer_relevance": 0.4,
         "context_precision": 0.8
       },
       "qwen": {
@@ -5484,21 +5564,21 @@
       "source_id": "task:KAFKA-20611",
       "question": "Как корректно интегрировать DLQ-менеджер с кодом QFK, чтобы обойти конфликты при повторной обработке сообщений, и какие модули или тикеты будут затронуты при изменении текущей логики?",
       "route": "mixed",
-      "grounded": false,
+      "grounded": true,
       "abstained": {
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.7,
+        "faithfulness": 0.0,
+        "answer_relevance": 0.0,
         "context_precision": 0.6
       },
       "qwen": {
-        "faithfulness": 1.0,
-        "answer_relevance": 0.85,
+        "faithfulness": null,
+        "answer_relevance": 0.9,
         "context_precision": 0.85
       },
-      "qwen_faith_abstained": false
+      "qwen_faith_abstained": true
     },
     {
       "source_id": "task:KAFKA-20610",
@@ -5509,13 +5589,13 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.0,
-        "answer_relevance": 0.9,
+        "faithfulness": 1.0,
+        "answer_relevance": 0.2,
         "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": null,
-        "answer_relevance": 0.95,
+        "answer_relevance": 0.85,
         "context_precision": 0.6
       },
       "qwen_faith_abstained": true
@@ -5529,8 +5609,8 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.6666666666666666,
-        "answer_relevance": 0.8,
+        "faithfulness": 0.75,
+        "answer_relevance": 0.7,
         "context_precision": 0.8
       },
       "qwen": {
@@ -5549,7 +5629,7 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.8571428571428571,
+        "faithfulness": 1.0,
         "answer_relevance": 1.0,
         "context_precision": 0.9
       },
@@ -5569,14 +5649,14 @@
         "faithfulness": false
       },
       "deepseek": {
-        "faithfulness": 0.5,
-        "answer_relevance": 0.6,
-        "context_precision": 0.2
+        "faithfulness": 0.0,
+        "answer_relevance": 0.7,
+        "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.9,
-        "context_precision": 0.25
+        "answer_relevance": 0.85,
+        "context_precision": 0.8
       },
       "qwen_faith_abstained": false
     },
@@ -5584,7 +5664,7 @@
       "source_id": "task:KAFKA-20606",
       "question": "Как замена Properties на Map<String, String> в потоке распространения конфигурации повлияет на совместимость с существующими модулями, которые ожидают Properties, и какие методы (например, getProperty, setProperty) могут сломаться при таком рефакторинге?",
       "route": "mixed",
-      "grounded": true,
+      "grounded": false,
       "abstained": {
         "faithfulness": true
       },
@@ -5606,12 +5686,12 @@
       "route": "mixed",
       "grounded": true,
       "abstained": {
-        "faithfulness": false
+        "faithfulness": true
       },
       "deepseek": {
-        "faithfulness": 0.0,
+        "faithfulness": null,
         "answer_relevance": 0.0,
-        "context_precision": 0.8
+        "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": null,
@@ -5651,7 +5731,7 @@
       "deepseek": {
         "faithfulness": 0.5,
         "answer_relevance": 0.7,
-        "context_precision": 0.8
+        "context_precision": 0.6
       },
       "qwen": {
         "faithfulness": 1.0,
@@ -5670,13 +5750,13 @@
       },
       "deepseek": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.7,
-        "context_precision": 0.7
+        "answer_relevance": 1.0,
+        "context_precision": 0.9
       },
       "qwen": {
         "faithfulness": 1.0,
-        "answer_relevance": 0.95,
-        "context_precision": 0.85
+        "answer_relevance": 1.0,
+        "context_precision": 0.95
       },
       "qwen_faith_abstained": false
     }
