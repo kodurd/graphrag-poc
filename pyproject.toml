@@ -44,6 +44,10 @@ packages = ["src/graphrag", "eval"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# ЗАЩИТА: интеграционные тесты вайпают живой Neo4j (conftest: MATCH (n) DETACH DELETE n).
+# По умолчанию НЕ запускаем их, чтобы обычный `pytest` не стирал рабочий граф.
+# Прогонять явно: `pytest -m integration` (только когда граф не жалко).
+addopts = "-m 'not integration'"
 markers = [
-    "integration: требует поднятый Neo4j (docker compose up)",
+    "integration: требует поднятый Neo4j (docker compose up); ВАЙПАЕТ граф",
 ]
