@@ -94,6 +94,11 @@ class RetrievalConfig(BaseModel):
     # прежнее поведение (не-KIP вопросы не затронуты). Только для page-чанков; тикеты/
     # коммиты не трогает. См. cap_candidates_keep_kip в retrieval/hybrid.py.
     kip_reserve: int = 0
+    # KIP-соседи: окно смежных чанков того же Page, дотягиваемых к выжившему page-чанку
+    # (1 = +/-1 сосед, 2 = +/-2), чтобы разрезанная на чанки процедура собиралась целиком.
+    # 0 = прежнее поведение (расширения нет). Только page-чанки; соседей соседей не тянет.
+    # См. _expand_page_neighbors в retrieval/hybrid.py.
+    kip_neighbors: int = 0
 
 
 class EvalConfig(BaseModel):

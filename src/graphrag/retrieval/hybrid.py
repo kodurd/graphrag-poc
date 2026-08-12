@@ -96,6 +96,22 @@ def cap_candidates_keep_kip(items: list[dict], k: int, reserve: int) -> list[dic
     return [it for it in items if it["id"] in keep_ids]
 
 
+def _neighbor_targets(parent: str, seq: int, window: int) -> list[tuple[str, int]]:
+    """Соседние `(parent, seq)` для page-чанка в окне `+/-window`, без себя.
+
+    Чистая функция (тестируема без БД). `window <= 0` => пусто. Отрицательные seq
+    отсечены (seq 0-based, у первого чанка левых соседей нет). Порядок — по возрастанию
+    seq. Используется `_expand_page_neighbors` для сбора запрашиваемых соседей.
+    """
+    if window <= 0:
+        return []
+    return [
+        (parent, s)
+        for s in range(seq - window, seq + window + 1)
+        if s != seq and s >= 0
+    ]
+
+
 def filter_by_threshold(items: list[dict], min_score: float) -> list[dict]:
     """Отбрасывает вектор/bm25-кандидатов ниже порога reranker-скора.
 
@@ -127,6 +143,7 @@ class HybridRetriever:
         min_rerank_score: float = 0.0,
         multihop_full_retrieval: bool = True,
         kip_reserve: int = 0,
+        kip_neighbors: int = 0,
     ):
         self.conn = conn
         self.reranker = reranker
@@ -135,6 +152,7 @@ class HybridRetriever:
         self.rerank_top_k = rerank_top_k
         self.min_rerank_score = min_rerank_score
         self.kip_reserve = kip_reserve
+        self.kip_neighbors = kip_neighbors
         self.multihop_full_retrieval = multihop_full_retrieval
         self.vector = VectorIndexer(conn, embedder)
         self.graph = GraphRetriever(conn, max_hops)
@@ -176,6 +194,89 @@ class HybridRetriever:
 
         return route, list(merged.values())
 
+    # Соседи одного Page по (parent, seq) из набора запрошенных пар, исключая уже
+    # присутствующие в кандидатах id. Одним запросом на весь батч.
+    _SIBLINGS = """
+        MATCH (sib:Chunk)
+        WHERE sib.parent IN $parents
+          AND [sib.parent, sib.seq] IN $pairs
+          AND NOT sib.id IN $existing
+        RETURN sib.id AS id, sib.text AS text, sib.uri AS uri,
+               sib.parent AS parent, sib.seq AS seq
+        """
+
+    def _expand_page_neighbors(self, candidates: list[dict]) -> list[dict]:
+        """Дотягивает соседние чанки того же Page к выжившим page-кандидатам.
+
+        Для каждого page-чанка (`id` с префиксом `chunk:page:`) добавляет его соседей
+        по seq в окне `+/-self.kip_neighbors`, чтобы процедура, разрезанная на чанки,
+        собиралась в контексте целиком. Соседи ДОБАВЛЯЮТСЯ в хвост (primary-кандидаты
+        остаются первыми в исходном порядке) как supporting-контекст с `source="neighbor"`,
+        дедуп по id. Соседей соседей не тянем (ограниченное расширение).
+
+        `self.kip_neighbors <= 0` => возврат без изменений (обратная совместимость).
+        Один Cypher на весь батч соседей; parent/seq берём из полей кандидата, если
+        они есть, иначе однократно доспрашиваем из БД.
+        """
+        if self.kip_neighbors <= 0:
+            return candidates
+
+        page = [c for c in candidates if str(c.get("id", "")).startswith("chunk:page:")]
+        if not page:
+            return candidates
+
+        # parent/seq: из полей кандидата, если есть; иначе один Cypher на недостающие.
+        meta: dict[str, tuple[str, int]] = {}
+        need = [c["id"] for c in page if c.get("parent") is None or c.get("seq") is None]
+        if need:
+            for r in self.conn.run(
+                "MATCH (c:Chunk) WHERE c.id IN $ids "
+                "RETURN c.id AS id, c.parent AS parent, c.seq AS seq",
+                ids=need,
+            ):
+                if r.get("parent") is not None and r.get("seq") is not None:
+                    meta[r["id"]] = (r["parent"], int(r["seq"]))
+
+        targets: set[tuple[str, int]] = set()
+        for c in page:
+            parent, seq = c.get("parent"), c.get("seq")
+            if parent is None or seq is None:
+                parent, seq = meta.get(c["id"], (None, None))
+            if parent is None or seq is None:
+                continue
+            targets.update(_neighbor_targets(parent, int(seq), self.kip_neighbors))
+
+        if not targets:
+            return candidates
+
+        existing = {c["id"] for c in candidates}
+        rows = self.conn.run(
+            self._SIBLINGS,
+            parents=sorted({p for p, _ in targets}),
+            pairs=[[p, s] for p, s in targets],
+            existing=list(existing),
+        )
+
+        out = list(candidates)
+        seen = set(existing)
+        # Детерминированный порядок хвоста: по (parent, seq).
+        for r in sorted(rows, key=lambda r: (r.get("parent") or "", r.get("seq") or 0)):
+            rid = r["id"]
+            if rid in seen:
+                continue
+            seen.add(rid)
+            out.append(
+                {
+                    "id": rid,
+                    "text": r.get("text"),
+                    "uri": r.get("uri"),
+                    "parent": r.get("parent"),
+                    "seq": r.get("seq"),
+                    "source": "neighbor",
+                }
+            )
+        return out
+
     def retrieve(self, query: str) -> dict:
         route, items = self._candidate_pool(query)
         candidates = items
@@ -193,5 +294,11 @@ class HybridRetriever:
                 candidates = cap_candidates_keep_kip(
                     items, self.rerank_top_k, self.kip_reserve
                 )
+
+        # KIP-соседи: к выжившим page-чанкам дотягиваем смежные чанки того же Page
+        # (окно seq +/-kip_neighbors), чтобы разрезанная процедура собралась целиком.
+        # kip_neighbors=0 => no-op (не-KIP путь и общее поведение не затронуты).
+        if self.kip_neighbors > 0 and candidates:
+            candidates = self._expand_page_neighbors(candidates)
 
         return {"route": route, "candidates": candidates}

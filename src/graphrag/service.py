@@ -57,6 +57,7 @@ def ask_question(question: str) -> AskResult:
             min_rerank_score=s.retrieval.min_rerank_score,
             multihop_full_retrieval=s.retrieval.multihop_full_retrieval,
             kip_reserve=s.retrieval.kip_reserve,
+            kip_neighbors=s.retrieval.kip_neighbors,
         )
         retrieved = retr.retrieve(question)
         context = build_context(retrieved["candidates"])

@@ -278,6 +278,7 @@ def eval_cmd(
             top_k=s.retrieval.top_k, rerank_top_k=s.retrieval.rerank_top_k,
             min_rerank_score=s.retrieval.min_rerank_score,
             kip_reserve=s.retrieval.kip_reserve,
+            kip_neighbors=s.retrieval.kip_neighbors,
         )
         report = evaluate_retrieval(retr, golden)
     typer.echo(
@@ -340,6 +341,7 @@ def eval_quality(
             max_hops=s.retrieval.max_hops,
             min_rerank_score=s.retrieval.min_rerank_score,
             kip_reserve=s.retrieval.kip_reserve,
+            kip_neighbors=s.retrieval.kip_neighbors,
         )
         results = run_quality_eval(
             retr, llm, questions, labeled,
