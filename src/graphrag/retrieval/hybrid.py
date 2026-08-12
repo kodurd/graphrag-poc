@@ -72,6 +72,30 @@ def cap_candidates_keep_graph(items: list[dict], k: int) -> list[dict]:
     return [it for it in items if it["id"] in keep_ids]
 
 
+def cap_candidates_keep_kip(items: list[dict], k: int, reserve: int) -> list[dict]:
+    """Срез до top-k, резервирующий до `reserve` слотов под KIP-чанки.
+
+    `items` в порядке реранка. KIP-дискриминатор — `id` с префиксом `chunk:page:`.
+    `reserve <= 0` => обычный `items[:k]` (обратная совместимость: ни один вызов не
+    меняет поведение, пока резерв не включён). Иначе гарантирует до `reserve` лучших
+    page-чанков в пределах top-k, а остаток слотов отдаёт лучшим прочим кандидатам.
+    Слоты не теряются: если page-чанков меньше `reserve`, свободные слоты уходят
+    не-page кандидатам. Порядок реранка сохраняется внутри каждой группы и в итоге,
+    всего не более `k`. Зеркалит `cap_candidates_keep_graph`, но для KIP-глубины:
+    без резерва длинная процедура доходила до генератора обрывком (partial-отказы).
+    """
+    if reserve <= 0:
+        return items[:k]
+    reserve = min(reserve, k)
+    page = [it for it in items if str(it.get("id", "")).startswith("chunk:page:")]
+    reserved = page[:reserve]
+    reserved_ids = {it["id"] for it in reserved}
+    remaining = k - len(reserved)
+    rest = [it for it in items if it["id"] not in reserved_ids][:remaining]
+    keep_ids = reserved_ids | {it["id"] for it in rest}
+    return [it for it in items if it["id"] in keep_ids]
+
+
 def filter_by_threshold(items: list[dict], min_score: float) -> list[dict]:
     """Отбрасывает вектор/bm25-кандидатов ниже порога reranker-скора.
 
@@ -102,6 +126,7 @@ class HybridRetriever:
         max_hops: int = 2,
         min_rerank_score: float = 0.0,
         multihop_full_retrieval: bool = True,
+        kip_reserve: int = 0,
     ):
         self.conn = conn
         self.reranker = reranker
@@ -109,6 +134,7 @@ class HybridRetriever:
         self.top_k = top_k
         self.rerank_top_k = rerank_top_k
         self.min_rerank_score = min_rerank_score
+        self.kip_reserve = kip_reserve
         self.multihop_full_retrieval = multihop_full_retrieval
         self.vector = VectorIndexer(conn, embedder)
         self.graph = GraphRetriever(conn, max_hops)
@@ -162,6 +188,10 @@ class HybridRetriever:
             if route == MULTIHOP and self.multihop_full_retrieval:
                 candidates = cap_candidates_keep_graph(items, self.rerank_top_k)
             else:
-                candidates = items[: self.rerank_top_k]
+                # KIP-scoped резерв: без него длинная процедура доходит обрывком.
+                # kip_reserve=0 => обычный срез items[:rerank_top_k] (не-KIP путь не тронут).
+                candidates = cap_candidates_keep_kip(
+                    items, self.rerank_top_k, self.kip_reserve
+                )
 
         return {"route": route, "candidates": candidates}

@@ -277,6 +277,7 @@ def eval_cmd(
             conn, build_embedder(s.embeddings), build_reranker(s.reranker),
             top_k=s.retrieval.top_k, rerank_top_k=s.retrieval.rerank_top_k,
             min_rerank_score=s.retrieval.min_rerank_score,
+            kip_reserve=s.retrieval.kip_reserve,
         )
         report = evaluate_retrieval(retr, golden)
     typer.echo(
@@ -338,6 +339,7 @@ def eval_quality(
             rerank_top_k=s.retrieval.rerank_top_k,
             max_hops=s.retrieval.max_hops,
             min_rerank_score=s.retrieval.min_rerank_score,
+            kip_reserve=s.retrieval.kip_reserve,
         )
         results = run_quality_eval(
             retr, llm, questions, labeled,

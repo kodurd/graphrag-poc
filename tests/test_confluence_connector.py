@@ -63,6 +63,83 @@ def test_parse_page_without_ancestors():
     assert _by(recs, "node", label="Page")
 
 
+# --- U1: сохранение структуры разделов (заголовки) в text ---
+
+
+def _page_text(page: dict) -> str:
+    """Текст Page-узла из parse_page (для проверок секционных маркеров)."""
+    return _by(parse_page(page), "node", label="Page")[0]["props"]["text"]
+
+
+def test_parse_page_preserves_h1_section_marker():
+    """Happy: <h1> становится отдельным маркером '## ...', не слипается с телом."""
+    page = {
+        "id": "1",
+        "title": "KIP",
+        "body": {"storage": {"value": "<h1>Proposed Changes</h1><p>step one</p>"}},
+    }
+    text = _page_text(page)
+    assert "## Proposed Changes" in text
+    # маркер отделён переносом от тела, а не приклеен к "step one"
+    assert "\n## Proposed Changes\n" in text
+    assert "Proposed Changesstep" not in text
+
+
+def test_parse_page_multiple_sections_each_on_own_marker():
+    """Несколько <h2> → каждый заголовок на своём '\\n## ' маркере."""
+    body = (
+        "<h2>Compatibility</h2><p>a</p>"
+        "<h2 id=\"rej\">Rejected Alternatives</h2><p>b</p>"
+    )
+    page = {"id": "2", "title": "KIP", "body": {"storage": {"value": body}}}
+    text = _page_text(page)
+    assert "\n## Compatibility\n" in text
+    assert "\n## Rejected Alternatives\n" in text
+    # два раздельных маркера
+    assert text.count("\n## ") == 2
+
+
+def test_parse_page_no_headings_stays_flat():
+    """Backward-compat: тело без заголовков → плоский текст без '## ' маркеров."""
+    page = {
+        "id": "3",
+        "title": "KIP",
+        "body": {"storage": {"value": "<p>See KAFKA-101 for details.</p>"}},
+    }
+    text = _page_text(page)
+    assert "## " not in text
+    assert "\n" not in text
+    assert text == "See KAFKA-101 for details."
+
+
+def test_parse_page_empty_heading_no_dangling_marker():
+    """Edge: пустой <h1></h1> → не роняет, не плодит пустой '## ' маркер."""
+    page = {
+        "id": "4",
+        "title": "KIP",
+        "body": {"storage": {"value": "<h1></h1><p>body</p>"}},
+    }
+    text = _page_text(page)
+    assert "##" not in text
+    assert "body" in text
+
+
+def test_parse_page_heading_does_not_break_mentions():
+    """Заголовки не задевают извлечение MENTIONS/LINKS_TO из тела."""
+    body = "<h1>Proposed Changes</h1><p>See KAFKA-101 and KAFKA-205.</p>"
+    page = {
+        "id": "5",
+        "title": "KIP",
+        "body": {"storage": {"value": body}},
+        "ancestors": [{"id": "9000"}],
+    }
+    recs = parse_page(page)
+    mentions = {e["to"] for e in _by(recs, "edge", type="MENTIONS")}
+    assert "task:KAFKA-101" in mentions
+    assert "task:KAFKA-205" in mentions
+    assert any(e["to"] == "page:9000" for e in _by(recs, "edge", type="LINKS_TO"))
+
+
 # --- _fetch: построение запроса (сеть замокана httpx.MockTransport) ---
 
 

@@ -14,6 +14,7 @@ from graphrag.intermediate import edge, node
 from graphrag.retrieval.hybrid import (
     HybridRetriever,
     cap_candidates_keep_graph,
+    cap_candidates_keep_kip,
     filter_by_threshold,
 )
 from graphrag.retrieval.router import FACTUAL, MULTIHOP
@@ -84,6 +85,58 @@ def test_cap_without_graph_equals_plain_slice():
     items = [_r(f"chunk:{i}", "vector", 1.0 - i * 0.1) for i in range(8)]
     out = cap_candidates_keep_graph(items, 5)
     assert out == items[:5]  # без графа — обычный срез
+
+
+# --- срез top-k с резервом под KIP-чанки (чистая функция) ---
+
+def test_kip_reserve_guarantees_page_chunks():
+    # 4 task-чанка ранжированы выше 3 page-чанков; k=5, reserve=2 →
+    # 2 лучших page доходят, всего 5, порядок реранка внутри групп сохранён
+    items = [_r(f"chunk:task:{i}#0", "vector", 0.9 - i * 0.1) for i in range(4)]
+    items += [_r(f"chunk:page:P#{i}", "bm25", 0.4 - i * 0.05) for i in range(3)]
+    out = cap_candidates_keep_kip(items, 5, 2)
+    page_ids = [c["id"] for c in out if c["id"].startswith("chunk:page:")]
+    assert len(page_ids) >= 2  # резерв соблюдён
+    assert len(out) == 5  # кап не превышен
+    assert page_ids == ["chunk:page:P#0", "chunk:page:P#1"]  # лучшие page по рангу
+
+
+def test_kip_reserve_fills_slots_when_few_page_chunks():
+    # только 1 page-чанк, reserve=2 → он сохранён, остаток слотов не теряется
+    items = [_r(f"chunk:task:{i}#0", "vector", 0.9 - i * 0.1) for i in range(6)]
+    items.insert(3, _r("chunk:page:P#0", "bm25", 0.55))
+    out = cap_candidates_keep_kip(items, 5, 2)
+    ids = [c["id"] for c in out]
+    assert "chunk:page:P#0" in ids  # единственный page сохранён
+    assert len(out) == 5  # ни один слот не потерян
+
+
+def test_kip_reserve_zero_equals_plain_slice():
+    items = [_r(f"chunk:page:P#{i}", "vector", 1.0 - i * 0.1) for i in range(8)]
+    out = cap_candidates_keep_kip(items, 5, 0)
+    assert out == items[:5]  # reserve=0 — прежнее поведение
+
+
+def test_kip_reserve_no_page_chunks_is_plain_slice():
+    # тикет/коммит-вопрос: page-чанков нет → срез неизменен при любом reserve
+    items = [_r(f"chunk:task:{i}#0", "vector", 1.0 - i * 0.1) for i in range(8)]
+    assert cap_candidates_keep_kip(items, 5, 2) == items[:5]
+    assert cap_candidates_keep_kip(items, 5, 5) == items[:5]
+
+
+def test_kip_reserve_preserves_rank_order_within_groups():
+    items = [
+        _r("chunk:page:P#0", "bm25", 0.95),
+        _r("chunk:task:1#0", "vector", 0.90),
+        _r("chunk:page:P#1", "bm25", 0.80),
+        _r("chunk:task:2#0", "vector", 0.70),
+        _r("chunk:page:P#2", "bm25", 0.60),
+    ]
+    out = cap_candidates_keep_kip(items, 5, 2)
+    page_order = [c["id"] for c in out if c["id"].startswith("chunk:page:")]
+    task_order = [c["id"] for c in out if c["id"].startswith("chunk:task:")]
+    assert page_order == ["chunk:page:P#0", "chunk:page:P#1", "chunk:page:P#2"]
+    assert task_order == ["chunk:task:1#0", "chunk:task:2#0"]  # порядок реранка сохранён
 
 
 # --- наблюдаемость source ---
