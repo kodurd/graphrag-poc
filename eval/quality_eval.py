@@ -14,7 +14,7 @@ per-question записи с метриками и метаданными (ма�
 
 from __future__ import annotations
 
-from graphrag.generate.answer import build_context, generate_answer
+from graphrag.generate.answer import ANSWER_SYSTEM, build_context, generate_answer
 from graphrag.llm.base import LLMClient
 
 from eval.metrics import (
@@ -39,6 +39,7 @@ def evaluate_question(
     source_id: str | None = None,
     faithfulness_samples: int = 1,
     faithfulness_temperature: float | None = None,
+    answer_system: str = ANSWER_SYSTEM,
 ) -> dict:
     """Прогоняет один вопрос и возвращает запись с метриками и метаданными.
 
@@ -51,7 +52,7 @@ def evaluate_question(
     context = build_context(candidates)
     context_texts = [c.get("text", "") for c in candidates]
 
-    answer = generate_answer(llm, question, context)
+    answer = generate_answer(llm, question, context, system=answer_system)
 
     # faithfulness несёт флаг воздержания — распаковываем: число в metrics
     # (остаётся float|None), флаг — в sibling-поле ВНЕ metrics (инвариант metrics:
@@ -101,17 +102,20 @@ def run_quality_eval(
     *,
     faithfulness_samples: int = 1,
     faithfulness_temperature: float | None = None,
+    answer_system: str = ANSWER_SYSTEM,
 ) -> dict:
     """Последовательный прогон набора вопросов и размеченного среза.
 
     `questions` — записи {question, source_id}; `labeled` — записи
     {question, reference, source_id}. `faithfulness_samples/temperature`
-    прокидываются в оценку (дефолт samples=1 — как раньше). Возвращает
+    прокидываются в оценку (дефолт samples=1 — как раньше). `answer_system` —
+    системный промпт генератора (для A/B режимов). Возвращает
     {"records": [...], "counts": {...}}.
     """
     records: list[dict] = []
     faith = dict(faithfulness_samples=faithfulness_samples,
-                 faithfulness_temperature=faithfulness_temperature)
+                 faithfulness_temperature=faithfulness_temperature,
+                 answer_system=answer_system)
 
     for item in questions:
         records.append(
