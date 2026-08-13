@@ -4,13 +4,24 @@ from __future__ import annotations
 
 from graphrag.generate.answer import (
     ANSWER_SYSTEM,
+    ANSWER_SYSTEM_PARTIAL,
     ANSWER_SYSTEM_STRICT,
     ContextItem,
     build_context,
     extract_citations,
     generate_answer,
+    system_for_mode,
 )
 from graphrag.llm.base import LLMClient
+
+
+def test_system_for_mode_maps_and_defaults():
+    assert system_for_mode("default") is ANSWER_SYSTEM
+    assert system_for_mode("strict") is ANSWER_SYSTEM_STRICT
+    assert system_for_mode("partial") is ANSWER_SYSTEM_PARTIAL
+    assert system_for_mode("PARTIAL") is ANSWER_SYSTEM_PARTIAL   # регистр
+    assert system_for_mode(None) is ANSWER_SYSTEM                # дефолт
+    assert system_for_mode("bogus") is ANSWER_SYSTEM             # неизвестный -> дефолт
 
 
 class ScriptedLLM(LLMClient):
