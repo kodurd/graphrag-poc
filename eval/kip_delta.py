@@ -342,6 +342,25 @@ def main() -> int:
     before = _load_records(before_p)
     after = _load_records(after_p)
 
+    # ГВАРД: слепки before/after должны различаться РОВНО тестируемой осью. Граф обязан
+    # совпасть (retriever-only A/B на одном графе), иначе дельта — про пересборку, а не
+    # про рычаг (ровно ловушка невалидного neighbor-замера). Предупреждаем, не роняем:
+    # старые снимки без fingerprint дают маркер «не проверено».
+    from eval.measure_guard import diff_config_axes, diff_graph_fingerprints
+    def _fp(p: Path) -> dict:
+        return (json.loads(p.read_text(encoding="utf-8-sig")).get("fingerprint") or {})
+    fpb, fpa = _fp(before_p), _fp(after_p)
+    gdiff = diff_graph_fingerprints(fpb.get("graph"), fpa.get("graph"))
+    axes = diff_config_axes(fpb.get("config"), fpa.get("config"))
+    if gdiff:
+        print("kip-delta: !! ГРАФ различается between before/after (retriever-only A/B "
+              "должен идти на ОДНОМ графе): " + "; ".join(gdiff))
+    if fpb.get("config") and fpa.get("config") and len(axes) != 1:
+        print(f"kip-delta: !! конфиг различается по {len(axes)} осям {axes} — ожидалась "
+              "ровно 1 (пусто=no-op X-vs-X, >1=смешанный замер, эффект не изолирован)")
+    elif len(axes) == 1:
+        print(f"kip-delta: ось A/B = {axes[0]}; граф совпал = {not gdiff}")
+
     # Опциональный джойн Qwen-faith из cross_judge (для R9 displacement).
     cj_before_p = Path(os.environ.get("KIP_CJ_BEFORE", _CJ_BEFORE))
     cj_after_p = Path(os.environ.get("KIP_CJ_AFTER", _CJ_AFTER))

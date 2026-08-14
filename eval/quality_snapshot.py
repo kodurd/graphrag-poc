@@ -74,17 +74,34 @@ def main() -> int:
         # ВАЖНО: пробрасываем весь ретрив-конфиг, включая kip_reserve/kip_neighbors —
         # иначе замер молча игнорировал бы их (был баг: они дефолтились в 0, и eval
         # мерил не то, что в проде через service/cli).
-        retr = HybridRetriever(
-            conn,
-            build_embedder(s.embeddings),
-            build_reranker(s.reranker),
-            top_k=s.retrieval.top_k,
-            rerank_top_k=s.retrieval.rerank_top_k,
-            max_hops=s.retrieval.max_hops,
-            min_rerank_score=s.retrieval.min_rerank_score,
-            kip_reserve=kip_reserve,
-            kip_neighbors=kip_neighbors,
+        embedder, reranker = build_embedder(s.embeddings), build_reranker(s.reranker)
+        def _mk(nb: int) -> HybridRetriever:
+            return HybridRetriever(
+                conn, embedder, reranker,
+                top_k=s.retrieval.top_k, rerank_top_k=s.retrieval.rerank_top_k,
+                max_hops=s.retrieval.max_hops, min_rerank_score=s.retrieval.min_rerank_score,
+                kip_reserve=kip_reserve, kip_neighbors=nb,
+            )
+        retr = _mk(kip_neighbors)
+
+        # ГВАРД: если рычаг соседей включён — доказать, что он реально добавляет чанки
+        # (иначе мерили бы X vs X, как в невалидном neighbor-A/B). Падаем громко.
+        from eval.measure_guard import (
+            config_fingerprint, graph_fingerprint, preflight_neighbor_check,
         )
+        if kip_neighbors > 0:
+            probes = [q["question"] for q in questions[:3]]
+            added = preflight_neighbor_check(retr, _mk(0), probes)
+            print(f"quality-snapshot: pre-flight OK — соседи добавили {added} чанков на пробах",
+                  flush=True)
+        fingerprint = {
+            "graph": graph_fingerprint(conn),
+            "config": config_fingerprint(
+                answer_mode=answer_mode, kip_reserve=kip_reserve, kip_neighbors=kip_neighbors,
+                top_k=s.retrieval.top_k, rerank_top_k=s.retrieval.rerank_top_k,
+            ),
+        }
+        print(f"quality-snapshot: fingerprint {fingerprint}", flush=True)
 
         # Прогресс по ходу: длинный прогон, хочется видеть, что он жив.
         records: list[dict] = []
@@ -105,6 +122,9 @@ def main() -> int:
     results = {
         "records": records,
         "counts": {"questions": len(records), "labeled": 0, "total": len(records)},
+        # Слепок графа+конфига: kip_delta проверит, что before/after различаются
+        # ровно тестируемой осью (граф идентичен в retriever-only A/B).
+        "fingerprint": fingerprint,
     }
     out_path = _resolve_out(_RESULTS)
     out_path.write_text(
