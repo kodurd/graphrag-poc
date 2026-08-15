@@ -103,6 +103,23 @@ def main() -> int:
         }
         print(f"quality-snapshot: fingerprint {fingerprint}", flush=True)
 
+        # Чекпоинт-запись: длинный прогон иногда виснет/падает на позднем вопросе —
+        # пишем частичный результат каждые 25 Q, чтобы не терять часы работы. Слепок
+        # графа+конфига пишется в каждый чекпоинт (kip_delta проверит ось A/B).
+        out_path = _resolve_out(_RESULTS)
+        report_path = _REPORT if out_path == _RESULTS else out_path.with_suffix(".report.md")
+
+        def _save(recs: list[dict], *, final: bool = False) -> dict:
+            res = {
+                "records": recs,
+                "counts": {"questions": len(recs), "labeled": 0, "total": len(recs)},
+                "fingerprint": fingerprint,
+            }
+            out_path.write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
+            if final:
+                report_path.write_text(render_report(res), encoding="utf-8")
+            return res
+
         # Прогресс по ходу: длинный прогон, хочется видеть, что он жив.
         records: list[dict] = []
         for i, item in enumerate(questions, 1):
@@ -118,21 +135,11 @@ def main() -> int:
                 continue
             if i % 5 == 0 or i == len(questions):
                 print(f"  [{i}/{len(questions)}] готово", flush=True)
+            if i % 25 == 0:
+                _save(records)
+                print(f"  [{i}/{len(questions)}] чекпоинт сохранён", flush=True)
 
-    results = {
-        "records": records,
-        "counts": {"questions": len(records), "labeled": 0, "total": len(records)},
-        # Слепок графа+конфига: kip_delta проверит, что before/after различаются
-        # ровно тестируемой осью (граф идентичен в retriever-only A/B).
-        "fingerprint": fingerprint,
-    }
-    out_path = _resolve_out(_RESULTS)
-    out_path.write_text(
-        json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
-    # Отчёт изолируем вместе с JSON: при override кладём рядом с out_path, иначе дефолт.
-    report_path = _REPORT if out_path == _RESULTS else out_path.with_suffix(".report.md")
-    report_path.write_text(render_report(results), encoding="utf-8")
+    results = _save(records, final=True)
     print(f"DONE quality-snapshot: results -> {out_path} ; report -> {report_path}",
           flush=True)
     return 0
