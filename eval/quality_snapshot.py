@@ -49,11 +49,19 @@ def main() -> int:
         print("quality-snapshot: не задан LLM_API_KEY (.env).")
         return 1
 
+    from graphrag.generate.answer import system_for_mode
+    answer_mode = os.environ.get("ANSWER_MODE", "default")
+    answer_system = system_for_mode(answer_mode)
+    # env-оверрайды ретрив-флагов для A/B на ОДНОМ графе (без правки settings между прогонами).
+    kip_reserve = int(os.environ.get("KIP_RESERVE", s.retrieval.kip_reserve))
+    kip_neighbors = int(os.environ.get("KIP_NEIGHBORS", s.retrieval.kip_neighbors))
+
     questions = json.loads(_QUESTIONS.read_text(encoding="utf-8"))
     print(
         f"quality-snapshot: вопросов {len(questions)} · reranker "
         f"{s.reranker.provider} ({s.reranker.model}) · multihop_full="
-        f"{s.retrieval.multihop_full_retrieval}",
+        f"{s.retrieval.multihop_full_retrieval} · answer_mode={answer_mode} · "
+        f"kip_reserve={kip_reserve} kip_neighbors={kip_neighbors}",
         flush=True,
     )
 
@@ -63,15 +71,54 @@ def main() -> int:
             return 1
 
         llm = build_llm(s.llm, role="generation")
-        retr = HybridRetriever(
-            conn,
-            build_embedder(s.embeddings),
-            build_reranker(s.reranker),
-            top_k=s.retrieval.top_k,
-            rerank_top_k=s.retrieval.rerank_top_k,
-            max_hops=s.retrieval.max_hops,
-            min_rerank_score=s.retrieval.min_rerank_score,
+        # ВАЖНО: пробрасываем весь ретрив-конфиг, включая kip_reserve/kip_neighbors —
+        # иначе замер молча игнорировал бы их (был баг: они дефолтились в 0, и eval
+        # мерил не то, что в проде через service/cli).
+        embedder, reranker = build_embedder(s.embeddings), build_reranker(s.reranker)
+        def _mk(nb: int) -> HybridRetriever:
+            return HybridRetriever(
+                conn, embedder, reranker,
+                top_k=s.retrieval.top_k, rerank_top_k=s.retrieval.rerank_top_k,
+                max_hops=s.retrieval.max_hops, min_rerank_score=s.retrieval.min_rerank_score,
+                kip_reserve=kip_reserve, kip_neighbors=nb,
+            )
+        retr = _mk(kip_neighbors)
+
+        # ГВАРД: если рычаг соседей включён — доказать, что он реально добавляет чанки
+        # (иначе мерили бы X vs X, как в невалидном neighbor-A/B). Падаем громко.
+        from eval.measure_guard import (
+            config_fingerprint, graph_fingerprint, preflight_neighbor_check,
         )
+        if kip_neighbors > 0:
+            probes = [q["question"] for q in questions[:3]]
+            added = preflight_neighbor_check(retr, _mk(0), probes)
+            print(f"quality-snapshot: pre-flight OK — соседи добавили {added} чанков на пробах",
+                  flush=True)
+        fingerprint = {
+            "graph": graph_fingerprint(conn),
+            "config": config_fingerprint(
+                answer_mode=answer_mode, kip_reserve=kip_reserve, kip_neighbors=kip_neighbors,
+                top_k=s.retrieval.top_k, rerank_top_k=s.retrieval.rerank_top_k,
+            ),
+        }
+        print(f"quality-snapshot: fingerprint {fingerprint}", flush=True)
+
+        # Чекпоинт-запись: длинный прогон иногда виснет/падает на позднем вопросе —
+        # пишем частичный результат каждые 25 Q, чтобы не терять часы работы. Слепок
+        # графа+конфига пишется в каждый чекпоинт (kip_delta проверит ось A/B).
+        out_path = _resolve_out(_RESULTS)
+        report_path = _REPORT if out_path == _RESULTS else out_path.with_suffix(".report.md")
+
+        def _save(recs: list[dict], *, final: bool = False) -> dict:
+            res = {
+                "records": recs,
+                "counts": {"questions": len(recs), "labeled": 0, "total": len(recs)},
+                "fingerprint": fingerprint,
+            }
+            out_path.write_text(json.dumps(res, ensure_ascii=False, indent=2), encoding="utf-8")
+            if final:
+                report_path.write_text(render_report(res), encoding="utf-8")
+            return res
 
         # Прогресс по ходу: длинный прогон, хочется видеть, что он жив.
         records: list[dict] = []
@@ -79,7 +126,8 @@ def main() -> int:
             try:
                 records.append(
                     evaluate_question(
-                        retr, llm, item["question"], source_id=item.get("source_id")
+                        retr, llm, item["question"], source_id=item.get("source_id"),
+                        answer_system=answer_system,
                     )
                 )
             except Exception as e:  # сетевой сбой на одном вопросе не роняет прогон
@@ -87,18 +135,11 @@ def main() -> int:
                 continue
             if i % 5 == 0 or i == len(questions):
                 print(f"  [{i}/{len(questions)}] готово", flush=True)
+            if i % 25 == 0:
+                _save(records)
+                print(f"  [{i}/{len(questions)}] чекпоинт сохранён", flush=True)
 
-    results = {
-        "records": records,
-        "counts": {"questions": len(records), "labeled": 0, "total": len(records)},
-    }
-    out_path = _resolve_out(_RESULTS)
-    out_path.write_text(
-        json.dumps(results, ensure_ascii=False, indent=2), encoding="utf-8"
-    )
-    # Отчёт изолируем вместе с JSON: при override кладём рядом с out_path, иначе дефолт.
-    report_path = _REPORT if out_path == _RESULTS else out_path.with_suffix(".report.md")
-    report_path.write_text(render_report(results), encoding="utf-8")
+    results = _save(records, final=True)
     print(f"DONE quality-snapshot: results -> {out_path} ; report -> {report_path}",
           flush=True)
     return 0
